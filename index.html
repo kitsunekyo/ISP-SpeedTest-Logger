@@ -5,6 +5,12 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- open:graph tags -->
+    <meta property="og:url" content="http://nas.dasblattwerk.at:8080/drei/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="SpeedTest Dashboard" />
+    <meta property="og:description" content="Ein Dashboard um Ergebnisse von automatisiert ausgeführten Speedtests als Graphen darzustellen." />
+    <meta property="og:image" content="http://i.imgur.com/R8Y4EjY.jpg" />
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,10 +46,12 @@
                                         </div>
                                     </div>
                                     <p>Um die Leistung und Stabilität meiner LTE Internetanbindung von Drei zu protokollieren,
-                                        habe ich ein kleines Software Setup zur Erfassung und Speicherung von Geschwindigkeits / Ping Tests
-                                        erstellt.</p>
-                                    <p>Ein shell script wird stündlich auf meiner NAS ausgeführt und speichert die Ergebnisse der Speedtests in ein
-                                        JSON Logfile. Diese Daten werden genutzt um die nachfolgenden Graphen zu erstellen.</p>
+                                        habe ich ein kleines Software Setup zur Erfassung und Speicherung von Geschwindigkeits
+                                        / Ping Tests erstellt.
+                                    </p>
+                                    <p>Ein shell script wird stündlich auf meiner NAS ausgeführt und speichert die Ergebnisse
+                                        der Speedtests in ein JSON Logfile. Diese Daten werden genutzt um die nachfolgenden
+                                        Graphen zu erstellen.</p>
                                 </div>
                                 <div class="col s6">
                                     <div class="collection">
