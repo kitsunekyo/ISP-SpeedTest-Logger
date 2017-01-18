@@ -95,9 +95,9 @@ function initCharts() {
             datasets: [
                 {
                     label: "Ping (ms)",
-                    fill: false,
+                    fill: true,
                     lineTension: 0.1,
-                    backgroundColor: "#b1383d",
+                    backgroundColor: "rgba(177, 56, 61, 0.4)",
                     borderColor: "#b1383d",
                     borderCapStyle: 'butt',
                     borderDash: [],
