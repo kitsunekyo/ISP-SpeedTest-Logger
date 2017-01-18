@@ -8,7 +8,7 @@ var log = {
     ping:[]
 }
 
-fetch('log.json')
+fetch('//nas.dasblattwerk.at:8080/drei/log.json')
     .then(function (response) {
         return response.json();
     })
