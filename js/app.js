@@ -25,7 +25,7 @@ fetch('//nas.dasblattwerk.at:8080/drei/log.json')
 
 function buildLabels(json) {
     $.each(json.log, function () {
-        log.labels.push(moment(this.timestamp).format('DD MMM - HH:mm'));
+        log.labels.push(moment(this.timestamp).add(1,'hours').format('DD MMM - HH:mm'));
         log.download.push((this.download * 1e-6).toFixed(2));
         log.upload.push((this.upload * 1e-6).toFixed(2));
         log.ping.push(this.ping.toFixed(2));
