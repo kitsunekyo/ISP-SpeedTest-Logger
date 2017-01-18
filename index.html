@@ -5,10 +5,10 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -22,7 +22,22 @@
     <section class="main-wrap">
         <div class="card">
             <div class="card-content">
-                <span class="card-title">History of Drei LTE Speeds</span>
+                <span class="card-title">Testkonditionen</span>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="collection">
+                            <a href="#!" class="collection-item"><span class="badge">Flachgasse, 1150 Wien</span>Standort</a>
+                            <a href="#!" class="collection-item"><span class="badge">Hui Flat 50</span>Vertrag</a>
+                            <a href="#!" class="collection-item"><span class="badge">Cat6</span>Verbindung zum Router</a>
+                            <a href="#!" class="collection-item"><span class="badge">Stündlicher Speedtest mit speedtest-cli per cronjob</span>Testart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Drei LTE SpeedTest Ergebnisse</span>
                 <div class="row">
                     <div class="col s6">
                         <canvas id="speedsChart" width="400" height="200"></canvas>
@@ -34,6 +49,24 @@
             </div>
         </div>
     </section>
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">internet performance log</h5>
+                    <p class="grey-text text-lighten-4">Diese Daten können ohne Einschränkung verwendet werden.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2017 Author: Ing. Alexander Spieslechner
+            </div>
+        </div>
+    </footer>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script src="js/vendor/moment-with-locales.js"></script>

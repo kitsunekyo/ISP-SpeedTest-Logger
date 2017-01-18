@@ -1,10 +1,12 @@
 body {
     background: #f4f4f4;
+    font-weight: 300;
 }
 .main-wrap {
     max-width: 1170px;
     margin: 0 auto;
-    padding: 25px 25px 80px;
+    padding: 80px 25px 80px;
+    min-height: 600px;
 }
 .nav-wrapper {
     max-width: 1170px;
