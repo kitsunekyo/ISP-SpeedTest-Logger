@@ -1,25 +1,92 @@
+[v-cloak] { 
+    display: none; 
+}
+
 body {
     background: #f4f4f4;
 }
 .main-wrap {
-    max-width: 1170px;
-    margin: 0 auto;
-    padding: 80px 25px 80px;
+    padding: 20px 20px 80px;
     min-height: 600px;
+    max-width: 1400px;
 }
+/**
+ * typography
+ */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+}
+/**
+ * nav header
+ */
 .nav-wrapper {
     max-width: 1170px;
-    margin: 0 auto;
     padding: 0 25px;
 }
 nav .brand-logo {
     font-weight: 200;
 }
+/**
+ * footer
+ */
+.page-footer .container {
+    margin: 0;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+/**
+ * bootstrap
+ */
+.row {
+    margin-bottom: 0;
+}
+
 .card .card-content p {
     margin: 0 0 10px 0;
 }
-.card-title {
-    border-bottom: solid 1px #f4f4f4;
+
+/**
+ * elements
+ */
+.card.big-number .num-value {
+    font-size: 45px;
+    font-weight: 500;
+}
+.card.big-number .num-unit {
+    font-size: 20px;
+    font-weight: 300;
+    margin-left: 3px;
+}
+.card.big-number .card-title {
+    font-size: 15px;
+    line-height: 1.3em;
+    display: block;
+    font-weight: 400;
+}
+.card.big-number i {
+    display: block;
+    position: absolute;
+    font-size: 25px;
+    bottom: 20px;
+    right: 20px;
+}
+.contact {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    border-radius: 3px;
+    background: #f9f9f9;
     margin-bottom: 15px;
+}
+.contact img {
+    margin-right: 10px;
+}
+.contact .name {
+    font-weight: 500;
+}
+.contact .email,
+.contact .phone {
+    font-size: 13px;
     display: block;
 }
