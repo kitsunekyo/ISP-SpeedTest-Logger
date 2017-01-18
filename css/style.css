@@ -15,3 +15,8 @@ body {
 nav .brand-logo {
     font-weight: 200;
 }
+.card-title {
+    border-bottom: solid 1px #f4f4f4;
+    margin-bottom: 15px;
+    display: block;
+}
