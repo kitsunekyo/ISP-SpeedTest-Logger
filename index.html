@@ -12,71 +12,79 @@
 </head>
 
 <body>
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo"><i class="material-icons">portable_wifi_off</i>Drei LTE SpeedTest</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-            </ul>
-        </div>
-    </nav>
-    <section class="main-wrap">
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">Vorwort und Testkonditionen</span>
-                <div class="row">
-                    <div class="col s6">
-                        <p>Um die mangelnde Leistung und Stabilität meiner LTE Internetanbindung von Drei zu belegen, habe ich
-                            ein Script zur Erfassung und Speicherung von Geschwindigkeits / Ping Tests erstellt.</p>
-                        <p>Dieses Script wird stündlich auf meiner NAS ausgeführt und speichert die Ergebnisse als JSON. Diese
-                            Daten werden genutzt um die nachfolgenden Graphen zu erstellen.</p>
-                    </div>
-                    <div class="col s6">
-                        <div class="collection">
-                            <a href="#!" class="collection-item"><span class="badge">Flachgasse, 1150 Wien</span>Standort</a>
-                            <a href="#!" class="collection-item"><span class="badge">Hui Flat 50</span>Vertrag</a>
-                            <a href="#!" class="collection-item"><span class="badge">Cat6</span>Verbindung zum Router</a>
-                            <a href="#!" class="collection-item"><span class="badge">Stündlicher Speedtest mit speedtest-cli per cronjob</span>Testart</a>
+    <div id="app" class="main">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><i class="material-icons">portable_wifi_off</i>Drei LTE SpeedTest</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                </ul>
+            </div>
+        </nav>
+        <section class="main-wrap">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Vorwort und Testkonditionen</span>
+                    <div class="row">
+                        <div class="col s6">
+                            <p>Um die mangelnde Leistung und Stabilität meiner LTE Internetanbindung von Drei zu belegen, habe
+                                ich ein Script zur Erfassung und Speicherung von Geschwindigkeits / Ping Tests erstellt.</p>
+                            <p>Dieses Script wird stündlich auf meiner NAS ausgeführt und speichert die Ergebnisse als JSON.
+                                Diese Daten werden genutzt um die nachfolgenden Graphen zu erstellen.</p>
+                        </div>
+                        <div class="col s6">
+                            <div class="collection">
+                                <a href="#!" class="collection-item"><span class="badge">Flachgasse, 1150 Wien</span>Standort</a>
+                                <a href="#!" class="collection-item"><span class="badge">Hui Flat 50</span>Vertrag</a>
+                                <a href="#!" class="collection-item"><span class="badge">Cat6</span>Verbindung zum Router</a>
+                                <a href="#!" class="collection-item"><span class="badge">Stündlicher Speedtest mit speedtest-cli per cronjob</span>Testart</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">Drei LTE SpeedTest Ergebnisse</span>
-                <div class="row">
-                    <div class="col s12">
-                        <canvas id="speedsChart" width="400" height="100"></canvas>
-                    </div>
-                    <div class="col s12">
-                        <canvas id="pingChart" width="400" height="100"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer class="page-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">internet performance log</h5>
-                    <p class="grey-text text-lighten-4">Diese Daten können ohne Einschränkung verwendet werden.</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
 
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Drei LTE SpeedTest Ergebnisse</span>
+                    <div class="row">
+                        <div class="col s12">
+                            {{ log.avg.download }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <canvas id="speedsChart" width="400" height="100"></canvas>
+                        </div>
+                        <div class="col s12">
+                            <canvas id="pingChart" width="400" height="100"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="footer-copyright">
+        </section>
+        <footer class="page-footer">
             <div class="container">
-                © 2017 Author: Ing. Alexander Spieslechner
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">internet performance log</h5>
+                        <p class="grey-text text-lighten-4">Diese Daten können ohne Einschränkung verwendet werden.</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2017 Author: Ing. Alexander Spieslechner
+                </div>
+            </div>
+        </footer>
+    </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script src="js/vendor/moment-with-locales.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
     <script src="js/app.js"></script>
 </body>

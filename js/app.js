@@ -5,7 +5,12 @@ var log = {
     labels:[],
     download:[],
     upload:[],
-    ping:[]
+    ping:[],
+    avg: {
+        download: 0,
+        upload: 0,
+        ping: 0
+    }
 }
 
 fetch('//nas.dasblattwerk.at:8080/drei/log.json')
@@ -15,6 +20,7 @@ fetch('//nas.dasblattwerk.at:8080/drei/log.json')
     .then(function (json) {
         buildLabels(json);
         initCharts();
+        calcAvg();
     });
 
 function buildLabels(json) {
@@ -24,6 +30,25 @@ function buildLabels(json) {
         log.upload.push((this.upload * 1e-6).toFixed(2));
         log.ping.push(this.ping.toFixed(2));
     });
+}
+function calcAvg() {
+    var sum = {
+        download: 0,
+        upload: 0,
+        ping: 0
+    }
+    for (var i = 0; i < log.download.length; i++) {
+        sum.download += log.download[i] << 0;
+    }
+    for (var i = 0; i < log.upload.length; i++) {
+        sum.upload += log.upload[i] << 0;
+    }
+    for (var i = 0; i < log.ping.length; i++) {
+       sum.ping += log.ping[i] << 0;
+    }
+    log.avg.download = (sum.download / log.download.length).toFixed(2);
+    log.avg.upload = (sum.upload / log.upload.length).toFixed(2);
+    log.avg.ping = (sum.ping / log.ping.length).toFixed(2);
 }
 function initCharts() {
     speedChart = new Chart($('#speedsChart'), {
@@ -128,3 +153,16 @@ function initCharts() {
         }
     });
 }
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        log: log
+    },
+    methods: {
+
+    },
+    created: function(){
+
+    }
+});
