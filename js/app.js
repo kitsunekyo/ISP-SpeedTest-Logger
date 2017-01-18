@@ -1,38 +1,130 @@
-let ctx = document.getElementById("myChart");
-let 
-let myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
+moment.locale('de');
+
+var chart;
+var log = {
+    labels:[],
+    download:[],
+    upload:[],
+    ping:[]
+}
+
+fetch('log.json')
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (json) {
+        buildLabels(json);
+        initCharts();
+    });
+
+function buildLabels(json) {
+    $.each(json.log, function () {
+        log.labels.push(moment(this.timestamp).format('DD MMM - HH:mm'));
+        log.download.push((this.download * 1e-6).toFixed(2));
+        log.upload.push((this.upload * 1e-6).toFixed(2));
+        log.ping.push(this.ping.toFixed(2));
+    });
+}
+function initCharts() {
+    speedChart = new Chart($('#speedsChart'), {
+        type: 'line',
+        data: {
+            labels: log.labels,
+            datasets: [
+                {
+                    label: "Download (Mbps)",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(15, 185, 13, 0.4)",
+                    borderColor: "rgba(15, 185, 13, 1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(15, 185, 13, 1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(15, 185, 13, 1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 3,
+                    pointHitRadius: 10,
+                    data: log.download,
+                    spanGaps: false,
+                },
+                {
+                    label: "Upload (Mbps)",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 3,
+                    pointHitRadius: 10,
+                    data: log.upload,
+                    spanGaps: false,
                 }
-            }]
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
-    }
-});
+    });
+
+    pingChart = new Chart($('#pingChart'), {
+        type: 'line',
+        data: {
+            labels: log.labels,
+            datasets: [
+                {
+                    label: "Ping (ms)",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(15, 185, 13, 0.4)",
+                    borderColor: "rgba(15, 185, 13, 1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(15, 185, 13, 1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(15, 185, 13, 1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 3,
+                    pointHitRadius: 10,
+                    data: log.ping,
+                    spanGaps: false,
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}

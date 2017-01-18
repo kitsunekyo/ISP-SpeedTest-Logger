@@ -1,4 +1,16 @@
+body {
+    background: #f4f4f4;
+}
 .main-wrap {
     max-width: 1170px;
     margin: 0 auto;
+    padding: 25px 25px 80px;
+}
+.nav-wrapper {
+    max-width: 1170px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+nav .brand-logo {
+    font-weight: 200;
 }
