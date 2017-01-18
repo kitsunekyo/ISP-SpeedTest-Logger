@@ -3,7 +3,7 @@ This package allows you to automatically log speedtests to prove how shitty your
 
 If you have a NAS this is as easy as 'setup and forget', as the NAS will most likely run all the time and thus allow you to do speedtests at your desired frequence without having to turn on your PC or Mac.
 
-![Screenshot](https://raw.githubusercontent.com/kitsunekyo/internet-speed-log/master/img/screenshot.PNG)
+![Screenshot](https://raw.githubusercontent.com/kitsunekyo/internet-speed-log/master/img/screen.png)
 
 ## Requirements
 * OS: Unix (I'm using a Synology NAS)
