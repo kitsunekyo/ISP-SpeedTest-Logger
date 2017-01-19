@@ -26,7 +26,7 @@ Install the required npm packages if you havent already
 npm install -g http-server forever
 ```
 Install speedtest-cli to any location on your server:   
-[https://github.com/sivel/speedtest-cli]()
+[https://github.com/sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
 
 Edit `speedtest.sh` and change the location of your log file to wherever you want to have it. Remember thatt this has to be an absolute URI.
 ```
