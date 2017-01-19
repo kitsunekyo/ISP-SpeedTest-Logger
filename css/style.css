@@ -6,9 +6,12 @@ body {
     background: #f4f4f4;
 }
 .main-wrap {
-    padding: 20px 20px 80px;
+    padding: 10px 10px 80px;
     min-height: 600px;
     max-width: 1400px;
+}
+@media only screen and (min-width: 991px) {
+    padding: 20px 20px 80px;
 }
 /**
  * typography
