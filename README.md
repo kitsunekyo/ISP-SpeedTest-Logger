@@ -15,6 +15,7 @@ If you have a NAS this is as easy as 'setup and forget', as the NAS will most li
 * nodejs installed
 * npm packages globally installed: http-server, forever
 * speedtest-cli
+* jq (json helper utility) ´brew install jq´
 
 ## Installation
 Clone the repository
