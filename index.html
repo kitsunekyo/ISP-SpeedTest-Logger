@@ -19,10 +19,10 @@
 </head>
 
 <body>
-    <div id="app" class="main" v-cloak>
+    <div id="app" class="main" v-cloak v-if="config.app !== undefined">
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo"><i class="material-icons">portable_wifi_off</i>Drei LTE SpeedTest</a>
+                <a href="#" class="brand-logo"><i class="material-icons">portable_wifi_off</i>{{ config.copy.header }}</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                 </ul>
             </div>
@@ -30,7 +30,7 @@
         <section class="main-wrap">
             <div class="row">
                 <div class="col s12">
-                    <h5>Vorwort</h5>
+                    <h5>{{ config.copy.pre.headline }}</h5>
                 </div>
                 <div class="col s12">
                     <div class="card">
@@ -38,25 +38,25 @@
                             <div class="row">
                                 <div class="col s12 l6">
                                     <div class="contact">
-                                        <img class="circle" src="//gravatar.com/avatar/635419fe80134c551b2e520d967b1ff0">
+                                        <img class="circle" :src="config.copy.pre.author.avatar">
                                         <div class="contact--content">
-                                            <span class="name">Alex Spieslechner</span>
-                                            <span class="email">alexander.spieslechner@gmail.com</span>
-                                            <span class="phone">0660 48 49 627</span>
+                                            <span class="name">{{ config.copy.pre.author.name }}</span>
+                                            <span class="email">
+                                                {{ config.copy.pre.author.mail }}</span>
+                                            <span class="phone">
+                                                {{ config.copy.pre.author.phone }}</span>
                                         </div>
                                     </div>
-                                    <p>Um die Leistung und Stabilität meiner LTE Internetanbindung von Drei zu protokollieren,
-                                        habe ich ein kleines Software Setup zur Erfassung und Speicherung von Geschwindigkeits
-                                        / Ping Tests erstellt.
+                                    <p v-html>{{ config.copy.pre.text }}
                                     </p>
-                                    <p>Mehr Info findet Ihr auf meinem <a href="https://github.com/kitsunekyo/internet-speed-log">GitHub Repository</a></p>
+                                    <p>More Info on <a href=\"https://github.com/kitsunekyo/internet-speed-log\">GitHub</a></p>
                                 </div>
                                 <div class="col s12 l6">
                                     <div class="collection">
-                                        <a href="#!" class="collection-item"><span class="badge">Flachgasse, 1150 Wien</span>Standort</a>
-                                        <a href="#!" class="collection-item"><span class="badge">Hui Flat 50</span>Vertrag</a>
-                                        <a href="#!" class="collection-item"><span class="badge">Cat6</span>Verbindung zum Router</a>
-                                        <a href="#!" class="collection-item"><span class="badge">speedtest-cli</span>Test Utility</a>
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.location.val }}</span>{{ config.copy.pre.details.location.hl }}</a>
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.contract.val }}</span>{{ config.copy.pre.details.contract.hl }}</a>
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.connection.val }}</span>{{ config.copy.pre.details.connection.hl }}</a>
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.datasource.val }}</span>{{ config.copy.pre.details.datasource.hl }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <h5>LTE Performance</h5>
+                    <h5>{{ config.copy.dashboard.headline}}</h5>
                 </div>
                 <div class="col s12 l3">
                     <div class="card big-number">
@@ -137,8 +137,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
-                        <h5 class="white-text">internet performance log</h5>
-                        <p class="grey-text text-lighten-4">Diese Daten können ohne Einschränkung verwendet werden.</p>
+                        <h5 class="white-text">{{ config.copy.footer.headline}}</h5>
+                        <p class="grey-text text-lighten-4">{{ config.copy.footer.disclaimer}}</p>
                     </div>
                     <div class="col l4 offset-l2 s12">
 
@@ -147,7 +147,7 @@
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    © 2017 Author: Ing. Alexander Spieslechner
+                    {{ config.copy.footer.copyright}}
                 </div>
             </div>
         </footer>

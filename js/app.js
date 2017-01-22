@@ -1,7 +1,3 @@
-moment.locale('de');
-
-var chart;
-
 var app = new Vue({
     el: '#app',
     data: {
@@ -12,7 +8,8 @@ var app = new Vue({
                 upload: 0,
                 ping: 0
             }
-        }
+        },
+        config: {}
     },
     methods: {
         buildLabels: function(json) {
@@ -200,18 +197,47 @@ var app = new Vue({
 
             speedChart.addListener("dataUpdated", this.chartZoom);
             pingChart.addListener("dataUpdated", this.chartZoom);
+        },
+        loadConfig: function() {
+            var __self = this;
+            var promise = new Promise(function(resolve, reject) {
+                fetch('config.json')
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(json) {
+                        __self.config = json;
+                        resolve();
+                    }, function(){
+                        reject();
+                    });
+            });
+            return promise;
+        },
+        loadData: function() {
+            var __self = this;
+            var promise = new Promise(function(resolve, reject) {
+                fetch(__self.config.app.jsonUrl)
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(json) {
+                        __self.buildLabels(json);
+                        __self.initCharts();
+                        __self.calcAvg();
+                        resolve();
+                    }, function(){
+                        reject();
+                    });
+            });
+            return promise;
         }
     },
     created: function() {
         var __self = this;
-        fetch('//nas.dasblattwerk.at:8080/drei/log.json')
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(json) {
-                __self.buildLabels(json);
-                __self.initCharts();
-                __self.calcAvg();
-            });
+        this.loadConfig().then(function(){
+            __self.loadData();
+            moment.locale(__self.config.app.locale);
+        });
     }
 });
