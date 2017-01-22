@@ -16,7 +16,7 @@ var app = new Vue({
             var __self = this;
             $.each(json.log, function() {
                 __self.log.data.push({
-                    "timestamp": moment(this.timestamp).add(1, 'hours').format('DD MMM - HH:mm'),
+                    "timestamp": moment(this.timestamp).add(1, 'hours').format('DD MMM - HH:mm'), // adding 1 hour to get VIE time
                     "download": (this.download * 1e-6).toFixed(2),
                     "upload": (this.upload * 1e-6).toFixed(2),
                     "ping": (this.ping.toFixed(2))
