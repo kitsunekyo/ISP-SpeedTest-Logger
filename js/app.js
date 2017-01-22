@@ -2,17 +2,13 @@ moment.locale('de');
 
 var chart;
 var log = {
-    labels: [],
-    download: [],
-    upload: [],
-    ping: [],
+    data: [],
     avg: {
         download: 0,
         upload: 0,
         ping: 0
     }
 }
-
 
 var app = new Vue({
     el: '#app',
@@ -22,12 +18,12 @@ var app = new Vue({
     methods: {
         buildLabels: function(json) {
             $.each(json.log, function() {
-                log.download.push({
+                log.data.push({
                     "timestamp": moment(this.timestamp).add(1, 'hours').format('DD MMM - HH:mm'),
-                    "result": (this.download * 1e-6).toFixed(2)
+                    "download": (this.download * 1e-6).toFixed(2),
+                    "upload": (this.upload * 1e-6).toFixed(2),
+                    "ping": (this.ping.toFixed(2))
                 });
-                log.upload.push((this.upload * 1e-6).toFixed(2));
-                log.ping.push(this.ping.toFixed(2));
             });
         },
         calcAvg: function() {
@@ -36,24 +32,24 @@ var app = new Vue({
                 upload: 0,
                 ping: 0
             }
-            for (var i = 0; i < log.download.length; i++) {
-                sum.download += log.download[i].result << 0;
+            for (var i = 0; i < log.data.length; i++) {
+                sum.download += log.data[i].download << 0;
             }
-            for (var i = 0; i < log.upload.length; i++) {
-                sum.upload += log.upload[i] << 0;
+            for (var i = 0; i < log.data.length; i++) {
+                sum.upload += log.data[i].upload << 0;
             }
-            for (var i = 0; i < log.ping.length; i++) {
-                sum.ping += log.ping[i] << 0;
+            for (var i = 0; i < log.data.length; i++) {
+                sum.ping += log.data[i].ping << 0;
             }
-            log.avg.download = (sum.download / log.download.length).toFixed(2);
-            log.avg.upload = (sum.upload / log.upload.length).toFixed(2);
-            log.avg.ping = (sum.ping / log.ping.length).toFixed(2);
+            log.avg.download = (sum.download / log.data.length).toFixed(2);
+            log.avg.upload = (sum.upload / log.data.length).toFixed(2);
+            log.avg.ping = (sum.ping / log.data.length).toFixed(2);
         },
 
         initCharts: function() {
-            speedChart = AmCharts.makeChart("chartdiv", {
+            speedChart = AmCharts.makeChart("speedChart", {
                 type: "serial",
-                dataProvider: log.download,
+                dataProvider: log.data,
                 categoryField: "timestamp",
                 categoryAxis: {
                     gridAlpha: 0.15,
@@ -62,25 +58,48 @@ var app = new Vue({
                     labelRotation: 45
                 },
                 valueAxes: [{
+                    title: "Mbps",
                     axisAlpha: 0.2,
                     id: "v1"
                 }],
+                "guides": [
+                    {
+                    "fillAlpha": 0.10,
+                    "fillColor": "#d92525",
+                    "value": 0,
+                    "toValue": 25
+                    }
+                ],
                 graphs: [{
-                    title: "red line",
+                    title: "Download",
                     id: "g1",
                     valueAxis: "v1",
-                    valueField: "result",
+                    valueField: "download",
                     bullet: "round",
                     bulletBorderColor: "#FFFFFF",
-                    bulletBorderAlpha: 0,
+                    bulletBorderAlpha: 1,
                     lineThickness: 2,
-                    lineColor: "#b5030d",
+                    lineColor: "#88a61b",
                     negativeLineColor: "#0352b5",
-                    balloonText: "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>"
+                    balloonText: "[[category]]<br><b><span style='font-size:14px;'>Download: [[value]]Mbps</span></b>"
+                },
+                {
+                    title: "Upload",
+                    id: "h2",
+                    valueAxis: "v1",
+                    valueField: "upload",
+                    bullet: "round",
+                    bulletBorderColor: "#FFFFFF",
+                    bulletBorderAlpha: 1,
+                    lineThickness: 2,
+                    lineColor: "#0e3d59",
+                    negativeLineColor: "#0352b5",
+                    balloonText: "[[category]]<br><b><span style='font-size:14px;'>Upload: [[value]]Mbps</span></b>"
                 }],
                 chartCursor: {
                     fullWidth:true,
-                    cursorAlpha:0.1
+                    cursorAlpha:0.1,
+                    oneBalloonOnly: true
                 },
                 chartScrollbar: {
                     scrollbarHeight: 30,
@@ -88,10 +107,67 @@ var app = new Vue({
                     autoGridCount: false,
                     graph: "g1"
                 },
+                legend: {
+                    useGraphSettings: true
+                },
 
                 mouseWheelZoomEnabled:true
             });
             speedChart.addListener("dataUpdated", zoomChart);
+
+            pingChart = AmCharts.makeChart("pingChart", {
+                type: "serial",
+                dataProvider: log.data,
+                categoryField: "timestamp",
+                categoryAxis: {
+                    gridAlpha: 0.15,
+                    minorGridEnabled: true,
+                    axisColor: "#DADADA",
+                    labelRotation: 45
+                },
+                valueAxes: [{
+                    title: "ms",
+                    axisAlpha: 0.2,
+                    id: "v1"
+                }],
+                "guides": [
+                    {
+                    "fillAlpha": 0.10,
+                    "fillColor": "#d92525",
+                    "value": 100,
+                    "toValue": 1000
+                    }
+                ],
+                graphs: [{
+                    title: "Ping",
+                    id: "g1",
+                    valueAxis: "v1",
+                    valueField: "ping",
+                    bullet: "round",
+                    bulletBorderColor: "#FFFFFF",
+                    bulletBorderAlpha: 1,
+                    lineThickness: 2,
+                    lineColor: "#88a61b",
+                    negativeLineColor: "#0352b5",
+                    balloonText: "[[category]]<br><b><span style='font-size:14px;'>Ping: [[value]]ms</span></b>"
+                }],
+                chartCursor: {
+                    fullWidth:true,
+                    cursorAlpha:0.1,
+                    oneBalloonOnly: true
+                },
+                chartScrollbar: {
+                    scrollbarHeight: 30,
+                    color: "#FFFFFF",
+                    autoGridCount: false,
+                    graph: "g1"
+                },
+                legend: {
+                    useGraphSettings: true
+                },
+
+                mouseWheelZoomEnabled:true
+            });
         }
     },
     created: function() {
@@ -111,7 +187,7 @@ var app = new Vue({
 // this method is called when chart is first inited as we listen for "dataUpdated" event
 function zoomChart() {
     // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-    speedChart.zoomToIndexes(log.download.length - 40, log.download.length - 1);
+    speedChart.zoomToIndexes(log.data.length - 40, log.data.length - 1);
 }
 
 // changes cursor mode from pan to select

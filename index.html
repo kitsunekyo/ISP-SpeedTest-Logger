@@ -98,7 +98,7 @@
                     <div class="card">
                         <div class="card-content">
                             <span class="card-title">Speed History</span>
-                            <div id="chartdiv" style="width: 100%; height: 400px;"></div>
+                            <div id="speedChart" style="width: 100%; height: 400px;"></div>
                             <form action="#">
                                 <p>
                                     <input name="group" type="radio" id="rb1" checked="true" onclick="setPanSelect()" />
@@ -114,7 +114,17 @@
                     <div class="card">
                         <div class="card-content">
                             <span class="card-title">Ping History</span>
-                            <canvas id="pingChart" width="400" height="100"></canvas>
+                            <div id="pingChart" style="width: 100%; height: 400px;"></div>
+                            <form action="#">
+                                <p>
+                                    <input name="group" type="radio" id="rb1" checked="true" onclick="setPanSelect()" />
+                                    <label for="rb1">Select</label>
+                                </p>
+                                <p>
+                                    <input name="group" type="radio" id="rb2" onclick="setPanSelect()" />
+                                    <label for="rb2">Pan</label>
+                                </p>
+                            </form>
                         </div>
                     </div>
                 </div>
