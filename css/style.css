@@ -8,7 +8,7 @@ body {
 .main-wrap {
     padding: 10px 10px 80px;
     min-height: 600px;
-    max-width: 1400px;
+    max-width: 1600px;
 }
 @media only screen and (min-width: 991px) {
     padding: 20px 20px 80px;
