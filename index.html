@@ -98,12 +98,15 @@
                             <div id="speedChart" style="width: 100%; height: 400px;"></div>
                             <form action="#">
                                 <p>
-                                    <input name="groupSpeed" type="radio" id="speed-rb1" checked="true" @click="chartSetPanSelect" />
-                                    <label for="speed-rb1">Select</label>
-                                </p>
-                                <p>
-                                    <input name="groupSpeed" type="radio" id="speed-rb2" @click="chartSetPanSelect" />
-                                    <label for="speed-rb2">Pan</label>
+                                    <!-- Switch -->
+                                    <div class="switch">
+                                        <label>
+                                        Select
+                                        <input type="checkbox" name="groupSpeed" @click="chartSetPanSelect">
+                                        <span class="lever"></span>
+                                        Pan
+                                        </label>
+                                    </div>
                                 </p>
                             </form>
                         </div>
@@ -114,12 +117,15 @@
                             <div id="pingChart" style="width: 100%; height: 400px;"></div>
                             <form action="#">
                                 <p>
-                                    <input name="groupPing" type="radio" id="ping-rb1" checked="true" @click="chartSetPanSelect" />
-                                    <label for="ping-rb1">Select</label>
-                                </p>
-                                <p>
-                                    <input name="groupPing" type="radio" id="ping-rb2" @click="chartSetPanSelect" />
-                                    <label for="ping-rb2">Pan</label>
+                                    <!-- Switch -->
+                                    <div class="switch">
+                                        <label>
+                                        Select
+                                        <input type="checkbox" name="groupPing" @click="chartSetPanSelect">
+                                        <span class="lever"></span>
+                                        Pan
+                                        </label>
+                                    </div>
                                 </p>
                             </form>
                         </div>

@@ -64,22 +64,14 @@ var app = new Vue({
             }
             var chartCursor = target.chartCursor;
 
-            switch (e.target.getAttribute('id').substr(e.target.getAttribute('id').length - 3)) {
-                // select
-                case 'rb1': 
-                    if (e.target.checked) {
-                        chartCursor.pan = false;
-                        chartCursor.zoomable = true;
-                    }
-                    break;
-                // pan
-                case 'rb2':
-                    if (e.target.checked) {
-                        chartCursor.pan = true;
-                    }
-                    break;
-                default:
-                    break;
+            if(e.target.checked) {
+                console.log('check');
+                chartCursor.pan = true;
+            }
+            else {
+                console.log('uncheck');
+                chartCursor.pan = false;
+                chartCursor.zoomable = true;
             }
             target.validateNow();
         },
