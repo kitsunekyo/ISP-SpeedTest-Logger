@@ -45,6 +45,22 @@ var app = new Vue({
             log.avg.upload = (sum.upload / log.data.length).toFixed(2);
             log.avg.ping = (sum.ping / log.data.length).toFixed(2);
         },
+        chartZoom: function (target) {
+            target.chart.zoomToIndexes(log.data.length - 40, log.data.length - 1);
+        },
+        chartSetPanSelect: function(target) {
+            console.log(target);
+            var chartCursor = speedChart.chartCursor;
+
+            if (document.getElementById("rb1").checked) {
+                chartCursor.pan = false;
+                chartCursor.zoomable = true;
+
+            } else {
+                chartCursor.pan = true;
+            }
+            target.chart.validateNow();
+        },
 
         initCharts: function() {
             speedChart = AmCharts.makeChart("speedChart", {
@@ -113,10 +129,10 @@ var app = new Vue({
 
                 mouseWheelZoomEnabled:true
             });
-            speedChart.addListener("dataUpdated", zoomChart);
 
             pingChart = AmCharts.makeChart("pingChart", {
                 type: "serial",
+                fontFamily: "Roboto",
                 dataProvider: log.data,
                 categoryField: "timestamp",
                 categoryAxis: {
@@ -147,7 +163,7 @@ var app = new Vue({
                     bulletBorderColor: "#FFFFFF",
                     bulletBorderAlpha: 1,
                     lineThickness: 2,
-                    lineColor: "#88a61b",
+                    lineColor: "#d92525",
                     negativeLineColor: "#0352b5",
                     balloonText: "[[category]]<br><b><span style='font-size:14px;'>Ping: [[value]]ms</span></b>"
                 }],
@@ -165,9 +181,11 @@ var app = new Vue({
                 legend: {
                     useGraphSettings: true
                 },
-
                 mouseWheelZoomEnabled:true
             });
+
+            speedChart.addListener("dataUpdated", this.chartZoom);
+            pingChart.addListener("dataUpdated", this.chartZoom);
         }
     },
     created: function() {
@@ -183,23 +201,3 @@ var app = new Vue({
             });
     }
 });
-
-// this method is called when chart is first inited as we listen for "dataUpdated" event
-function zoomChart() {
-    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-    speedChart.zoomToIndexes(log.data.length - 40, log.data.length - 1);
-}
-
-// changes cursor mode from pan to select
-function setPanSelect() {
-    var chartCursor = speedChart.chartCursor;
-
-    if (document.getElementById("rb1").checked) {
-        chartCursor.pan = false;
-        chartCursor.zoomable = true;
-
-    } else {
-        chartCursor.pan = true;
-    }
-    speedChart.validateNow();
-}
