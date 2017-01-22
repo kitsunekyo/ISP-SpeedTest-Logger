@@ -17,8 +17,9 @@ var app = new Vue({
     },
     methods: {
         buildLabels: function(json) {
+            var __self = this;
             $.each(json.log, function() {
-                log.data.push({
+                __self.log.data.push({
                     "timestamp": moment(this.timestamp).add(1, 'hours').format('DD MMM - HH:mm'),
                     "download": (this.download * 1e-6).toFixed(2),
                     "upload": (this.upload * 1e-6).toFixed(2),
@@ -32,21 +33,21 @@ var app = new Vue({
                 upload: 0,
                 ping: 0
             }
-            for (var i = 0; i < log.data.length; i++) {
-                sum.download += log.data[i].download << 0;
+            for (var i = 0; i < this.log.data.length; i++) {
+                sum.download += this.log.data[i].download << 0;
             }
-            for (var i = 0; i < log.data.length; i++) {
-                sum.upload += log.data[i].upload << 0;
+            for (var i = 0; i < this.log.data.length; i++) {
+                sum.upload += this.log.data[i].upload << 0;
             }
-            for (var i = 0; i < log.data.length; i++) {
-                sum.ping += log.data[i].ping << 0;
+            for (var i = 0; i < this.log.data.length; i++) {
+                sum.ping += this.log.data[i].ping << 0;
             }
-            log.avg.download = (sum.download / log.data.length).toFixed(2);
-            log.avg.upload = (sum.upload / log.data.length).toFixed(2);
-            log.avg.ping = (sum.ping / log.data.length).toFixed(2);
+            this.log.avg.download = (sum.download / this.log.data.length).toFixed(2);
+            this.log.avg.upload = (sum.upload / this.log.data.length).toFixed(2);
+            this.log.avg.ping = (sum.ping / this.log.data.length).toFixed(2);
         },
         chartZoom: function (target) {
-            target.chart.zoomToIndexes(log.data.length - 40, log.data.length - 1);
+            target.chart.zoomToIndexes(this.log.data.length - 40, this.log.data.length - 1);
         },
         chartSetPanSelect: function(e) {
             var target;
@@ -87,7 +88,7 @@ var app = new Vue({
         initCharts: function() {
             speedChart = AmCharts.makeChart("speedChart", {
                 type: "serial",
-                dataProvider: log.data,
+                dataProvider: this.log.data,
                 categoryField: "timestamp",
                 categoryAxis: {
                     gridAlpha: 0.15,
@@ -155,7 +156,7 @@ var app = new Vue({
             pingChart = AmCharts.makeChart("pingChart", {
                 type: "serial",
                 fontFamily: "Roboto",
-                dataProvider: log.data,
+                dataProvider: this.log.data,
                 categoryField: "timestamp",
                 categoryAxis: {
                     gridAlpha: 0.15,
