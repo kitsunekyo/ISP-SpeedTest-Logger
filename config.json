@@ -1,6 +1,7 @@
 {
     "app": {
-        "jsonUrl": "//nas.dasblattwerk.at:8080/drei/log.json"
+        "jsonUrl": "//nas.dasblattwerk.at:8080/drei/log.json",
+        "locale": "de"
     },
     "copy": {
         "header": "Drei LTE SpeedTest",
