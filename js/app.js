@@ -13,6 +13,7 @@ var log = {
     }
 }
 
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -21,8 +22,10 @@ var app = new Vue({
     methods: {
         buildLabels: function(json) {
             $.each(json.log, function() {
-                log.labels.push(moment(this.timestamp).add(1, 'hours').format('DD MMM - HH:mm'));
-                log.download.push((this.download * 1e-6).toFixed(2));
+                log.download.push({
+                    "timestamp": moment(this.timestamp).add(1, 'hours').format('DD MMM - HH:mm'),
+                    "result": (this.download * 1e-6).toFixed(2)
+                });
                 log.upload.push((this.upload * 1e-6).toFixed(2));
                 log.ping.push(this.ping.toFixed(2));
             });
@@ -34,7 +37,7 @@ var app = new Vue({
                 ping: 0
             }
             for (var i = 0; i < log.download.length; i++) {
-                sum.download += log.download[i] << 0;
+                sum.download += log.download[i].result << 0;
             }
             for (var i = 0; i < log.upload.length; i++) {
                 sum.upload += log.upload[i] << 0;
@@ -48,104 +51,47 @@ var app = new Vue({
         },
 
         initCharts: function() {
-            speedChart = new Chart($('#speedsChart'), {
-                type: 'line',
-                data: {
-                    labels: log.labels,
-                    datasets: [{
-                            label: "Download (Mbps)",
-                            fill: false,
-                            lineTension: 0.1,
-                            backgroundColor: "rgba(15, 185, 13, 0.4)",
-                            borderColor: "rgba(15, 185, 13, 1)",
-                            borderCapStyle: 'butt',
-                            borderDash: [],
-                            borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
-                            pointBorderColor: "rgba(15, 185, 13, 1)",
-                            pointBackgroundColor: "#fff",
-                            pointBorderWidth: 1,
-                            pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "rgba(15, 185, 13, 1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointHoverBorderWidth: 2,
-                            pointRadius: 3,
-                            pointHitRadius: 10,
-                            data: log.download,
-                            spanGaps: false,
-                        },
-                        {
-                            label: "Upload (Mbps)",
-                            fill: false,
-                            lineTension: 0.1,
-                            backgroundColor: "rgba(75,192,192,0.4)",
-                            borderColor: "rgba(75,192,192,1)",
-                            borderCapStyle: 'butt',
-                            borderDash: [],
-                            borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
-                            pointBorderColor: "rgba(75,192,192,1)",
-                            pointBackgroundColor: "#fff",
-                            pointBorderWidth: 1,
-                            pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointHoverBorderWidth: 2,
-                            pointRadius: 3,
-                            pointHitRadius: 10,
-                            data: log.upload,
-                            spanGaps: false,
-                        }
-                    ]
+            speedChart = AmCharts.makeChart("chartdiv", {
+                type: "serial",
+                dataProvider: log.download,
+                categoryField: "timestamp",
+                categoryAxis: {
+                    gridAlpha: 0.15,
+                    minorGridEnabled: true,
+                    axisColor: "#DADADA",
+                    labelRotation: 45
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
+                valueAxes: [{
+                    axisAlpha: 0.2,
+                    id: "v1"
+                }],
+                graphs: [{
+                    title: "red line",
+                    id: "g1",
+                    valueAxis: "v1",
+                    valueField: "result",
+                    bullet: "round",
+                    bulletBorderColor: "#FFFFFF",
+                    bulletBorderAlpha: 0,
+                    lineThickness: 2,
+                    lineColor: "#b5030d",
+                    negativeLineColor: "#0352b5",
+                    balloonText: "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>"
+                }],
+                chartCursor: {
+                    fullWidth:true,
+                    cursorAlpha:0.1
+                },
+                chartScrollbar: {
+                    scrollbarHeight: 30,
+                    color: "#FFFFFF",
+                    autoGridCount: false,
+                    graph: "g1"
+                },
 
-            pingChart = new Chart($('#pingChart'), {
-                type: 'line',
-                data: {
-                    labels: log.labels,
-                    datasets: [{
-                        label: "Ping (ms)",
-                        fill: true,
-                        lineTension: 0.1,
-                        backgroundColor: "rgba(177, 56, 61, 0.4)",
-                        borderColor: "#b1383d",
-                        borderCapStyle: 'butt',
-                        borderDash: [],
-                        borderDashOffset: 0.0,
-                        borderJoinStyle: 'miter',
-                        pointBorderColor: "#b1383d",
-                        pointBackgroundColor: "#fff",
-                        pointBorderWidth: 1,
-                        pointHoverRadius: 5,
-                        pointHoverBackgroundColor: "#b1383d",
-                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                        pointHoverBorderWidth: 2,
-                        pointRadius: 3,
-                        pointHitRadius: 10,
-                        data: log.ping,
-                        spanGaps: false,
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
+                mouseWheelZoomEnabled:true
             });
+            speedChart.addListener("dataUpdated", zoomChart);
         }
     },
     created: function() {
@@ -161,3 +107,23 @@ var app = new Vue({
             });
     }
 });
+
+// this method is called when chart is first inited as we listen for "dataUpdated" event
+function zoomChart() {
+    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+    speedChart.zoomToIndexes(log.download.length - 40, log.download.length - 1);
+}
+
+// changes cursor mode from pan to select
+function setPanSelect() {
+    var chartCursor = speedChart.chartCursor;
+
+    if (document.getElementById("rb1").checked) {
+        chartCursor.pan = false;
+        chartCursor.zoomable = true;
+
+    } else {
+        chartCursor.pan = true;
+    }
+    speedChart.validateNow();
+}
