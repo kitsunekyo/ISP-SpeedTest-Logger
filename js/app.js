@@ -1,19 +1,18 @@
 moment.locale('de');
 
 var chart;
-var log = {
-    data: [],
-    avg: {
-        download: 0,
-        upload: 0,
-        ping: 0
-    }
-}
 
 var app = new Vue({
     el: '#app',
     data: {
-        log: log
+        log: {
+            data: [],
+            avg: {
+                download: 0,
+                upload: 0,
+                ping: 0
+            }
+        }
     },
     methods: {
         buildLabels: function(json) {
