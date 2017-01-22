@@ -48,18 +48,40 @@ var app = new Vue({
         chartZoom: function (target) {
             target.chart.zoomToIndexes(log.data.length - 40, log.data.length - 1);
         },
-        chartSetPanSelect: function(target) {
-            console.log(target);
-            var chartCursor = speedChart.chartCursor;
+        chartSetPanSelect: function(e) {
+            var target;
 
-            if (document.getElementById("rb1").checked) {
-                chartCursor.pan = false;
-                chartCursor.zoomable = true;
-
-            } else {
-                chartCursor.pan = true;
+            switch (e.target.getAttribute('name')) {
+                case 'groupSpeed':
+                    target = speedChart;
+                    break;
+                case 'groupPing':
+                    target = pingChart;
+                    break;
+                default:
+                    console.log("Don't know which chart to configure!");
+                    break;
             }
-            target.chart.validateNow();
+            var chartCursor = target.chartCursor;
+
+            switch (e.target.getAttribute('id').substr(e.target.getAttribute('id').length - 3)) {
+                // select
+                case 'rb1': 
+                    if (e.target.checked) {
+                        chartCursor.pan = false;
+                        chartCursor.zoomable = true;
+                    }
+                    break;
+                // pan
+                case 'rb2':
+                    if (e.target.checked) {
+                        chartCursor.pan = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            target.validateNow();
         },
 
         initCharts: function() {
