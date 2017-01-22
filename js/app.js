@@ -1,9 +1,35 @@
+/**
+ * Augment Array Prototype with min and max functions
+ */
+
+Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+
+Array.prototype.min = function() {
+  return Math.min.apply(null, this);
+};
+
+/**
+ * Vue App
+ */
+
 var app = new Vue({
     el: '#app',
     data: {
         log: {
             data: [],
             avg: {
+                download: 0,
+                upload: 0,
+                ping: 0
+            },
+            max: {
+                download: 0,
+                upload: 0,
+                ping: 0
+            },
+            min: {
                 download: 0,
                 upload: 0,
                 ping: 0
@@ -41,6 +67,28 @@ var app = new Vue({
             this.log.avg.download = (sum.download / this.log.data.length).toFixed(2);
             this.log.avg.upload = (sum.upload / this.log.data.length).toFixed(2);
             this.log.avg.ping = (sum.ping / this.log.data.length).toFixed(2);
+        },
+        calcMinMax: function() {
+            var __downloads = [];
+            var __uploads = [];
+            var __pings = [];
+
+            this.log.data.forEach(function(obj, index){
+                __downloads.push(obj.download);
+                __uploads.push(obj.upload);
+                __pings.push(obj.ping);
+            });
+
+            this.log.max.download = __downloads.max();
+            this.log.min.download = __downloads.min();
+
+            this.log.max.upload = __uploads.max();
+            this.log.min.upload = __uploads.min();
+
+            this.log.max.ping = __pings.max();
+            this.log.min.ping = __pings.min();
+
+
         },
         chartZoom: function (target) {
             target.chart.zoomToIndexes(this.log.data.length - 40, this.log.data.length - 1);
@@ -225,6 +273,7 @@ var app = new Vue({
                         __self.buildLabels(json);
                         __self.initCharts();
                         __self.calcAvg();
+                        __self.calcMinMax();
                         resolve();
                     }, function(){
                         reject();

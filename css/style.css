@@ -66,12 +66,35 @@ nav .brand-logo {
     display: block;
     font-weight: 400;
 }
-.card.big-number i {
+/* big card icon */
+.card.big-number .card-content > i {
     display: block;
     position: absolute;
     font-size: 25px;
     bottom: 20px;
     right: 20px;
+}
+/* value details */
+.details {
+    font-size: 0.9em;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.details i {
+    margin: 0 8px;
+}
+.details .label {
+    font-size: 0.8em;
+    font-style: italic;
+    color: #888;
+    margin-left: 2px;
+}
+.details .min {
+    color: red;
+}
+.details .max {
+    color: green;
 }
 .contact {
     display: flex;
