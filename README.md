@@ -3,6 +3,14 @@ This package allows you to automatically log speedtests to prove how shitty your
 
 If you have a NAS this is as easy as 'setup and forget', as the NAS will most likely run all the time and thus allow you to do speedtests at your desired frequence without having to turn on your PC or Mac.
 
+## ChangeLog
+22.01.2017: 
+* Chart library changed to [amCharts.com](https://www.amcharts.com/) <br>You can now scroll, pan and zoom in the charts.
+* Put translatable copy and configuration in `config.json`
+* Added min and max values to details cards
+* Minor Layout fixes
+* Cleaned up vuejs code
+
 ## Live Demo
 
 [http://nas.dasblattwerk.at:8080/drei/](http://nas.dasblattwerk.at:8080/drei/)
