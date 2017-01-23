@@ -41,14 +41,20 @@ Initialize your data file
 ```
 echo '{"log": []}' > /LOCATION/TO/log.json
 ```
-Edit `speedtest.sh` and change the location of your log file to wherever you want to have it. Remember thatt this has to be an absolute URI.
+Edit `speedtest.sh` and change the value of `LOG_FILE` and `SPEEDTEST_CLI` to the appropirate values.
+Remember that both paths have to be an absolute URI.
 ```
 #!/bin/sh
-SPEED_RESULT=[$(python /LOCATION/TO/speedtest-cli --json)]
-TMP=$(jq '.log |= .+ '"$SPEED_RESULT" /LOCATION/TO/log.json)
-echo $TMP > /LOCATION/TO/log.json
+## Configuration
+LOG_FILE=/data/aspieslechner/www/drei/log.json
+SPEEDTEST_CLI=/data/aspieslechner/speedtest-cli
+##
+
+SPEED_RESULT=[$(python $SPEEDTEST_CLI --json)]
+TMP=$(jq '.log |= .+ '"$SPEED_RESULT" $LOG_FILE)
+echo $TMP > $LOG_FILE
 echo 'Last Speedtest:'
-jq '.log[-1]' /LOCATION/TO/log.json
+jq '.log[-1]' $LOG_FILE
 ```
 
 Configure a cronjob for this script with `crontab -e` or `/etc/crontab`. My NAS has a feature to configure this via a "Task Scheduler" in the web interface.    
