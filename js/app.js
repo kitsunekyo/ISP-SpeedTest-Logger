@@ -33,12 +33,14 @@ var app = new Vue({
                 download: 0,
                 upload: 0,
                 ping: 0
-            }
+            },
+            startDate: '',
+            endDate: ''
         },
         config: {}
     },
     methods: {
-        buildLabels: function(json) {
+        buildData: function(json) {
             var __self = this;
             $.each(json.log, function() {
                 __self.log.data.push({
@@ -87,8 +89,6 @@ var app = new Vue({
 
             this.log.max.ping = __pings.max();
             this.log.min.ping = __pings.min();
-
-
         },
         chartZoom: function (target) {
             target.chart.zoomToIndexes(this.log.data.length - 40, this.log.data.length - 1);
@@ -270,7 +270,7 @@ var app = new Vue({
                         return response.json();
                     })
                     .then(function(json) {
-                        __self.buildLabels(json);
+                        __self.buildData(json);
                         __self.initCharts();
                         __self.calcAvg();
                         __self.calcMinMax();
