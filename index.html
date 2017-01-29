@@ -5,11 +5,12 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="drei, huchison drei, lte, test, performance, geschwindigkeit, speed, review, bewertung" />
     <!-- open:graph tags -->
     <meta property="og:url" content="http://nas.dasblattwerk.at:8080/drei/" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="SpeedTest Dashboard" />
-    <meta property="og:description" content="Ein Dashboard um Ergebnisse von automatisiert ausgeführten Speedtests als Graphen darzustellen." />
+    <meta property="og:description" content="Drei LTE Performance test in Wien, 15 Bezirk." />
     <meta property="og:image" content="http://i.imgur.com/R8Y4EjY.jpg" />
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
@@ -47,17 +48,18 @@
                                                 {{ config.copy.pre.author.phone }}</span>
                                         </div>
                                     </div>
-                                    <p v-html>{{ config.copy.pre.text }}
-                                    </p>
-                                    <p>More Info on <a href=\"https://github.com/kitsunekyo/internet-speed-log\">GitHub</a></p>
+                                    <p v-html>{{ config.copy.pre.text }}</p>
+                                    <p>More Info on <a href="https://github.com/kitsunekyo/internet-speed-log">GitHub</a></p>
                                 </div>
                                 <div class="col s12 l6">
                                     <div class="collection">
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.provider.val }}</span>{{ config.copy.pre.details.provider.hl }}</a>
                                         <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.location.val }}</span>{{ config.copy.pre.details.location.hl }}</a>
                                         <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.contract.val }}</span>{{ config.copy.pre.details.contract.hl }}</a>
                                         <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.connection.val }}</span>{{ config.copy.pre.details.connection.hl }}</a>
                                         <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.datasource.val }}</span>{{ config.copy.pre.details.datasource.hl }}</a>
                                     </div>
+                                    <p><a href="log.json" class="waves-effect waves-light btn"><i class="material-icons left">reorder</i>Show Source Data (JSON)</a></p>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +77,7 @@
                             <span class="card-title">~ Download Speed</span>
                             <span class="num-value">{{ log.avg.download }}</span><span class="num-unit">Mbps</span>
                             <div class="details">
-                                <span class="min">{{ log.min.download }}</span><span class="label">min</span> | <span class="max">{{ log.max.download }}</span><span class="label">max</span>
+                                <span class="min">{{ log.min.download }}</span><span class="label">min</span> <br /> <span class="max">{{ log.max.download }}</span><span class="label">max</span>
                             </div>
                         </div>
                     </div>
@@ -85,7 +87,7 @@
                             <span class="card-title">~ Upload Speed</span>
                             <span class="num-value">{{ log.avg.upload }}</span><span class="num-unit">Mbps</span>
                             <div class="details">
-                                <span class="min">{{ log.min.upload }}</span><span class="label">min</span> | <span class="max">{{ log.max.upload }}</span><span class="label">max</span>
+                                <span class="min">{{ log.min.upload }}</span><span class="label">min</span> <br /> <span class="max">{{ log.max.upload }}</span><span class="label">max</span>
                             </div>
                         </div>
                     </div>
@@ -95,7 +97,7 @@
                             <span class="card-title">~ Ping</span>
                             <span class="num-value">{{ log.avg.ping }}</span><span class="num-unit">ms</span>
                             <div class="details">
-                                <span class="min">{{ log.min.ping }}</span><span class="label">min</span> | <span class="max">{{ log.max.ping }}</span><span class="label">max</span>
+                                <span class="min">{{ log.max.ping }}</span><span class="label">worst</span> <br /> <span class="max">{{ log.min.ping }}</span><span class="label">best</span>
                             </div>
                         </div>
                     </div>
@@ -110,10 +112,10 @@
                                     <!-- Switch -->
                                     <div class="switch">
                                         <label>
-                                        Select
+                                        <i class="material-icons">zoom_in</i>
                                         <input type="checkbox" name="groupSpeed" @click="chartSetPanSelect">
                                         <span class="lever"></span>
-                                        Pan
+                                        <i class="material-icons">open_with</i>
                                         </label>
                                     </div>
                                 </p>
@@ -129,10 +131,10 @@
                                     <!-- Switch -->
                                     <div class="switch">
                                         <label>
-                                        Select
+                                        <i class="material-icons">zoom_in</i>
                                         <input type="checkbox" name="groupPing" @click="chartSetPanSelect">
                                         <span class="lever"></span>
-                                        Pan
+                                        <i class="material-icons">open_with</i>
                                         </label>
                                     </div>
                                 </p>

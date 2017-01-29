@@ -66,6 +66,11 @@ nav .brand-logo {
     display: block;
     font-weight: 400;
 }
+/* switch */
+.switch label {
+    display: flex;
+    align-items: center;
+}
 /* big card icon */
 .card.big-number .card-content > i {
     display: block;
@@ -80,6 +85,7 @@ nav .brand-logo {
     position: absolute;
     top: 20px;
     right: 20px;
+    text-align: right;
 }
 .details i {
     margin: 0 8px;
