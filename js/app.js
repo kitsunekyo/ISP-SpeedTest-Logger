@@ -35,7 +35,8 @@ var app = new Vue({
                 ping: 0
             },
             startDate: '',
-            endDate: ''
+            endDate: '',
+            testDuration: ''
         },
         config: {}
     },
@@ -50,6 +51,7 @@ var app = new Vue({
                     "ping": (this.ping.toFixed(2))
                 });
             });
+            this.getLogTime(json);
         },
         calcAvg: function() {
             var sum = {
@@ -89,6 +91,11 @@ var app = new Vue({
 
             this.log.max.ping = __pings.max();
             this.log.min.ping = __pings.min();
+        },
+        getLogTime: function(json) {
+            this.log.startDate = moment(json.log[0].timestamp);
+            this.log.endDate = moment(json.log[json.log.length-1].timestamp);
+            this.log.testDuration = this.log.startDate.to(this.log.endDate, true);
         },
         chartZoom: function (target) {
             target.chart.zoomToIndexes(this.log.data.length - 40, this.log.data.length - 1);

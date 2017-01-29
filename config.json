@@ -34,6 +34,12 @@
                 "datasource": {
                     "hl": "Test Utility",
                     "val": "speedtest-cli"
+                },
+                "testDuration": {
+                    "hl": "Dauer des Tests bisher"
+                },
+                "testSize": {
+                    "hl": "Bisher durchgeführte Tests"
                 }
             }
         },
