@@ -15,6 +15,10 @@
             },
             "text": "Um die Leistung und Stabilität meiner LTE Internetanbindung von Drei zu protokollieren, habe ich ein kleines Software Setup zur Erfassung und Speicherung von Geschwindigkeits / Ping Tests erstellt.",
             "details": {
+                "provider": {
+                    "hl": "Anbieter",
+                    "val": "Hutchison Drei Austria GmbH"
+                },
                 "location": {
                     "hl": "Standort",
                     "val": "Flachgasse, 1150 Wien"
