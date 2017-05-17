@@ -7,7 +7,7 @@ If you have a NAS this is as easy as 'setup and forget', as the NAS will most li
 
 29.01.2017:
 * Small UI changes
-* added details about test runtime and sample size
+* Added details about test runtime and sample size
 
 22.01.2017: 
 * Chart library changed to [amCharts.com](https://www.amcharts.com/) <br>You can now scroll, pan and zoom in the charts.
@@ -46,7 +46,7 @@ Initialize your data file
 ```
 echo '{"log": []}' > /LOCATION/TO/log.json
 ```
-Edit `speedtest.sh` and change the value of `LOG_FILE` and `SPEEDTEST_CLI` to the appropirate values.
+Edit `speedtest.sh` and change the value of `LOG_FILE` and `SPEEDTEST_CLI` to the appropriate values.
 Remember that both paths have to be an absolute URI.
 ```
 #!/bin/sh
@@ -68,11 +68,11 @@ You can set it up however you like, log daily, weekly or per hour.
 Read more on crontab here. [https://wiki.ubuntuusers.de/Cron/](https://wiki.ubuntuusers.de/Cron/)
 
 ## Usage
-Start the http-server and let it run with forever, so the process doesnt close once you shut down your ssh session.
+Start the http-server and let it run with forever, so the process doesn't close once you shut down your ssh session.
 
 ```
 forever start /usr/local/lib/node_modules/http-server/bin/http-server /LOCATION/TO/YOUR/FILES -d false
 ```
 This will start a http-server on port 8080 and host the files you have in that location.
 
-You can then navigate to http://yourserver:8080 and view the index.html. You might need to use the ip instead of `yourserver` if you dont have a dns entry or host alias for that machine.
+You can then navigate to http://yourserver:8080 and view the index.html. You might need to use the ip instead of `yourserver` if you don't have a dns entry or host alias for that machine.
