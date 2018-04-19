@@ -74,3 +74,7 @@ forever start /usr/local/lib/node_modules/http-server/bin/http-server /LOCATION/
 This will start a http-server on port 8080 and host the files you have in that location.
 
 You can then navigate to http://yourserver:8080 and view the index.html. You might need to use the ip instead of `yourserver` if you don't have a dns entry or host alias for that machine.
+
+
+## License
+- [MIT License](https://choosealicense.com/licenses/mit)
