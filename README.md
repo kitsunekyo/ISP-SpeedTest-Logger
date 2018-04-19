@@ -16,9 +16,7 @@ If you have a NAS this is as easy as 'setup and forget', as the NAS will most li
 * Minor Layout fixes
 * Cleaned up vuejs code
 
-## Live Demo
-
-[http://nas.dasblattwerk.at:8080/drei/](http://nas.dasblattwerk.at:8080/drei/)
+## Demo
 
 ![Screenshot](https://raw.githubusercontent.com/kitsunekyo/internet-speed-log/master/img/screenshot.jpg)
 
