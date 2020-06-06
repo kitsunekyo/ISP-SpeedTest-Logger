@@ -1,5 +1,3 @@
-log.json
-*.log
+dist/
 node_modules
-res
-.vscode
+log.json
