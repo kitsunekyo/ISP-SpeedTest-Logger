@@ -1,23 +1,26 @@
 {
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 8,
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "env": {
-    "browser": true
-  },
-  "extends": ["eslint:recommended", "prettier", "prettier/react"],
-  "plugins": ["react-hooks"],
-  "rules": {},
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "moduleDirectory": ["node_modules", "src/"]
-      }
-    }
-  }
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaVersion": 8,
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"env": {
+		"browser": true
+	},
+	"extends": ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react"],
+	"plugins": ["react"],
+	"rules": {},
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"moduleDirectory": ["node_modules", "src/"]
+			}
+		},
+		"react": {
+			"version": "detect"
+		}
+	}
 }
