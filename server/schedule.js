@@ -1,4 +1,3 @@
-const testResults = require("./src/speedtestApi");
 const speedtest = require("./src/speedtest");
 
 (async () => {
