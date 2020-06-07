@@ -1,9 +1,8 @@
-const schedule = require("node-schedule");
-
+const testResults = require("./src/speedtestApi");
 const speedtest = require("./src/speedtest");
-const { JOBTIMING } = require("./config");
 
-const job = schedule.scheduleJob(JOBTIMING, () => {
+(async () => {
     console.log("Running Speedtest");
-    speedtest.run();
-});
+    const result = await speedtest.run();
+    testResults.create(result);
+})();

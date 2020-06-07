@@ -13,6 +13,7 @@ server.get("/speedtest", (req, res) => {
 
 server.post("/speedtest", async (req, res) => {
     const result = await speedtest.run();
+    speedtestApi.create(result);
     res.send(result);
 });
 
