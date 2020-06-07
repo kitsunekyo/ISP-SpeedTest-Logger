@@ -3,6 +3,6 @@ const speedtest = require("./src/speedtest");
 
 (async () => {
     console.log("Running Speedtest");
-    const result = await speedtest.run();
-    testResults.create(result);
+    await speedtest.run();
+    console.log("Speedtest completed");
 })();
