@@ -1,0 +1,159 @@
+{
+  "testResults": [
+    {
+      "timestamp": "2020-06-07T16:48:35.000Z",
+      "ping": {
+        "jitter": 2.298,
+        "latency": 18.94
+      },
+      "download": {
+        "bandwidth": 3899553,
+        "bytes": 38665878,
+        "elapsed": 10615
+      },
+      "upload": {
+        "bandwidth": 1266354,
+        "bytes": 14907966,
+        "elapsed": 11203
+      },
+      "packetLoss": 0,
+      "isp": "Hutchison Drei Austria GmbH",
+      "interface": {
+        "internalIp": "192.168.1.121",
+        "name": "",
+        "macAddr": "30:9C:23:0B:44:EF",
+        "isVpn": false,
+        "externalIp": "178.115.128.36"
+      },
+      "server": {
+        "id": 6635,
+        "name": "Easyname GmbH",
+        "location": "Vienna",
+        "country": "Austria",
+        "host": "speedtest.easyname.com",
+        "port": 8080,
+        "ip": "77.244.243.114"
+      },
+      "result": {
+        "id": "7c18cad0-6684-4a40-82d4-c2894f97226b",
+        "url": "https://www.speedtest.net/result/c/7c18cad0-6684-4a40-82d4-c2894f97226b"
+      }
+    },
+    {
+      "timestamp": "2020-06-07T17:52:26.000Z",
+      "ping": {
+        "jitter": 0.495,
+        "latency": 19.921
+      },
+      "download": {
+        "bandwidth": 3593230,
+        "bytes": 49589054,
+        "elapsed": 15007
+      },
+      "upload": {
+        "bandwidth": 1291110,
+        "bytes": 19496842,
+        "elapsed": 15005
+      },
+      "isp": "Hutchison Drei Austria GmbH",
+      "interface": {
+        "internalIp": "192.168.1.121",
+        "name": "",
+        "macAddr": "30:9C:23:0B:44:EF",
+        "isVpn": false,
+        "externalIp": "178.115.128.36"
+      },
+      "server": {
+        "id": 16161,
+        "name": "COSYS DATA GmbH",
+        "location": "Vienna",
+        "country": "Austria",
+        "host": "speedtest-vix.cosys.cc",
+        "port": 8080,
+        "ip": "185.159.200.114"
+      },
+      "result": {
+        "id": "370fdf32-b6d0-46c4-89d1-10409f50dec4",
+        "url": "https://www.speedtest.net/result/c/370fdf32-b6d0-46c4-89d1-10409f50dec4"
+      }
+    },
+    {
+      "timestamp": "2020-06-07T17:56:31.000Z",
+      "ping": {
+        "jitter": 1.443,
+        "latency": 19.004
+      },
+      "download": {
+        "bandwidth": 4212726,
+        "bytes": 43151650,
+        "elapsed": 10408
+      },
+      "upload": {
+        "bandwidth": 1224841,
+        "bytes": 14815631,
+        "elapsed": 11114
+      },
+      "packetLoss": 0,
+      "isp": "Hutchison Drei Austria GmbH",
+      "interface": {
+        "internalIp": "192.168.1.121",
+        "name": "",
+        "macAddr": "30:9C:23:0B:44:EF",
+        "isVpn": false,
+        "externalIp": "178.115.128.36"
+      },
+      "server": {
+        "id": 6635,
+        "name": "Easyname GmbH",
+        "location": "Vienna",
+        "country": "Austria",
+        "host": "speedtest.easyname.com",
+        "port": 8080,
+        "ip": "77.244.243.114"
+      },
+      "result": {
+        "id": "351401b2-6834-4291-969a-92edb230e043",
+        "url": "https://www.speedtest.net/result/c/351401b2-6834-4291-969a-92edb230e043"
+      }
+    },
+    {
+      "timestamp": "2020-06-07T18:03:27.000Z",
+      "ping": {
+        "jitter": 3.272,
+        "latency": 17.869
+      },
+      "download": {
+        "bandwidth": 4263173,
+        "bytes": 51794266,
+        "elapsed": 13002
+      },
+      "upload": {
+        "bandwidth": 1211593,
+        "bytes": 12616243,
+        "elapsed": 9701
+      },
+      "packetLoss": 0,
+      "isp": "Hutchison Drei Austria GmbH",
+      "interface": {
+        "internalIp": "192.168.1.121",
+        "name": "",
+        "macAddr": "30:9C:23:0B:44:EF",
+        "isVpn": false,
+        "externalIp": "178.115.128.36"
+      },
+      "server": {
+        "id": 3744,
+        "name": "Nessus GmbH (10G Uplink)",
+        "location": "Vienna",
+        "country": "Austria",
+        "host": "speedtest.nessus.at",
+        "port": 8080,
+        "ip": "92.42.138.186"
+      },
+      "result": {
+        "id": "95338b92-d014-4361-8270-f88646a61063",
+        "url": "https://www.speedtest.net/result/c/95338b92-d014-4361-8270-f88646a61063"
+      }
+    }
+  ]
+}
