@@ -1,17 +1,17 @@
 import React from 'react';
 
-import styles from './styles.scss';
+import { StyledHeader, Container, Title, Links } from './styles';
 
 const Header = () => {
 	return (
-		<header className={styles.header}>
-			<div className={styles.container}>
-				<div className={styles.title}>speedtest</div>
-				<div className={styles.links}>
+		<StyledHeader>
+			<Container>
+				<Title>speedtest</Title>
+				<Links>
 					<a href="https://github.com/kitsunekyo/internet-speed-log/">github</a>
-				</div>
-			</div>
-		</header>
+				</Links>
+			</Container>
+		</StyledHeader>
 	);
 };
 

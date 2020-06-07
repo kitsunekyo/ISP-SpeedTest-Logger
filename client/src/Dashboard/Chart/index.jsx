@@ -9,8 +9,6 @@ import {
 	Tooltip,
 } from 'recharts';
 
-import styles from './styles.scss';
-
 const data = [
 	{
 		name: 'Page A',
@@ -58,7 +56,7 @@ const data = [
 
 const Chart = () => {
 	return (
-		<div className={styles.card}>
+		<div>
 			<ResponsiveContainer width="100%" height={200}>
 				<LineChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
 					<Line type="monotone" dataKey="uv" stroke="#8884d8" />
