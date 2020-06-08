@@ -1,3 +1,7 @@
 {
-    "extends": ["eslint:recommended", "plugin:node/recommended"]
+    "extends": ["eslint:recommended", "plugin:node/recommended"],
+    "plugins": ["jest"],
+    "env": {
+        "jest": true
+    }
 }
