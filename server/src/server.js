@@ -1,23 +1,29 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const { API_PORT } = require("../config");
-const resultsApi = require("./speedtest/api");
+const db = require("./speedtest/db");
 const speedtest = require("./speedtest");
 
-const server = express();
+const app = express();
+app.use(bodyParser.json());
 
-server.get("/speedtest", (req, res) => {
-    const list = resultsApi.list();
+app.get("/", (req, res) => {
+    res.send("API Running on /speedtest");
+});
+
+app.get("/speedtest", (req, res) => {
+    const list = db.list();
     res.json(list);
 });
 
-server.post("/speedtest", async (req, res) => {
+app.post("/speedtest", async (req, res) => {
     const result = await speedtest.run();
     res.send(result);
 });
 
-server.get("/speedtest/:id", (req, res) => {
-    const result = resultsApi.find({
+app.get("/speedtest/:id", (req, res) => {
+    const result = db.find({
         result: {
             id: req.params.id,
         },
@@ -26,6 +32,6 @@ server.get("/speedtest/:id", (req, res) => {
     res.json(result);
 });
 
-server.listen(API_PORT, () => {
-    console.log(`server listening on port ${API_PORT}`);
+app.listen(API_PORT, () => {
+    console.log(`Server listening on http://localhost:${API_PORT}/`);
 });

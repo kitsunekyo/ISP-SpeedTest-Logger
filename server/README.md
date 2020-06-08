@@ -15,6 +15,8 @@ For example, to run a speedtest every 12 hours (cron):
 
 ### Run API (optional)
 
+> WARNING: If the api is running, it will lock the database file. Which means that the schedule.js wont be able to write to the db. #todo
+
 Run the API by running `node .` in this directory. This will allow you to perform http requests to read test results on `localhost:3000/speedtest`
 
 GET `/speedtest`: lists results as array
