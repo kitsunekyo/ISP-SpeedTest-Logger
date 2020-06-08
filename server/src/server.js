@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { SERVERPORT } = require("../config");
+const { API_PORT } = require("../config");
 const resultsApi = require("./speedtest/api");
 const speedtest = require("./speedtest");
 
@@ -26,6 +26,6 @@ server.get("/speedtest/:id", (req, res) => {
     res.json(result);
 });
 
-server.listen(SERVERPORT, () => {
-    console.log(`server listening on port ${SERVERPORT}`);
+server.listen(API_PORT, () => {
+    console.log(`server listening on port ${API_PORT}`);
 });

@@ -1,14 +1,14 @@
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 
-const { DBFILEBASEPATH, DBFILENAME } = require("../../config");
+const { DB_EXPORT_PATH, DB_FILENAME } = require("../../config");
 
 /**
  * module to read and write to lowdb collection for test results
  */
 const resultsApi = (() => {
-    const collectionName = DBFILENAME;
-    const adapter = new FileSync(`${DBFILEBASEPATH}${collectionName}.json`);
+    const collectionName = DB_FILENAME;
+    const adapter = new FileSync(`${DB_EXPORT_PATH}${collectionName}.json`);
     const collection = low(adapter);
     const dbDefaults = {};
 
