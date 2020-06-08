@@ -1,4 +1,4 @@
-const speedtest = require("./src/speedtest");
+const speedtest = require("./speedtest");
 
 (async () => {
     console.log("Running Speedtest");

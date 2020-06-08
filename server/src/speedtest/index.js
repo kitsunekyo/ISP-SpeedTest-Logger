@@ -1,5 +1,5 @@
 const speedtestUtil = require("speedtest-net");
-const speedtestApi = require("./speedtestApi");
+const resultsApi = require("./api");
 
 /**
  * module to run speedtest and persist in lowdb
@@ -8,7 +8,7 @@ const speedtest = (function () {
     async function run() {
         try {
             result = await speedtestUtil();
-            speedtestApi.create(result);
+            resultsApi.create(result);
         } catch (err) {
             console.error(err.message);
         }

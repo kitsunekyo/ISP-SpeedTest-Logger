@@ -1,14 +1,14 @@
 const express = require("express");
 
-const { SERVERPORT } = require("./../config");
-const speedtestApi = require("./speedtestApi");
+const { SERVERPORT } = require("../config");
+const resultsApi = require("./speedtest/api");
 const speedtest = require("./speedtest");
 
 const server = express();
 
 server.get("/speedtest", (req, res) => {
-    const result = speedtestApi.list();
-    res.json(result);
+    const list = resultsApi.list();
+    res.json(list);
 });
 
 server.post("/speedtest", async (req, res) => {
@@ -17,7 +17,7 @@ server.post("/speedtest", async (req, res) => {
 });
 
 server.get("/speedtest/:id", (req, res) => {
-    const result = speedtestApi.find({
+    const result = resultsApi.find({
         result: {
             id: req.params.id,
         },
