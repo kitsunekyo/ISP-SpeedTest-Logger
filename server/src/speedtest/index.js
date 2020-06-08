@@ -7,7 +7,7 @@ const resultsApi = require("./api");
 const speedtest = (function () {
     async function run() {
         try {
-            result = await speedtestUtil();
+            const result = await speedtestUtil();
             resultsApi.create(result);
         } catch (err) {
             console.error(err.message);
