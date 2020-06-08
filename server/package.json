@@ -1,0 +1,27 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/server.js",
+    "scripts": {
+        "start": "node ./src/server.js"
+    },
+    "engines": {
+        "node": ">=8.10.0"
+    },
+    "author": "alexander.spieslechner@gmail.com",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "lowdb": "^1.0.0",
+        "speedtest-net": "^2.1.1"
+    },
+    "devDependencies": {
+        "eslint": "^7.2.0",
+        "eslint-plugin-jest": "^23.13.2",
+        "eslint-plugin-node": "^11.1.0",
+        "jest": "^26.0.1"
+    }
+}
