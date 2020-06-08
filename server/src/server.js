@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const { API_PORT } = require("../config");
 const db = require("./speedtest/db");
@@ -7,6 +8,11 @@ const speedtest = require("./speedtest");
 
 const app = express();
 app.use(bodyParser.json());
+app.use(
+    cors({
+        origin: ["http://localhost:8081", "http://localhost:8080"],
+    })
+);
 
 app.get("/", (req, res) => {
     res.send("API Running on /speedtest");
