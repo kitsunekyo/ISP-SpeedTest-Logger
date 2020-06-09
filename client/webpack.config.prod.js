@@ -1,10 +1,10 @@
 const path = require('path');
-const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+	mode: 'production',
 	entry: path.join(__dirname, 'src/index.js'),
-	mode: 'development',
 	module: {
 		rules: [
 			{
@@ -14,18 +14,33 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader'],
+				use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						options: { sourceMap: true },
+					},
+				],
 			},
 			{
 				test: /\.s[ac]ss$/,
 				loader: 'sass-loader',
 			},
 			{
-				test: /\.(jpe?g|png|gif|woff2?|eot|ttf|otf|svg)$/,
+				test: /\.(jpe?g|png|gif|svg)$/,
 				use: [
 					{
 						loader: 'url-loader',
-						options: { limit: 15000 },
+						options: { name: '[name]-[hash].[ext]', limit: 10000 },
+					},
+				],
+			},
+			{
+				test: /\.(woff2?|eot|ttf|otf)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: { name: '[name]-[hash].[ext]', outputPath: 'fonts'},
 					},
 				],
 			},
@@ -36,17 +51,11 @@ module.exports = {
 		extensions: ['*', '.js', '.jsx', '.css', '.scss'],
 	},
 	output: {
-		filename: '[name].js',
+		filename: '[name]-[hash].js',
 		path: path.resolve(__dirname, 'dist'),
 	},
-	devtool: 'eval-source-map',
-	devServer: {
-		historyApiFallback: true,
-		hot: true,
-		open: true,
-	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
+		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			template: path.join(__dirname, 'src/index.html'),
 			scriptLoading: 'defer',
