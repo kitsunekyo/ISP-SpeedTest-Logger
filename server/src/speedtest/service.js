@@ -8,7 +8,7 @@ const speedtestOptions = {
 /**
  * module to run speedtest and persist in lowdb
  */
-const speedtest = (function () {
+const speedtestService = (function () {
     async function run() {
         try {
             const result = await speedtestUtil(speedtestOptions);
@@ -23,4 +23,4 @@ const speedtest = (function () {
     };
 })();
 
-module.exports = speedtest;
+module.exports = speedtestService;

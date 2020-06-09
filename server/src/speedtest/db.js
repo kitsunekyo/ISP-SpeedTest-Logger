@@ -6,7 +6,7 @@ const { DB_STORAGE_PATH, DB_FILENAME } = require("../../config");
 /**
  * module to read and write to lowdb collection for test results
  */
-const db = (() => {
+const speedtestDb = (() => {
     const adapter = new FileSync(`${DB_STORAGE_PATH}${DB_FILENAME}.json`);
     const collection = low(adapter);
     const dbDefaults = {};
@@ -33,4 +33,4 @@ const db = (() => {
     };
 })();
 
-module.exports = db;
+module.exports = speedtestDb;
