@@ -16,6 +16,7 @@
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "lowdb": "^1.0.0",
+        "mongoose": "^5.9.18",
         "speedtest-net": "^2.1.1"
     },
     "devDependencies": {
