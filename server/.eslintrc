@@ -1,7 +1,12 @@
 {
-    "extends": ["eslint:recommended", "plugin:node/recommended"],
-    "plugins": ["jest"],
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "plugins": ["jest", "@typescript-eslint"],
     "env": {
-        "jest": true
+        "jest": true,
+        "node": true
     }
 }
