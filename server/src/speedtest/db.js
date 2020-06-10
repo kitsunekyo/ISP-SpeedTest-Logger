@@ -1,29 +1,22 @@
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-
-const { DB_STORAGE_PATH, DB_FILENAME } = require("../../config");
+const Speedtest = require("./Speedtest.model");
 
 /**
  * module to read and write to lowdb collection for test results
  */
 const speedtestDb = (() => {
-    const adapter = new FileSync(`${DB_STORAGE_PATH}${DB_FILENAME}.json`);
-    const collection = low(adapter);
-    const dbDefaults = {};
-
-    dbDefaults[DB_FILENAME] = [];
-    collection.defaults(dbDefaults).write();
-
-    function create(result) {
-        collection.get(DB_FILENAME).push(result).write();
+    async function create(result) {
+        const speedtest = await Speedtest.create(result,);
+        return speedtest;
     }
 
-    function list() {
-        return collection.get(DB_FILENAME).value();
+    async function list() {
+        const speedtests = await Speedtest.find({});
+        return speedtests;
     }
 
-    function find(query) {
-        return collection.get(DB_FILENAME).find(query).value();
+    async function find(query) {
+        const speedtest = await Speedtest.find(query);
+        return speedtest;
     }
 
     return {

@@ -4,13 +4,10 @@ services:
         container_name: isp-db
         image: mongo
         restart: always
-        environment: 
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: root
         ports:
             - "27017:27017"
         volumes:
-            - "./mongo-volume:/data/db"
+            - mongo-volume:/data/db
     api:
         container_name: isp-api
         build: ./server
@@ -19,8 +16,6 @@ services:
             - db
         ports:
             - "3000:3000"
-        volumes:
-            - "./json-volume:/usr/src/app/db_storage"
     frontend:
         container_name: isp-frontend
         build: ./client
@@ -31,7 +26,3 @@ services:
             - "8080:80"
 volumes:
     mongo-volume:
-        external: false
-    json-volume:
-        external: false
-    

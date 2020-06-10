@@ -13,6 +13,7 @@ const speedtestService = (function () {
         try {
             const result = await speedtestUtil(speedtestOptions);
             db.create(result);
+            return result;
         } catch (err) {
             console.error(err.message);
         }

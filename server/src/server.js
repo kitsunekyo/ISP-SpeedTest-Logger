@@ -1,9 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 const { API_PORT } = require("../config");
 const speedtestRouter = require("./speedtest/router");
+const Speedtest = require("./speedtest/Speedtest.model");
+
+const connectDb = () => {
+    return mongoose.connect("mongodb://localhost:27017/isp", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+};
 
 const app = express();
 
@@ -20,7 +29,8 @@ app.get("/", (req, res) => {
 
 app.use("/speedtest", speedtestRouter);
 
-app.listen(API_PORT, () => {
-    console.log(`Server listening on http://localhost:${API_PORT}/`);
+connectDb().then(async () => {
+    app.listen(API_PORT, () => {
+        console.log(`Server listening on http://localhost:${API_PORT}/`);
+    });
 });
-

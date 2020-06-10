@@ -4,8 +4,8 @@ const speedtestDb = require("./db");
 const speedtestService = require("./service");
 const speedtestRouter = express.Router();
 
-speedtestRouter.get("/", (req, res) => {
-    const list = speedtestDb.list();
+speedtestRouter.get("/", async (req, res) => {
+    const list = await speedtestDb.list();
     res.json(list);
 });
 
