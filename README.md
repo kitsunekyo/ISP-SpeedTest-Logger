@@ -1,4 +1,5 @@
 # Network Quality API and UI
+![docker](https://imgur.com/FVbVrRM.jpg | width=50)
 This allows you to periodically run speedtests through node.js, store the results in a json file (lowdb), and review your network quality in a web ui.
 
 ![screenshot](screenshot.png)
