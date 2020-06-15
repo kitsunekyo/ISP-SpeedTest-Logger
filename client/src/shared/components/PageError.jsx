@@ -1,9 +1,7 @@
 import React from 'react';
 
-import Page from 'shared/components/Page';
-
 const PageError = () => {
-	return <Page>404 Error</Page>;
+	return <h1>404 Error</h1>;
 };
 
 export default PageError;

@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import _ from 'lodash';
 
 import api from 'shared/utils/api';
-import Page from 'shared/components/Page';
 import { mbyte, avg, round } from 'shared/utils/math';
+import Card from 'shared/components/Card';
 import Chart from './Chart';
+import ValueTile from './ValueTile';
+import Sidebar from './Sidebar';
+import { Content, Row, DashboardPage } from './style';
 
-const ChartTitle = styled.div`
-	display: inline-flex;
-	align-items: center;
-	> *:not(:last-child) {
-		margin-right: 0.5rem;
-	}
-	> i {
-		margin: 0.5rem;
-	}
-`;
+const readableAvg = _.flow([avg, round]);
+const roundedMbit = _.flow([mbyte, round]);
+const readableAvgMbit = _.flow([avg, roundedMbit]);
 
 const Dashboard = () => {
 	const [testResults, setTestResults] = useState([]);
@@ -27,54 +23,86 @@ const Dashboard = () => {
 	}, []);
 
 	return (
-		<Page>
-			<ChartTitle>
-				<i className="material-icons">network_check</i>
-				<span>speed avg:</span>
-				<span>
-					{round(mbyte(avg(testResults.map(obj => obj.download.bytes))))}/
-					{round(mbyte(avg(testResults.map(obj => obj.upload.bytes))))} mbit
-				</span>
-			</ChartTitle>
+		<DashboardPage>
+			<Sidebar />
+			<Content>
+				<Row>
+					<Card>
+						<ValueTile
+							title="Download"
+							icon={null}
+							unit={'mbit'}
+							value={readableAvgMbit(testResults.map(obj => obj.download.bytes))}
+						/>
+					</Card>
 
-			<Chart
-				group="speedtest"
-				id="speed-graph"
-				series={[
-					{
-						name: 'download (mbps)',
-						data: testResults.map(result => {
-							return [Date.parse(result.timestamp), round(mbyte(result.download.bytes))];
-						}),
-					},
-					{
-						name: 'upload (mbps)',
-						data: testResults.map(result => {
-							return [Date.parse(result.timestamp), round(mbyte(result.upload.bytes))];
-						}),
-					},
-				]}
-			/>
+					<Card>
+						<ValueTile
+							title="Upload"
+							icon={null}
+							unit={'mbit'}
+							value={readableAvgMbit(testResults.map(obj => obj.upload.bytes))}
+						/>
+					</Card>
 
-			<ChartTitle>
-				<i className="material-icons">speed</i>
-				<span>ping avg:</span>
-				<span>{round(avg(testResults.map(obj => obj.ping.latency)))} ms</span>
-			</ChartTitle>
+					<Card>
+						<ValueTile
+							title="Ping"
+							icon={null}
+							unit={'ms'}
+							value={readableAvg(testResults.map(obj => obj.ping.latency))}
+						/>
+					</Card>
 
-			<Chart
-				group="speedtest"
-				id="ping-graph"
-				series={[
-					{
-						name: 'ping (ms)',
-						data: testResults.map(result => {
-							return [Date.parse(result.timestamp), round(result.ping.latency)];
-						}),
-					},
-				]}
-			/>
-		</Page>
+					<Card>
+						<ValueTile
+							title="Lost Packets"
+							icon={null}
+							unit={''}
+							value={readableAvg(testResults.map(obj => obj.packetLoss))}
+						/>
+					</Card>
+				</Row>
+
+				<Row>
+					<Card title="Internet Speed">
+						<Chart
+							group="speedtest"
+							id="speed-graph"
+							series={[
+								{
+									name: 'download (mbps)',
+									data: testResults.map(result => {
+										return [Date.parse(result.timestamp), roundedMbit(result.download.bytes)];
+									}),
+								},
+								{
+									name: 'upload (mbps)',
+									data: testResults.map(result => {
+										return [Date.parse(result.timestamp), roundedMbit(result.upload.bytes)];
+									}),
+								},
+							]}
+						/>
+					</Card>
+				</Row>
+
+				<Card title="Ping">
+					<Chart
+						group="speedtest"
+						id="ping-graph"
+						series={[
+							{
+								name: 'ping (ms)',
+								data: testResults.map(result => {
+									return [Date.parse(result.timestamp), round(result.ping.latency)];
+								}),
+							},
+						]}
+					/>
+				</Card>
+			</Content>
+		</DashboardPage>
 	);
 };
 

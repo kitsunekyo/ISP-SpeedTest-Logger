@@ -9,7 +9,7 @@ export const chartOptions = {
 		show: true,
 	},
 	grid: {
-		show: true,
+		show: false,
 		yaxis: {
 			lines: {
 				show: true,

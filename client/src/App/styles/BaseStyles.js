@@ -3,12 +3,19 @@ import { createGlobalStyle } from 'styled-components';
 import { size, text, color } from 'shared/utils/style';
 
 const BaseStyles = createGlobalStyle`
+    * {
+        box-sizing: border-box;
+    }
 	html,
-	body {
+	body,
+    :root {
 		height: 100%;
 		min-height: 100%;
 		margin: 0;
 	}
+    #app {
+        overflow: hidden;
+    }
 	html {
 		font-size: ${size.base};
 	}
@@ -17,7 +24,7 @@ const BaseStyles = createGlobalStyle`
 		font-family: ${text.font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 			Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 		line-height: 1.5;
-		color: $color-text;
+		color: ${text.colorPrimary};
 	}
 
 	h1,
