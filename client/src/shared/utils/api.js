@@ -131,21 +131,21 @@ const defaults = {
 
 const api = (method, url, payload) => {
 	return new Promise((resolve, reject) => {
-		resolve(MOCK_DATA);
-		// axios({
-		// 	url: `${defaults.baseUrl}${url}`,
-		// 	method,
-		// 	headers: defaults.headers(),
-		// 	params: method === 'get' ? payload : undefined,
-		// 	data: method !== 'get' ? payload : undefined,
-		// }).then(
-		// 	response => {
-		// 		resolve(response);
-		// 	},
-		// 	error => {
-		// 		reject(error);
-		// 	}
-		// );
+		// resolve(MOCK_DATA);
+		axios({
+			url: `${defaults.baseUrl}${url}`,
+			method,
+			headers: defaults.headers(),
+			params: method === 'get' ? payload : undefined,
+			data: method !== 'get' ? payload : undefined,
+		}).then(
+			response => {
+				resolve(response);
+			},
+			error => {
+				reject(error);
+			}
+		);
 	});
 };
 
