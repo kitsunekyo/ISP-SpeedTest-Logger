@@ -11,16 +11,16 @@ import Db from "./db";
     const { API_PORT, CORS } = process.env;
     const app = express();
 
-    app.use(bodyParser.json());
-    app.use("/speedtest", speedtestRouter);
-
     if (CORS) {
         app.use(
             cors({
-                origin: [CORS.split(",")],
+                origin: CORS,
             })
         );
     }
+    app.use(bodyParser.json());
+
+    app.use("/speedtest", speedtestRouter);
 
     const db = await Db.connect();
 
