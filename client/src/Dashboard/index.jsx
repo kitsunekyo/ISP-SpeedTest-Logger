@@ -1,25 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import _ from 'lodash';
+import { Loader as LoaderIcon } from 'react-feather';
 
-import api from 'shared/utils/api';
+import useApi from 'shared/hooks/api';
 import { mbyte, avg, round } from 'shared/utils/math';
 import Card from 'shared/components/Card';
 import Chart from './Chart';
 import ValueTile from './ValueTile';
 import Sidebar from './Sidebar';
-import { Content, Row, DashboardPage } from './style';
+import { Row, Col } from 'shared/components/Layout';
+import { Content, DashboardPage } from './style';
 
 const readableAvg = _.flow([avg, round]);
 const roundedMbit = _.flow([mbyte, round]);
 const readableAvgMbit = _.flow([avg, roundedMbit]);
 
 const Dashboard = () => {
-	const [testResults, setTestResults] = useState([]);
+	const [testResultState, getTestResults, setLocalTestResults] = useApi('/speedtest');
+	const [speedtestState, runSpeedtest] = useApi('/speedtest', 'post');
+
+	const testResults = useMemo(() => {
+		return testResultState?.data?.length ? testResultState.data : [];
+	}, [testResultState]);
+
+	const handleRunSpeedtest = () => {
+		runSpeedtest().then(res => {
+			setLocalTestResults([...testResultState.data, res.data]);
+		});
+	};
 
 	useEffect(() => {
-		api.get('/speedtest').then(res => {
-			setTestResults(res.data || []);
-		});
+		getTestResults();
 	}, []);
 
 	return (
@@ -27,80 +38,106 @@ const Dashboard = () => {
 			<Sidebar />
 			<Content>
 				<Row>
-					<Card>
-						<ValueTile
-							title="Download"
-							icon={null}
-							unit={'mbit'}
-							value={readableAvgMbit(testResults.map(obj => obj.download.bytes))}
-						/>
-					</Card>
-
-					<Card>
-						<ValueTile
-							title="Upload"
-							icon={null}
-							unit={'mbit'}
-							value={readableAvgMbit(testResults.map(obj => obj.upload.bytes))}
-						/>
-					</Card>
-
-					<Card>
-						<ValueTile
-							title="Ping"
-							icon={null}
-							unit={'ms'}
-							value={readableAvg(testResults.map(obj => obj.ping.latency))}
-						/>
-					</Card>
-
-					<Card>
-						<ValueTile
-							title="Lost Packets"
-							icon={null}
-							unit={''}
-							value={readableAvg(testResults.map(obj => obj.packetLoss))}
-						/>
-					</Card>
+					<Col>
+						<Card>
+							<ValueTile
+								title="Download"
+								icon={null}
+								unit={'mbit'}
+								value={readableAvgMbit(testResults.map(obj => obj.download.bytes))}
+							/>
+						</Card>
+					</Col>
+					<Col>
+						<Card>
+							<ValueTile
+								title="Upload"
+								icon={null}
+								unit={'mbit'}
+								value={readableAvgMbit(testResults.map(obj => obj.upload.bytes))}
+							/>
+						</Card>
+					</Col>
+					<Col>
+						<Card>
+							<ValueTile
+								title="Ping"
+								icon={null}
+								unit={'ms'}
+								value={readableAvg(testResults.map(obj => obj.ping.latency))}
+							/>
+						</Card>
+					</Col>
+					<Col>
+						<Card>
+							<ValueTile
+								title="Lost Packets"
+								icon={null}
+								unit={''}
+								value={readableAvg(testResults.map(obj => obj.packetLoss))}
+							/>
+						</Card>
+					</Col>
 				</Row>
 
 				<Row>
-					<Card title="Internet Speed">
-						<Chart
-							group="speedtest"
-							id="speed-graph"
-							series={[
-								{
-									name: 'download (mbps)',
-									data: testResults.map(result => {
-										return [Date.parse(result.timestamp), roundedMbit(result.download.bytes)];
-									}),
-								},
-								{
-									name: 'upload (mbps)',
-									data: testResults.map(result => {
-										return [Date.parse(result.timestamp), roundedMbit(result.upload.bytes)];
-									}),
-								},
-							]}
-						/>
-					</Card>
+					<Col>
+						<button onClick={handleRunSpeedtest} disabled={speedtestState.isLoading}>
+							{speedtestState.isLoading ? (
+								<>
+									<span style={{ marginRight: '.5rem' }}>Running speedtest</span>
+									<LoaderIcon size={18} />
+								</>
+							) : (
+								<span>Run Speedtest</span>
+							)}
+						</button>
+					</Col>
 				</Row>
 
-				<Card title="Ping">
-					<Chart
-						group="speedtest"
-						id="ping-graph"
-						series={[
-							{
-								name: 'ping (ms)',
-								data: testResults.map(result => {
-									return [Date.parse(result.timestamp), round(result.ping.latency)];
-								}),
-							},
-						]}
-					/>
-				</Card>
+				<Row>
+					<Col>
+						<Card title="Internet Speed">
+							<Chart
+								group="speedtest"
+								id="speed-graph"
+								series={[
+									{
+										name: 'download (mbps)',
+										data: testResults.map(result => {
+											return [Date.parse(result.timestamp), roundedMbit(result.download.bytes)];
+										}),
+									},
+									{
+										name: 'upload (mbps)',
+										data: testResults.map(result => {
+											return [Date.parse(result.timestamp), roundedMbit(result.upload.bytes)];
+										}),
+									},
+								]}
+							/>
+						</Card>
+					</Col>
+				</Row>
+
+				<Row>
+					<Col>
+						<Card title="Ping">
+							<Chart
+								group="speedtest"
+								id="ping-graph"
+								series={[
+									{
+										name: 'ping (ms)',
+										data: testResults.map(result => {
+											return [Date.parse(result.timestamp), round(result.ping.latency)];
+										}),
+									},
+								]}
+							/>
+						</Card>
+					</Col>
+				</Row>
 			</Content>
 		</DashboardPage>
 	);

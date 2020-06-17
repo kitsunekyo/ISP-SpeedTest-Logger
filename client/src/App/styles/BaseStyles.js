@@ -63,6 +63,19 @@ const BaseStyles = createGlobalStyle`
 		border-style: none;
 		border-color: initial;
 		border-image: initial;
+        border-radius: ${size.radius};
+        height: 35px;
+        padding: 0 1rem;
+        transition: all .1s;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        vertical-align: middle;
+
+        &:hover {
+            background: ${color.w1}
+        }
 	}
 
 `;
