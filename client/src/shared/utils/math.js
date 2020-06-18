@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const round = (num, precision = 10) =>
 	Math.round((num + Number.EPSILON) * (10 * precision)) / (10 * precision);
 
@@ -7,5 +9,10 @@ export const round = (num, precision = 10) =>
  */
 export const mbyte = byte => byte * 1e-6;
 
-export const avg = values =>
-	values.length ? values.reduce((acc, curr) => acc + curr) / values.length : values;
+export const avg = values => {
+	if (!_.isArray(values)) return values;
+
+	const validValues = values.filter(val => _.isNumber(val));
+
+	return validValues.reduce((acc, curr) => acc + curr) / validValues.length;
+};

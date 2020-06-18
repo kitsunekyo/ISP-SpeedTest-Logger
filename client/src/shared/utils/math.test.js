@@ -22,6 +22,10 @@ describe('math', () => {
 			expect(avg([0, 10])).toBe(5);
 		});
 
+		it('ignores non numeric values in array', () => {
+			expect(avg([0, undefined, 10])).toBe(5);
+		});
+
 		it('returns the input when not an array', () => {
 			expect(avg(1)).toBe(1);
 		});
