@@ -18,6 +18,11 @@ describe('math', () => {
 	});
 
 	describe('avg', () => {
+		// tbh i'm not sure if it should just be NaN instead
+		it('returns 0 for an empty array', () => {
+			expect(avg([])).toBe(0);
+		});
+
 		it('calculates the average of an array of numbers', () => {
 			expect(avg([0, 10])).toBe(5);
 		});

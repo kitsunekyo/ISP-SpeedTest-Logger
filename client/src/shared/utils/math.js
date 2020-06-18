@@ -13,6 +13,7 @@ export const avg = values => {
 	if (!_.isArray(values)) return values;
 
 	const validValues = values.filter(val => _.isNumber(val));
+	const sum = validValues.reduce((acc, curr) => acc + curr, 0);
 
-	return validValues.reduce((acc, curr) => acc + curr) / validValues.length;
+	return validValues.length <= 0 ? sum : sum / validValues.length;
 };
