@@ -8,4 +8,4 @@ export const round = (num, precision = 10) =>
 export const mbyte = byte => byte * 1e-6;
 
 export const avg = values =>
-	values.length ? values.reduce((acc, curr) => acc + curr) / values.length : null;
+	values.length ? values.reduce((acc, curr) => acc + curr) / values.length : values;
