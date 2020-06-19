@@ -4,6 +4,10 @@ import { color } from 'shared/utils/style';
 
 export const DashboardPage = styled.div``;
 
+export const PageTitle = styled.h1`
+	margin-top: 0;
+`;
+
 export const Row = styled.div`
 	display: flex;
 	width: 100%;

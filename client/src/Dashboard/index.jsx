@@ -10,7 +10,7 @@ import { Row, Col } from 'shared/components/Layout';
 import Chart from './Chart';
 import ValueTile from './ValueTile';
 import Sidebar from './Sidebar';
-import { Content, DashboardPage, SectionTitle } from './style';
+import { Content, DashboardPage, SectionTitle, PageTitle } from './style';
 
 const readableAvg = _.flow([avg, round]);
 const roundedMbit = _.flow([mbyte, round]);
@@ -35,11 +35,7 @@ const Dashboard = () => {
 		<DashboardPage>
 			<Sidebar />
 			<Content>
-				<Row>
-					<Col>
-						<h1>Network Quality Dashboard</h1>
-					</Col>
-				</Row>
+				<PageTitle>Network Quality Dashboard</PageTitle>
 				<Button
 					onClick={handleRunSpeedtest}
 					icon={<PlayIcon size={14} />}
