@@ -27,4 +27,9 @@ export const Col = styled.div`
 	flex-basis: 0;
 	flex-grow: 1;
 	max-width: 100%;
+	margin-bottom: 1rem;
+
+	@media (min-width: 991px) {
+		margin-bottom: 0;
+	}
 `;

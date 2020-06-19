@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Grid as GridIcon, GitHub as GitHubIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 
-import { text } from 'shared/utils/style';
+import { color, mixin } from 'shared/utils/style';
 
 const StyledSidebar = styled.nav`
 	display: flex;
@@ -16,6 +16,7 @@ const StyledSidebar = styled.nav`
 	height: 80px;
 	bottom: 0;
 	z-index: 100;
+	${mixin.shadow}
 
 	@media (min-width: 900px) {
 		padding-top: 50px;
@@ -50,7 +51,7 @@ const MenuItem = styled(Link)`
 	&,
 	&:visited,
 	&:focus {
-		color: ${text.colorPrimary};
+		color: ${color.textPrimary};
 	}
 
 	&:hover {

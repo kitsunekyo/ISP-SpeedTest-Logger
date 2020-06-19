@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo } from 'react';
 import _ from 'lodash';
-import { Loader as LoaderIcon } from 'react-feather';
+import { Play as PlayIcon } from 'react-feather';
 
 import useApi from 'shared/hooks/api';
 import { mbyte, avg, round } from 'shared/utils/math';
 import Card from 'shared/components/Card';
+import Button from 'shared/components/Button';
+import { Row, Col } from 'shared/components/Layout';
 import Chart from './Chart';
 import ValueTile from './ValueTile';
 import Sidebar from './Sidebar';
-import { Row, Col } from 'shared/components/Layout';
-import { Content, DashboardPage } from './style';
+import { Content, DashboardPage, SectionTitle } from './style';
 
 const readableAvg = _.flow([avg, round]);
 const roundedMbit = _.flow([mbyte, round]);
@@ -23,11 +24,8 @@ const Dashboard = () => {
 		return testResultState?.data?.length ? testResultState.data : [];
 	}, [testResultState]);
 
-	const handleRunSpeedtest = () => {
-		runSpeedtest().then(res => {
-			setLocalTestResults([...testResultState.data, res.data]);
-		});
-	};
+	const handleRunSpeedtest = () =>
+		runSpeedtest().then(res => setLocalTestResults([...testResultState.data, res.data]));
 
 	useEffect(() => {
 		getTestResults();
@@ -37,6 +35,19 @@ const Dashboard = () => {
 		<DashboardPage>
 			<Sidebar />
 			<Content>
+				<Row>
+					<Col>
+						<h1>Network Quality Dashboard</h1>
+					</Col>
+				</Row>
+				<Button
+					onClick={handleRunSpeedtest}
+					icon={<PlayIcon size={14} />}
+					isWorking={speedtestState.isLoading}
+				>
+					Run Speedtest
+				</Button>
+				<SectionTitle>Average Performance</SectionTitle>
 				<Row>
 					<Col>
 						<Card>
@@ -80,21 +91,7 @@ const Dashboard = () => {
 					</Col>
 				</Row>
 
-				<Row>
-					<Col>
-						<button onClick={handleRunSpeedtest} disabled={speedtestState.isLoading}>
-							{speedtestState.isLoading ? (
-								<>
-									<span style={{ marginRight: '.5rem' }}>Running speedtest</span>
-									<LoaderIcon size={18} />
-								</>
-							) : (
-								<span>Run Speedtest</span>
-							)}
-						</button>
-					</Col>
-				</Row>
-
+				<SectionTitle>Test History</SectionTitle>
 				<Row>
 					<Col>
 						<Card title="Internet Speed">

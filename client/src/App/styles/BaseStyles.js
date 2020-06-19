@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { size, text, color } from 'shared/utils/style';
+import { size, font, color } from 'shared/utils/style';
 
 const BaseStyles = createGlobalStyle`
     * {
@@ -21,10 +21,10 @@ const BaseStyles = createGlobalStyle`
 	}
 	body {
 		-webkit-tap-highlight-color: transparent;
-		font-family: ${text.font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+		font-family: ${font.family}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 			Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 		line-height: 1.5;
-		color: ${text.colorPrimary};
+		color: ${color.textPrimary};
 	}
 
 	h1,
@@ -57,7 +57,7 @@ const BaseStyles = createGlobalStyle`
 		}
 	}
 
-	button {
+	/* button {
 		background: none;
 		border-width: initial;
 		border-style: none;
@@ -76,7 +76,7 @@ const BaseStyles = createGlobalStyle`
         &:hover {
             background: ${color.w1}
         }
-	}
+	} */
 
 `;
 

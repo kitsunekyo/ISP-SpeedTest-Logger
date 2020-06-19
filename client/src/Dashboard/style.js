@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { color } from 'shared/utils/style';
+
 export const DashboardPage = styled.div``;
 
 export const Row = styled.div`
@@ -23,6 +25,12 @@ export const Row = styled.div`
 			}
 		}
 	}
+`;
+
+export const SectionTitle = styled.h2`
+	margin-top: 2rem;
+	font-size: 1rem;
+	color: ${color.textSecondary};
 `;
 
 export const Content = styled.div`
