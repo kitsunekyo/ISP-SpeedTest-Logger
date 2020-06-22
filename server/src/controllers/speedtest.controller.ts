@@ -1,14 +1,14 @@
 import { default as speedtestUtil } from "speedtest-net";
 
-import { Speedtest } from "./../models/Speedtest";
-import SpeedtestDb from "./../db/speedtest.db";
+import { Speedtest } from "../models/Speedtest";
+import SpeedtestDb from "../db/speedtest.db";
 
-const speedtestOptions = {
-    acceptLicense: true,
-    acceptGdpr: true,
-};
-
-const SpeedtestService = (() => {
+const SpeedtestController = (() => {
+    const speedtestOptions = {
+        acceptLicense: true,
+        acceptGdpr: true,
+    };
+    
     const run = (): Promise<Speedtest> => {
         return speedtestUtil(speedtestOptions);
     };
@@ -42,4 +42,4 @@ const SpeedtestService = (() => {
     };
 })();
 
-export default SpeedtestService;
+export default SpeedtestController;

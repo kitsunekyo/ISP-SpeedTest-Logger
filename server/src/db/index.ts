@@ -7,22 +7,23 @@ const CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING || "";
 const Db = (() => {
     let instance: typeof mongoose | null = null;
 
-    const connect = async (): Promise<typeof mongoose> => {
+    const connect = async (): Promise<void> => {
+        if (CONNECTION_STRING === "") {
+            throw new Error(`No Connection String set. Review .env file.`);
+        }
         instance = await mongoose.connect(CONNECTION_STRING, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        return instance;
     };
 
-    const disconnect = async (): Promise<any> => {
+    const disconnect = async (): Promise<void> => {
         if (instance) {
             await instance.connection.close();
         }
-        return instance;
     };
 
-    return { instance, connect, disconnect };
+    return { connect, disconnect };
 })();
 
 export default Db;
