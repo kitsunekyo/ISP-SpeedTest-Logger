@@ -10,6 +10,7 @@ import { Row, Col } from 'shared/components/Layout';
 import Chart from './Chart';
 import ValueTile from './ValueTile';
 import Sidebar from './Sidebar';
+import ScheduleSelector from './ScheduleSelector';
 import { Content, DashboardPage, SectionTitle, PageTitle } from './style';
 
 const readableAvg = _.flow([avg, round]);
@@ -20,6 +21,9 @@ const Dashboard = () => {
 	const [testResultState, getTestResults, setLocalTestResults] = useApi('/speedtest');
 	const [speedtestState, runSpeedtest] = useApi('/speedtest', 'post');
 
+	const [scheduleState, getSchedule, setLocalSchedule] = useApi('/speedtest/schedule', 'get');
+	const [, setSchedule] = useApi('/speedtest/schedule', 'post');
+
 	const testResults = useMemo(() => {
 		return testResultState?.data?.length ? testResultState.data : [];
 	}, [testResultState]);
@@ -27,8 +31,13 @@ const Dashboard = () => {
 	const handleRunSpeedtest = () =>
 		runSpeedtest().then(res => setLocalTestResults([...testResultState.data, res.data]));
 
+	const handleSetSchedule = value => {
+		return setSchedule(value).then(() => setLocalSchedule(parseInt(value)));
+	};
+
 	useEffect(() => {
 		getTestResults();
+		getSchedule();
 	}, []);
 
 	return (
@@ -36,13 +45,20 @@ const Dashboard = () => {
 			<Sidebar />
 			<Content>
 				<PageTitle>Network Quality Dashboard</PageTitle>
-				<Button
-					onClick={handleRunSpeedtest}
-					icon={<PlayIcon size={14} />}
-					isWorking={speedtestState.isLoading}
-				>
-					Run Speedtest
-				</Button>
+				<div>
+					<ScheduleSelector
+						onChange={handleSetSchedule}
+						value={scheduleState.data}
+						style={{ margin: '1rem 0' }}
+					/>
+					<Button
+						onClick={handleRunSpeedtest}
+						icon={<PlayIcon size={14} />}
+						isWorking={speedtestState.isLoading}
+					>
+						Run Speedtest Now
+					</Button>
+				</div>
 				<SectionTitle>Average Performance</SectionTitle>
 				<Row>
 					<Col>
