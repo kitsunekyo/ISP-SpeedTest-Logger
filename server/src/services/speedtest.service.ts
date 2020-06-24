@@ -4,13 +4,13 @@ import { Speedtest } from "../models/Speedtest";
 import SpeedtestDb from "../db/speedtest.db";
 
 const SpeedtestService = (() => {
-    const speedtestOptions = {
+    const _speedtestOptions = {
         acceptLicense: true,
         acceptGdpr: true,
     };
     
     const run = (): Promise<Speedtest> => {
-        return speedtestUtil(speedtestOptions);
+        return speedtestUtil(_speedtestOptions);
     };
 
     const save = async (speedtest: Speedtest): Promise<Speedtest> => {
