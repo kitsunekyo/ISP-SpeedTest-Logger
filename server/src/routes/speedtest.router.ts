@@ -27,17 +27,13 @@ router.post(
 router.post(
     "/schedule",
     async (req: Request, res): Promise<Response> => {
-        const { schedule } = req.body;
-        const allowedValues = ["24h", "12h", "6h"];
-
-        if (!schedule || !allowedValues.includes(schedule)) {
-            return res.json({
-                error: "invalid body { schedule: '24h' | '12h' | '6h' }",
-            });
+        if (req.body === 0) {
+            ScheduleService.destroy();
+            return res.sendStatus(200);
         }
 
         try {
-            await ScheduleService.create(schedule, () => {
+            await ScheduleService.update(req.body, () => {
                 SpeedtestService.run();
             });
             return res.sendStatus(200);
@@ -50,7 +46,7 @@ router.post(
 router.get(
     "/schedule",
     (req, res): Response => {
-        const cron = ScheduleService.getCronExpression();
+        const cron = ScheduleService.getInterval();
         return res.json(cron);
     }
 );

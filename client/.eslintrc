@@ -11,14 +11,8 @@
 		"es6": true,
 		"browser": true
 	},
-	"extends": [
-		"eslint:recommended",
-		"plugin:react/recommended",
-		"plugin:react-hooks/recommended",
-		"prettier",
-		"prettier/react"
-	],
-	"plugins": ["react"],
+	"extends": ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react"],
+	"plugins": ["react", "react-hooks"],
 	"rules": {},
 	"settings": {
 		"import/resolver": {

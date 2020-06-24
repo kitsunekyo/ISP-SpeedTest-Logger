@@ -10,6 +10,7 @@ import Db from "./db";
 import ScheduleService from "./services/schedule.service";
 import speedtestRouter from "./routes/speedtest.router";
 import SpeedtestService from "./services/speedtest.service";
+import { ScheduleInterval } from "./models/ScheduleInterval";
 
 (async () => {
     const { API_PORT, CORS } = process.env;
@@ -23,10 +24,10 @@ import SpeedtestService from "./services/speedtest.service";
         );
     }
     app.use(morgan("combined"));
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({ strict: false }));
     app.use("/speedtest", speedtestRouter);
 
-    ScheduleService.create("12h", () => {
+    ScheduleService.update(ScheduleInterval["12h"], () => {
         SpeedtestService.run();
     }).catch((e) => {
         console.error(red(e));

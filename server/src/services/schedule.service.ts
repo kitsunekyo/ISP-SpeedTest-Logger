@@ -1,31 +1,44 @@
 import cron from "node-cron";
+import { ScheduleInterval } from "./../models/ScheduleInterval";
 
 const ScheduleService = (() => {
     let _task: cron.ScheduledTask;
-    let _interval: string;
+    let _interval: ScheduleInterval;
 
-    const getTaskInstance = (): cron.ScheduledTask => _task;
-    const getCronExpression = (): string => _interval;
+    const getInterval = (): ScheduleInterval => _interval;
 
-    const transformStringToCronExpression = (
-        interval: "24h" | "12h" | "6h"
+    const getCronExpression = (
+        minutes: number | string = "*",
+        hours: number | string = "*",
+        days: number | string = "*",
+        months: number | string = "*",
+        weekday: number | string = "*"
     ): string => {
-        return `0 */${interval.slice(0, -1)} * * *`;
+        return `${minutes} ${hours} ${days} ${months} ${weekday}`;
     };
 
-    const create = (
-        interval: "24h" | "12h" | "6h",
+    const destroy = () => {
+        if (_task) _task.destroy();
+    };
+
+    const update = (
+        interval: ScheduleInterval,
         fn: () => void
     ): Promise<cron.ScheduledTask> => {
         return new Promise((resolve, reject) => {
-            const cronExpression = transformStringToCronExpression(interval);
+            destroy();
+
+            if (interval === ScheduleInterval.Off) {
+                resolve();
+            }
+
+            const cronExpression = getCronExpression(
+                0,
+                `*/${ScheduleInterval[interval].slice(0, -1)}`
+            );
 
             if (!cron.validate(cronExpression)) {
                 reject(`invalid cron expression ${cronExpression}`);
-            }
-
-            if (_task) {
-                _task.destroy();
             }
 
             _task = cron.schedule(cronExpression, fn);
@@ -36,9 +49,9 @@ const ScheduleService = (() => {
     };
 
     return {
-        create,
-        getTaskInstance,
-        getCronExpression,
+        update,
+        destroy,
+        getInterval,
     };
 })();
 
