@@ -3,7 +3,7 @@ import { default as speedtestUtil } from "speedtest-net";
 import { Speedtest } from "../models/Speedtest";
 import SpeedtestDb from "../db/speedtest.db";
 
-const SpeedtestController = (() => {
+const SpeedtestService = (() => {
     const speedtestOptions = {
         acceptLicense: true,
         acceptGdpr: true,
@@ -42,4 +42,4 @@ const SpeedtestController = (() => {
     };
 })();
 
-export default SpeedtestController;
+export default SpeedtestService;

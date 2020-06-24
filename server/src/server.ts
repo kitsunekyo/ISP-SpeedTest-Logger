@@ -7,9 +7,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import Db from "./db";
-import ScheduleController from "./controllers/schedule.controller";
+import ScheduleService from "./services/schedule.service";
 import speedtestRouter from "./routes/speedtest.router";
-import SpeedtestController from "./controllers/speedtest.controller";
+import SpeedtestService from "./services/speedtest.service";
 
 (async () => {
     const { API_PORT, CORS } = process.env;
@@ -26,8 +26,8 @@ import SpeedtestController from "./controllers/speedtest.controller";
     app.use(bodyParser.json());
     app.use("/speedtest", speedtestRouter);
 
-    ScheduleController.create("12h", () => {
-        SpeedtestController.run();
+    ScheduleService.create("12h", () => {
+        SpeedtestService.run();
     }).catch((e) => {
         console.error(red(e));
     });

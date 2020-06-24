@@ -1,6 +1,6 @@
 import cron from "node-cron";
 
-const ScheduleController = (() => {
+const ScheduleService = (() => {
     let _task: cron.ScheduledTask;
     let _interval: string;
 
@@ -42,4 +42,4 @@ const ScheduleController = (() => {
     };
 })();
 
-export default ScheduleController;
+export default ScheduleService;

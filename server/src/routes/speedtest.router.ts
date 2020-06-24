@@ -1,14 +1,14 @@
 import { Router, Response, Request } from "express";
 
-import SpeedtestController from "../controllers/speedtest.controller";
-import ScheduleController from "../controllers/schedule.controller";
+import SpeedtestService from "../services/speedtest.service";
+import ScheduleService from "../services/schedule.service";
 
 const router = Router();
 
 router.get(
     "/",
     async (req, res): Promise<Response> => {
-        const data = await SpeedtestController.list();
+        const data = await SpeedtestService.list();
         return res.json(data);
     }
 );
@@ -16,9 +16,9 @@ router.get(
 router.post(
     "/",
     async (req, res): Promise<Response> => {
-        const data = await SpeedtestController.run();
+        const data = await SpeedtestService.run();
         if (data) {
-            await SpeedtestController.save(data);
+            await SpeedtestService.save(data);
         }
         return res.json(data);
     }
@@ -37,8 +37,8 @@ router.post(
         }
 
         try {
-            await ScheduleController.create(schedule, () => {
-                SpeedtestController.run();
+            await ScheduleService.create(schedule, () => {
+                SpeedtestService.run();
             });
             return res.sendStatus(200);
         } catch (e) {
@@ -50,7 +50,7 @@ router.post(
 router.get(
     "/schedule",
     (req, res): Response => {
-        const cron = ScheduleController.getCronExpression();
+        const cron = ScheduleService.getCronExpression();
         return res.json(cron);
     }
 );
