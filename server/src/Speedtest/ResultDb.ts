@@ -1,8 +1,8 @@
 import { Schema, Document, Model, model } from "mongoose";
 
-import { Speedtest } from "./../models/Speedtest";
+import { ResultDTO } from "./ResultDTO";
 
-const SpeedtestSchema = new Schema({
+const ResultSchema = new Schema({
     timestamp: String,
     ping: {
         jitter: Number,
@@ -41,25 +41,25 @@ const SpeedtestSchema = new Schema({
     },
 });
 
-interface ISpeedtestSchema extends Document, Speedtest {}
+interface ResultDocument extends Document, ResultDTO {}
 
-export const SpeedtestModel = model<ISpeedtestSchema, Model<ISpeedtestSchema>>(
-    "Speedtest",
-    SpeedtestSchema
+export const ResultModel = model<ResultDocument, Model<ResultDocument>>(
+    "SpeedtestResult",
+    ResultSchema
 );
 
-const SpeedtestDb = (() => {
-    const save = async (speedtest: Speedtest): Promise<Speedtest> => {
-        await SpeedtestModel.create(speedtest);
+export const ResultDb = (() => {
+    const save = async (speedtest: ResultDTO): Promise<ResultDTO> => {
+        await ResultModel.create(speedtest);
         return speedtest;
     };
 
     const remove = async (id: string): Promise<void> => {
-        await SpeedtestModel.deleteOne({ _id: id });
+        await ResultModel.deleteOne({ _id: id });
     };
 
-    const list = async (): Promise<Speedtest[]> => {
-        const speedtests = await SpeedtestModel.find({});
+    const list = async (): Promise<ResultDTO[]> => {
+        const speedtests = await ResultModel.find({});
         return speedtests || [];
     };
 
@@ -69,5 +69,3 @@ const SpeedtestDb = (() => {
         list,
     };
 })();
-
-export default SpeedtestDb;

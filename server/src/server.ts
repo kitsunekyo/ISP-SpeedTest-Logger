@@ -7,10 +7,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import Db from "./db";
-import ScheduleService from "./services/schedule.service";
-import speedtestRouter from "./routes/speedtest.router";
-import SpeedtestService from "./services/speedtest.service";
-import { ScheduleInterval } from "./models/ScheduleInterval";
+import { speedtest, router as speedtestRouter } from "./Speedtest";
+import { schedule, Interval } from "./Schedule";
 
 (async () => {
     const { API_PORT, CORS } = process.env;
@@ -27,10 +25,10 @@ import { ScheduleInterval } from "./models/ScheduleInterval";
     app.use(bodyParser.json({ strict: false }));
     app.use("/speedtest", speedtestRouter);
 
-    ScheduleService.update(ScheduleInterval["12h"], () => {
-        SpeedtestService.run();
-    }).catch((e) => {
-        console.error(red(e));
+    schedule.set(Interval.Every12h, () => {
+        speedtest.run();
+    }).catch((error: any) => {
+        console.error(red(error));
     });
 
     await Db.connect();

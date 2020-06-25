@@ -1,4 +1,4 @@
-export interface Speedtest {
+export interface ResultDTO {
     timestamp: string;
     ping: {
         jitter: number;

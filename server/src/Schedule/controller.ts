@@ -1,11 +1,12 @@
 import cron from "node-cron";
-import { ScheduleInterval } from "./../models/ScheduleInterval";
 
-const ScheduleService = (() => {
+import { Interval } from "./Interval";
+
+export const schedule = (() => {
     let _task: cron.ScheduledTask;
-    let _interval: ScheduleInterval;
+    let _interval: Interval;
 
-    const getInterval = (): ScheduleInterval => _interval;
+    const getInterval = (): Interval => _interval;
 
     const getCronExpression = (
         minutes: number | string = "*",
@@ -21,20 +22,20 @@ const ScheduleService = (() => {
         if (_task) _task.destroy();
     };
 
-    const update = (
-        interval: ScheduleInterval,
+    const set = (
+        interval: Interval,
         fn: () => void
     ): Promise<cron.ScheduledTask> => {
         return new Promise((resolve, reject) => {
             destroy();
 
-            if (interval === ScheduleInterval.Off) {
+            if (interval === Interval.Off) {
                 resolve();
             }
 
             const cronExpression = getCronExpression(
                 0,
-                `*/${ScheduleInterval[interval].slice(0, -1)}`
+                `*/${Interval[interval].slice(0, -1)}`
             );
 
             if (!cron.validate(cronExpression)) {
@@ -49,10 +50,8 @@ const ScheduleService = (() => {
     };
 
     return {
-        update,
+        set,
         destroy,
         getInterval,
     };
 })();
-
-export default ScheduleService;
