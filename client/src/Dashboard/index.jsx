@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useContext } from 'react';
 import _ from 'lodash';
 import { Play as PlayIcon } from 'react-feather';
 
+import ToasterContext from './../App/Toaster/Context';
 import useApi from 'shared/hooks/api';
 import { mbyte, avg, round } from 'shared/utils/math';
 import Card from 'shared/components/Card';
@@ -18,6 +19,8 @@ const roundedMbit = _.flow([mbyte, round]);
 const readableAvgMbit = _.flow([avg, roundedMbit]);
 
 const Dashboard = () => {
+	const toaster = useContext(ToasterContext);
+
 	const [testResultState, getTestResults, setLocalTestResults] = useApi('/speedtest');
 	const [speedtestState, runSpeedtest] = useApi('/speedtest', 'post');
 
@@ -28,10 +31,15 @@ const Dashboard = () => {
 		return testResultState?.data?.length ? testResultState.data : [];
 	}, [testResultState]);
 
-	const handleRunSpeedtest = () =>
-		runSpeedtest().then(res => setLocalTestResults([...testResultState.data, res.data.data]));
+	const handleRunSpeedtest = async () => {
+		toaster.sendToast('Started Speedtest', 'This might take a few minutes');
+		const res = await runSpeedtest();
+		setLocalTestResults([...testResultState.data, res.data.data]);
+		toaster.sendToast('Speedtest complete', 'Speedtest was saved');
+	};
 
 	const handleSetSchedule = value => {
+		toaster.sendToast('Schedule updated', `Speedtest schedule set to ${value}`);
 		return setSchedule(value).then(() => setLocalSchedule(parseInt(value)));
 	};
 

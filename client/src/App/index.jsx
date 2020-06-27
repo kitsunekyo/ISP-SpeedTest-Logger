@@ -6,13 +6,16 @@ import Routes from './Routes';
 import './styles/font.css';
 import NormalizeStyles from './styles/NormalizeStyles';
 import BaseStyles from './styles/BaseStyles';
+import Toaster from './Toaster';
 
 const App = () => {
 	return (
 		<>
 			<NormalizeStyles />
 			<BaseStyles />
-			<Routes />
+			<Toaster>
+				<Routes />
+			</Toaster>
 		</>
 	);
 };
