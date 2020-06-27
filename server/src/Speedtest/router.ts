@@ -2,25 +2,28 @@ import { Router, Response, Request } from "express";
 
 import { speedtest } from "./controller";
 import { schedule } from "../Schedule";
+import { SuccessResponse, ErrorResponse } from "../models/Response";
 
 const router = Router();
 
 router.get(
     "/",
-        const data = await speedtest.list();
-        return res.json(data);
     async (req: Request, res: Response): Promise<Response> => {
+        const data = await speedtest.list(req.query);
+        return res.json(new SuccessResponse(data));
     }
 );
 
 router.post(
     "/",
-        const data = await speedtest.run();
-        if (data) {
     async (req: Request, res: Response): Promise<Response> => {
+        try {
+            const data = await speedtest.run();
             await speedtest.save(data);
+            return res.json(new SuccessResponse(data));
+        } catch (e) {
+            return res.sendStatus(500).json(new ErrorResponse(e.message));
         }
-        return res.json(data);
     }
 );
 
@@ -38,7 +41,7 @@ router.post(
             });
             return res.sendStatus(200);
         } catch (e) {
-            return res.json({ error: e });
+            return res.sendStatus(500).json(new ErrorResponse(e.message));
         }
     }
 );
@@ -47,7 +50,7 @@ router.get(
     "/schedule",
     (req: Request, res: Response): Response => {
         const cron = schedule.getInterval();
-        return res.json(cron);
+        return res.json(new SuccessResponse(cron));
     }
 );
 
