@@ -33,10 +33,21 @@ export const schedule = (() => {
                 resolve();
             }
 
-            const cronExpression = getCronExpression(
-                0,
-                `*/${Interval[interval].slice(0, -1)}`
-            );
+            let hourCronString;
+            switch (interval) {
+                case Interval.Every6h:
+                    hourCronString = "*/6";
+                    break;
+                case Interval.Every12h:
+                    hourCronString = "*/12";
+                    break;
+                case Interval.Every24h:
+                default:
+                    hourCronString = "*/24";
+                    break;
+            }
+
+            const cronExpression = getCronExpression(0, hourCronString);
 
             if (!cron.validate(cronExpression)) {
                 reject(`invalid cron expression ${cronExpression}`);
