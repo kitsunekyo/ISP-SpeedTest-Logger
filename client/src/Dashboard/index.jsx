@@ -29,7 +29,7 @@ const Dashboard = () => {
 	}, [testResultState]);
 
 	const handleRunSpeedtest = () =>
-		runSpeedtest().then(res => setLocalTestResults([...testResultState.data, res.data]));
+		runSpeedtest().then(res => setLocalTestResults([...testResultState.data, res.data.data]));
 
 	const handleSetSchedule = value => {
 		return setSchedule(value).then(() => setLocalSchedule(parseInt(value)));

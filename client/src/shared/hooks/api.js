@@ -14,7 +14,10 @@ const useApi = (path, method = 'get') => {
 			setState({ ...state, isLoading: true });
 			api[method](path, payload).then(
 				res => {
-					setState({ ...state, data: res.data, isLoading: false });
+					if (res.data.error) {
+						reject(res.data.message);
+					}
+					setState({ ...state, data: res.data?.data, isLoading: false });
 					resolve(res);
 				},
 				error => {
