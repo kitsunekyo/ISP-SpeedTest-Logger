@@ -21,7 +21,7 @@ import { schedule, Interval } from "./Schedule";
             })
         );
     }
-    app.use(morgan("combined"));
+    app.use(morgan("short"));
     app.use(bodyParser.json({ strict: false }));
     app.use("/speedtest", speedtestRouter);
 
