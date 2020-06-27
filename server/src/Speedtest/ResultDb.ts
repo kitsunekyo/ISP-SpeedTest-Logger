@@ -1,4 +1,4 @@
-import { Schema, Document, Model, model } from "mongoose";
+import { Schema, Document, Model, model, MongooseFilterQuery } from "mongoose";
 
 import { ResultDTO } from "./ResultDTO";
 
@@ -41,7 +41,7 @@ const ResultSchema = new Schema({
     },
 });
 
-interface ResultDocument extends Document, ResultDTO {}
+export interface ResultDocument extends Document, ResultDTO {}
 
 export const ResultModel = model<ResultDocument, Model<ResultDocument>>(
     "SpeedtestResult",
@@ -58,9 +58,12 @@ export const ResultDb = (() => {
         await ResultModel.deleteOne({ _id: id });
     };
 
-    const list = async (): Promise<ResultDTO[]> => {
-        const speedtests = await ResultModel.find({});
-        return speedtests || [];
+    const list = async (
+        filter: MongooseFilterQuery<
+            Pick<ResultDocument, "_id" | "timestamp" | "isp">
+        >
+    ): Promise<ResultDTO[]> => {
+        return await ResultModel.find(filter);
     };
 
     return {
