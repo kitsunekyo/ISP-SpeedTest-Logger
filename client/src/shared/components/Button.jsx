@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { darken } from 'polished';
 import { Loader } from 'react-feather';
 
@@ -42,6 +42,19 @@ const Text = styled.div`
 	padding-left: ${props => (props.withPadding ? 5 : 0)}px;
 `;
 
+const rotate = keyframes`
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+`;
+
+const StyledLoader = styled(Loader)`
+	animation: ${rotate} 2s linear infinite;
+`;
+
 const Button = ({ onClick, icon, disabled, isWorking, children, ...otherProps }) => {
 	const handleClick = () => {
 		if (!disabled && !isWorking) {
@@ -51,7 +64,7 @@ const Button = ({ onClick, icon, disabled, isWorking, children, ...otherProps })
 
 	return (
 		<StyledButton onClick={handleClick} disabled={disabled || isWorking} {...otherProps}>
-			{isWorking && <Loader size={14} />}
+			{isWorking && <StyledLoader size={14} />}
 			{!isWorking && icon}
 			{children && <Text withPadding={isWorking || icon}>{children}</Text>}
 		</StyledButton>
