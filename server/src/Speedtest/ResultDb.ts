@@ -3,7 +3,7 @@ import { Schema, Document, Model, model } from "mongoose";
 import { ResultDTO } from "./ResultDTO";
 
 const ResultSchema = new Schema({
-    timestamp: String,
+    timestamp: Date,
     ping: {
         jitter: Number,
         latency: Number,

@@ -1,5 +1,5 @@
 export interface ResultDTO {
-    timestamp: string;
+    timestamp: Date;
     ping: {
         jitter: number;
         latency: number;
