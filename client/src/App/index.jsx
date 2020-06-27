@@ -6,7 +6,7 @@ import Routes from './Routes';
 import './styles/font.css';
 import NormalizeStyles from './styles/NormalizeStyles';
 import BaseStyles from './styles/BaseStyles';
-import Toaster from './Toaster';
+import Toaster from 'shared/components/Toaster';
 
 const App = () => {
 	return (

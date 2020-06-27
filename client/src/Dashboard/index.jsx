@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useContext } from 'react';
 import _ from 'lodash';
 import { Play as PlayIcon } from 'react-feather';
 
-import ToasterContext from './../App/Toaster/Context';
+import ToasterContext from 'shared/components/Toaster/Context';
 import useApi from 'shared/hooks/api';
 import { mbyte, avg, round } from 'shared/utils/math';
 import Card from 'shared/components/Card';
@@ -35,11 +35,11 @@ const Dashboard = () => {
 		toaster.sendToast('Started Speedtest', 'This might take a few minutes');
 		const res = await runSpeedtest();
 		setLocalTestResults([...testResultState.data, res.data.data]);
-		toaster.sendToast('Speedtest complete', 'Speedtest was saved');
+		toaster.sendToast('Speedtest complete');
 	};
 
 	const handleSetSchedule = value => {
-		toaster.sendToast('Schedule updated', `Speedtest schedule set to ${value}`);
+		toaster.sendToast('Auto Speedtest updated');
 		return setSchedule(value).then(() => setLocalSchedule(parseInt(value)));
 	};
 

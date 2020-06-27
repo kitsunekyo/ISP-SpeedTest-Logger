@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { X as CloseIcon } from 'react-feather';
 
-import ToasterContext from './Context';
-
 import Button from 'shared/components/Button';
 import { color, size } from 'shared/utils/style';
+import { TOAST_DURATION } from './config';
+import ToasterContext from './Context';
 
 const growAnimation = keyframes`
     from {
@@ -50,15 +50,28 @@ const Toast = styled.article`
 	}
 `;
 
-const ToastHeader = styled.div`
-	display: flex;
-	align-items: center;
-	padding: 0.5rem;
+const Title = styled.h3`
+	font-size: 0.95rem;
+	line-height: 1;
+	margin: 0;
+	:not(:last-child) {
+		margin: 0 0 0.5em;
+	}
 `;
 
-const ToastBody = styled.div`
-	padding: 0 0.5rem 0.5rem;
+const Body = styled.div`
+	display: flex;
+	align-items: stretch;
+	position: relative;
+`;
+
+const Content = styled.div`
 	font-size: 0.95rem;
+	padding: 1rem;
+
+	p {
+		margin: 0;
+	}
 `;
 
 const ProgressBarWrapper = styled.div`
@@ -71,22 +84,16 @@ const ProgressBar = styled.div`
 	height: 100%;
 	background: ${color.primary};
 	animation-name: ${growAnimation};
-	animation-duration: 3s;
+	animation-duration: ${TOAST_DURATION}ms;
 	animation-fill-mode: both;
 	animation-timing-function: linear;
 `;
 
 const CloseButton = styled(Button)`
-	font-size: 0.5rem;
 	line-height: 1;
-	height: 20px;
+	height: auto;
+	border-radius: 0;
 	margin-left: auto;
-`;
-
-const Title = styled.h3`
-	font-size: 0.95rem;
-	line-height: 1;
-	margin: 0;
 `;
 
 const Toaster = () => {
@@ -100,13 +107,15 @@ const Toaster = () => {
 						<ProgressBarWrapper>
 							<ProgressBar />
 						</ProgressBarWrapper>
-						<ToastHeader>
-							<Title>{toast.title}</Title>
+						<Body>
+							<Content>
+								{toast.title && <Title>{toast.title}</Title>}
+								{toast.message && <p>{toast.message}</p>}
+							</Content>
 							<CloseButton onClick={() => removeToast(toast.id)}>
-								<CloseIcon size={10} />
+								<CloseIcon size={14} />
 							</CloseButton>
-						</ToastHeader>
-						<ToastBody>{toast.message}</ToastBody>
+						</Body>
 					</Toast>
 				))}
 			</Toasts>

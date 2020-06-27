@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { nanoid } from 'nanoid';
 
+import { TOAST_DURATION } from './config';
 import Toaster from './Toaster';
 import ToasterContext from './Context';
 
@@ -15,7 +16,7 @@ const ToasterProvider = ({ children }) => {
 			// autoremove
 			setTimeout(() => {
 				removeToast(id);
-			}, 3000);
+			}, TOAST_DURATION);
 		},
 		[setToasts]
 	);
