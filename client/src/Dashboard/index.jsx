@@ -32,15 +32,24 @@ const Dashboard = () => {
 	}, [testResultState]);
 
 	const handleRunSpeedtest = async () => {
-		toaster.sendToast('Started Speedtest', 'This might take a few minutes');
-		const res = await runSpeedtest();
-		setLocalTestResults([...testResultState.data, res.data.data]);
-		toaster.sendToast('Speedtest complete');
+		try {
+			toaster.sendToast('Started Speedtest', 'This might take a few minutes');
+			const res = await runSpeedtest();
+			setLocalTestResults([...testResultState.data, res.data.data]);
+			toaster.sendToast('Speedtest complete');
+		} catch (e) {
+			console.error('error running speedtest', e);
+		}
 	};
 
-	const handleSetSchedule = value => {
-		toaster.sendToast('Auto Speedtest updated');
-		return setSchedule(value).then(() => setLocalSchedule(parseInt(value)));
+	const handleSetSchedule = async value => {
+		try {
+			await setSchedule(value);
+			setLocalSchedule(parseInt(value));
+			toaster.sendToast('Auto Speedtest updated');
+		} catch (e) {
+			console.error('error trying to update speedtest schedule', e);
+		}
 	};
 
 	useEffect(() => {
