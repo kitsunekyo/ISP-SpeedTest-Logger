@@ -4,11 +4,17 @@ import { endOfDay, startOfDay } from "date-fns";
 
 import { ResultDTO } from "./ResultDTO";
 import { ResultDb, ResultDocument } from "./ResultDb";
+import { broadcast } from "./../Events";
+
+const handleProgressEvent = (event: any) => {
+    broadcast(event);
+};
 
 export const speedtest = (() => {
     const OPTIONS = {
         acceptLicense: true,
         acceptGdpr: true,
+        progress: handleProgressEvent,
     };
 
     const getFilterFromQuery = (

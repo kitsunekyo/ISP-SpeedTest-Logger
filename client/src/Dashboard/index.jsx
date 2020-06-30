@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useContext } from 'react';
 import _ from 'lodash';
 import { Play as PlayIcon } from 'react-feather';
 
+import Speedtest from './Speedtest';
 import ToasterContext from 'shared/components/Toaster/Context';
 import useApi from 'shared/hooks/api';
 import { mbyte, avg, round } from 'shared/utils/math';
@@ -61,6 +62,7 @@ const Dashboard = () => {
 		<DashboardPage>
 			<Sidebar />
 			<Content>
+				<Speedtest />
 				<PageTitle>Network Quality Dashboard</PageTitle>
 				<div>
 					<ScheduleSelector

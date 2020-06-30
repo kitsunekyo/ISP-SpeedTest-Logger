@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import { bgGreen, red } from "chalk";
@@ -8,6 +9,7 @@ dotenv.config();
 
 import Db from "./db";
 import { speedtest, router as speedtestRouter } from "./Speedtest";
+import { default as eventsRouter } from "./Events";
 import { schedule, Interval } from "./Schedule";
 
 (async () => {
@@ -22,14 +24,18 @@ import { schedule, Interval } from "./Schedule";
         );
     }
     app.use(morgan("short"));
+    app.use(helmet());
     app.use(bodyParser.json({ strict: false }));
     app.use("/speedtest", speedtestRouter);
+    app.use("/events", eventsRouter)
 
-    schedule.set(Interval.Every12h, () => {
-        speedtest.run();
-    }).catch((error: any) => {
-        console.error(red(error));
-    });
+    schedule
+        .set(Interval.Every12h, () => {
+            speedtest.run();
+        })
+        .catch((error: any) => {
+            console.error(red(error));
+        });
 
     await Db.connect();
 

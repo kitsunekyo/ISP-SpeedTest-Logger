@@ -4,15 +4,14 @@ import { darken } from 'polished';
 import { color, size } from 'shared/utils/style';
 
 export const Selector = styled.div`
-	display: flex;
-	align-items: center;
+	/* display: flex;
+	align-items: center; */
 `;
 
 export const Title = styled.h2`
-	margin: 0;
-	display: inline-block;
+	/* margin: 0; */
 	font-size: 1rem;
-	margin-right: 0.5rem;
+	/* margin-right: 0.5rem; */
 `;
 
 export const Option = styled.div`
