@@ -34,11 +34,6 @@ router.get("/", async (req: Request, res: Response) => {
     });
 });
 
-router.post("/", async (req: Request, res: Response) => {
-    broadcast({ mydata: "test" });
-    res.sendStatus(200);
-});
-
 export const broadcast = (data: any) => {
     const stringifiedData = JSON.stringify(data);
     clients.forEach((client) => {
