@@ -8,7 +8,7 @@ import { round, mbyte } from 'shared/utils/math';
 import useApi from 'shared/hooks/api';
 import Button from 'shared/components/Button';
 
-const roundedMbit = _.flow([mbyte, round]);
+const roundedMbit = _.flow([mbyte, round, v => v * 8]);
 
 const ProgressBarWrapper = styled.div`
 	height: 5px;
@@ -39,11 +39,11 @@ const Speedtest = () => {
 					setProgress(eventData.progress);
 					break;
 				case 'download':
-					setDownload(eventData.download.bytes);
+					setDownload(eventData.download.bandwidth);
 					setProgress(eventData.progress);
 					break;
 				case 'upload':
-					setUpload(eventData.upload.bytes);
+					setUpload(eventData.upload.bandwidth);
 					setProgress(eventData.progress);
 					break;
 				default:

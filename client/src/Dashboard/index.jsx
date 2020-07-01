@@ -16,7 +16,7 @@ import ScheduleSelector from './ScheduleSelector';
 import { Content, DashboardPage, SectionTitle, PageTitle } from './style';
 
 const readableAvg = _.flow([avg, round]);
-const roundedMbit = _.flow([mbyte, round]);
+const roundedMbit = _.flow([v => v * 8, mbyte, round]);
 const readableAvgMbit = _.flow([avg, roundedMbit]);
 
 const Dashboard = () => {
@@ -86,7 +86,7 @@ const Dashboard = () => {
 								title="Download"
 								icon={null}
 								unit={'mbit'}
-								value={readableAvgMbit(testResults.map(obj => obj.download.bytes))}
+								value={readableAvgMbit(testResults.map(obj => obj.download.bandwidth))}
 							/>
 						</Card>
 					</Col>
@@ -96,7 +96,7 @@ const Dashboard = () => {
 								title="Upload"
 								icon={null}
 								unit={'mbit'}
-								value={readableAvgMbit(testResults.map(obj => obj.upload.bytes))}
+								value={readableAvgMbit(testResults.map(obj => obj.upload.bandwidth))}
 							/>
 						</Card>
 					</Col>
@@ -133,13 +133,13 @@ const Dashboard = () => {
 									{
 										name: 'download (mbps)',
 										data: testResults.map(result => {
-											return [Date.parse(result.timestamp), roundedMbit(result.download.bytes)];
+											return [Date.parse(result.timestamp), roundedMbit(result.download.bandwidth)];
 										}),
 									},
 									{
 										name: 'upload (mbps)',
 										data: testResults.map(result => {
-											return [Date.parse(result.timestamp), roundedMbit(result.upload.bytes)];
+											return [Date.parse(result.timestamp), roundedMbit(result.upload.bandwidth)];
 										}),
 									},
 								]}
