@@ -12,6 +12,7 @@ const Icon = styled.div`
 const Value = styled.div`
 	font-size: 1.6rem;
 	font-weight: bold;
+	white-space: nowrap;
 `;
 
 const Unit = styled.span`
