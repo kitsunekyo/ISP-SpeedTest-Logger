@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export const round = (num, precision = 10) =>
-	Math.round((num + Number.EPSILON) * (10 * precision)) / (10 * precision);
+	(Math.round((num + Number.EPSILON) * (10 * precision)) / (10 * precision)).toFixed(2);
 
 /**
  * converts byte to mbyte

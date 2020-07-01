@@ -3,17 +3,7 @@ import { darken } from 'polished';
 
 import { color, size } from 'shared/utils/style';
 
-export const Selector = styled.div`
-	display: flex;
-	align-items: center;
-`;
-
-export const Title = styled.h2`
-	margin: 0;
-	display: inline-block;
-	font-size: 1rem;
-	margin-right: 0.5rem;
-`;
+export const Selector = styled.div``;
 
 export const Option = styled.div`
 	display: inline-flex;

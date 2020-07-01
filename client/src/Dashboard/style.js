@@ -38,11 +38,12 @@ export const SectionTitle = styled.h2`
 `;
 
 export const Content = styled.div`
-	padding: 50px;
+	padding: 2rem;
 	min-height: 100vh;
 	background-color: #fafafa;
 	margin: 0 0 80px 0;
 	@media (min-width: 900px) {
+		padding: 50px;
 		margin: 0 0 0 100px;
 	}
 `;

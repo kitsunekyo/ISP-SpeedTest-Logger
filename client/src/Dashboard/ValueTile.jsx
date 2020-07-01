@@ -12,6 +12,7 @@ const Icon = styled.div`
 const Value = styled.div`
 	font-size: 1.6rem;
 	font-weight: bold;
+	white-space: nowrap;
 `;
 
 const Unit = styled.span`
@@ -19,9 +20,9 @@ const Unit = styled.span`
 	color: ${color.textSecondary};
 `;
 
-const ValueTile = ({ title, icon, value, unit }) => {
+const ValueTile = ({ title, icon, value, unit, ...otherProps }) => {
 	return (
-		<StyledValueTile>
+		<StyledValueTile {...otherProps}>
 			<Title>
 				{title} <Icon>{icon}</Icon>
 			</Title>

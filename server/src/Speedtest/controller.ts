@@ -1,53 +1,79 @@
-import { MongooseFilterQuery } from "mongoose";
-import speedtestNet from "speedtest-net";
-import { endOfDay, startOfDay } from "date-fns";
+import express from "express";
+import * as yup from "yup";
 
-import { ResultDTO } from "./ResultDTO";
-import { ResultDb, ResultDocument } from "./ResultDb";
+import service from "./service";
+import scheduleService from "./../Schedule/service";
+import { SuccessResponse } from "./../models/Response";
 
-export const speedtest = (() => {
-    const OPTIONS = {
-        acceptLicense: true,
-        acceptGdpr: true,
-    };
+/**
+ * returns a list of all speedtest results
+ */
+const list = async (
+    req: express.Request,
+    res: express.Response,
+    next: any
+): Promise<express.Response> => {
+    const results = await service.list();
+    return res.json(new SuccessResponse(results));
+};
 
-    const getFilterFromQuery = (
-        query: any
-    ): MongooseFilterQuery<Pick<ResultDocument, "timestamp">> => {
-        const { startDate, endDate } = query;
-
-        // dont like the fact that i know about mongoose here, should be abstracted
-        const filter: MongooseFilterQuery<Pick<
-            ResultDocument,
-            "timestamp"
-        >> = {};
-
-        if (startDate || endDate) {
-            filter.timestamp = {};
-            startDate &&
-                (filter.timestamp.$gte = startOfDay(new Date(startDate)));
-            endDate && (filter.timestamp.$lte = endOfDay(new Date(endDate)));
+/**
+ * runs speedtest and saves to db
+ */
+const run = async (
+    req: express.Request,
+    res: express.Response,
+    next: any
+): Promise<express.Response> => {
+    try {
+        const result = await service.run();
+        if (result) {
+            await service.save(result);
+            return res.json(new SuccessResponse(result));
+        } else {
+            throw new Error('Error running speedtest');
         }
+    } catch (error) {
+        return next(error);
+    }
+};
 
-        return filter;
-    };
+/**
+ * returns the currently configured automatic test interval
+ */
+const getSchedule = (
+    req: express.Request,
+    res: express.Response
+): express.Response => {
+    const interval = scheduleService.getInterval();
+    return res.json(new SuccessResponse(interval));
+};
 
-    const run = (): Promise<ResultDTO> => {
-        return speedtestNet(OPTIONS);
-    };
+/**
+ * set automatic test interval to run speedtest
+ */
+const setSchedule = async (
+    req: express.Request,
+    res: express.Response,
+    next: any
+): Promise<express.Response> => {
+    try {
+        const schema = yup.number().required();
+        await schema.validate(req.body);
+    } catch (e) {
+        next(e);
+    }
 
-    const save = async (speedtest: ResultDTO): Promise<ResultDTO> => {
-        return await ResultDb.save(speedtest);
-    };
+    const result = await scheduleService.set(req.body, async () => {
+        const res = await service.run();
+        await service.save(res);
+    });
+    return res.json(new SuccessResponse(result));
+};
 
-    const list = async (query: any): Promise<ResultDTO[]> => {
-        const filter = getFilterFromQuery(query);
-        return await ResultDb.list(filter);
-    };
-
-    return {
-        run,
-        save,
-        list,
-    };
-})();
+export default {
+    list,
+    run,
+    getSchedule,
+    setSchedule,
+};

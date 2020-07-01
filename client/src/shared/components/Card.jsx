@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { mixin } from 'shared/utils/style';
+import { mixin, size } from 'shared/utils/style';
 
-const Card = styled.div`
+const StyledCard = styled.div`
 	padding: 2rem 3rem;
 	background: white;
-	border-radius: 10px;
+	border-radius: ${size.radius};
 	${mixin.shadow}
 `;
 
@@ -18,11 +18,13 @@ const Title = styled.h3`
 
 const Body = styled.div``;
 
-export default ({ title, children }) => {
+const Card = ({ title, children, ...otherProps }) => {
 	return (
-		<Card>
+		<StyledCard {...otherProps}>
 			{title && <Title>{title}</Title>}
 			<Body>{children}</Body>
-		</Card>
+		</StyledCard>
 	);
 };
+
+export default Card;

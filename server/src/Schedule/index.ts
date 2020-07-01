@@ -1,2 +1,2 @@
-export { schedule } from "./controller";
-export { Interval } from './Interval';
+export { default as scheduleService } from "./service";
+export { Interval } from "./Interval";

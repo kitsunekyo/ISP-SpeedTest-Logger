@@ -1,14 +1,32 @@
 import express from "express";
 import bodyParser from "body-parser";
+import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
-import { bgGreen, red } from "chalk";
+import { bgGreen } from "chalk";
 import dotenv from "dotenv";
 dotenv.config();
 
-import Db from "./db";
-import { speedtest, router as speedtestRouter } from "./Speedtest";
-import { schedule, Interval } from "./Schedule";
+import { speedtestService, router as speedtestRouter } from "./Speedtest";
+import { router as eventsRouter } from "./Event";
+import { scheduleService, Interval } from "./Schedule";
+
+const errorMiddleware = (
+    error: any,
+    req: express.Request,
+    res: express.Response,
+    next: any
+) => {
+    if (error.status) {
+        res.status(error.status);
+    } else {
+        res.status(500);
+    }
+    res.json({
+        message: error.message,
+        stack: process.env.NODE_ENV === "production" ? "📦" : error.stack,
+    });
+};
 
 (async () => {
     const { API_PORT, CORS } = process.env;
@@ -22,16 +40,18 @@ import { schedule, Interval } from "./Schedule";
         );
     }
     app.use(morgan("short"));
+    app.use(helmet());
     app.use(bodyParser.json({ strict: false }));
+    
     app.use("/speedtest", speedtestRouter);
+    app.use("/events", eventsRouter);
+    
+    app.use(errorMiddleware);
 
-    schedule.set(Interval.Every12h, () => {
-        speedtest.run();
-    }).catch((error: any) => {
-        console.error(red(error));
+    scheduleService.set(Interval.Every12h, async () => {
+        const result = await speedtestService.run();
+        await speedtestService.save(result);
     });
-
-    await Db.connect();
 
     app.listen(API_PORT, () => {
         console.log(
