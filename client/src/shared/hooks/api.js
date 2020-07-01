@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import api from 'shared/utils/api';
 
@@ -9,28 +9,25 @@ const useApi = (path, method = 'get') => {
 		isLoading: false,
 	});
 
-	const sendRequest = payload => {
-		return new Promise((resolve, reject) => {
-			setState({ ...state, isLoading: true });
-			api[method](path, payload).then(
-				res => {
-					if (res.data.error) {
-						reject(res.data.message);
-					}
-					setState({ ...state, data: res.data?.data, isLoading: false });
-					resolve(res);
-				},
-				error => {
-					setState({ ...state, error: true, isLoading: false });
-					reject(error);
-				}
-			);
-		});
-	};
+	const sendRequest = useCallback(async payload => {
+		setState({ ...state, isLoading: true });
+		try {
+			const res = await api[method](path, payload);
+			if (res.data.error) {
+				throw new Error(res.data.message);
+			}
+			setState({ ...state, data: res.data?.data, isLoading: false });
+			return res;
+		} catch (error) {
+			setState({ ...state, error: true, isLoading: false });
+			console.log(error, 'error');
+			throw new Error(error);
+		}
+	});
 
-	const setLocalData = data => {
+	const setLocalData = useCallback(data => {
 		setState({ ...state, data });
-	};
+	});
 
 	return [state, sendRequest, setLocalData];
 };
