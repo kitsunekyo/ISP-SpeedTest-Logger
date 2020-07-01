@@ -1,74 +1,22 @@
-import { Schema, Document, Model, model, MongooseFilterQuery } from "mongoose";
+import monk from "monk";
+import dotenv from "dotenv";
+import { Result } from "./Result";
+dotenv.config();
 
-import { ResultDTO } from "./ResultDTO";
+const db = monk(process.env.MONGODB_CONNECTION_STRING || "");
 
-const ResultSchema = new Schema({
-    timestamp: Date,
-    ping: {
-        jitter: Number,
-        latency: Number,
-    },
-    download: {
-        bandwidth: Number,
-        bytes: Number,
-        elapsed: Number,
-    },
-    upload: {
-        bandwidth: Number,
-        bytes: Number,
-        elapsed: Number,
-    },
-    isp: String,
-    interface: {
-        internalIp: String,
-        name: "",
-        macAddr: String,
-        isVpn: Boolean,
-        externalIp: String,
-    },
-    server: {
-        id: Number,
-        name: String,
-        location: String,
-        country: String,
-        host: String,
-        port: Number,
-        ip: String,
-    },
-    result: {
-        id: String,
-        url: String,
-    },
-});
+const results = db.get("results");
 
-export interface ResultDocument extends Document, ResultDTO {}
+const save = async (speedtest: Result): Promise<Result> => {
+    await results.insert(speedtest);
+    return speedtest;
+};
 
-export const ResultModel = model<ResultDocument, Model<ResultDocument>>(
-    "SpeedtestResult",
-    ResultSchema
-);
+const list = async (): Promise<Result[]> => {
+    return await results.find();
+};
 
-export const ResultDb = (() => {
-    const save = async (speedtest: ResultDTO): Promise<ResultDTO> => {
-        await ResultModel.create(speedtest);
-        return speedtest;
-    };
-
-    const remove = async (id: string): Promise<void> => {
-        await ResultModel.deleteOne({ _id: id });
-    };
-
-    const list = async (
-        filter: MongooseFilterQuery<
-            Pick<ResultDocument, "_id" | "timestamp" | "isp">
-        >
-    ): Promise<ResultDTO[]> => {
-        return await ResultModel.find(filter);
-    };
-
-    return {
-        save,
-        remove,
-        list,
-    };
-})();
+export default {
+    save,
+    list,
+};

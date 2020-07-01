@@ -1,3 +1,3 @@
-export { speedtest } from "./controller";
 export { default as router } from "./router";
-export { ResultDTO } from "./ResultDTO";
+export { default as speedtestService } from "./service";
+export { Result } from "./Result";

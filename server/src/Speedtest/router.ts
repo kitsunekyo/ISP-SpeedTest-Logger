@@ -1,57 +1,12 @@
-import { Router, Response, Request } from "express";
+import { Router } from "express";
 
-import { speedtest } from "./controller";
-import { schedule } from "../Schedule";
-import { SuccessResponse, ErrorResponse } from "../models/Response";
+import controller from "./controller";
 
 const router = Router();
 
-router.get(
-    "/",
-    async (req: Request, res: Response): Promise<Response> => {
-        const data = await speedtest.list(req.query);
-        return res.json(new SuccessResponse(data));
-    }
-);
-
-router.post(
-    "/",
-    async (req: Request, res: Response): Promise<Response> => {
-        try {
-            const data = await speedtest.run();
-            await speedtest.save(data);
-            return res.json(new SuccessResponse(data));
-        } catch (e) {
-            return res.sendStatus(500).json(new ErrorResponse(e.message));
-        }
-    }
-);
-
-router.post(
-    "/schedule",
-    async (req: Request, res: Response): Promise<Response> => {
-        if (req.body === 0) {
-            schedule.destroy();
-            return res.sendStatus(200);
-        }
-
-        try {
-            await schedule.set(req.body, () => {
-                speedtest.run();
-            });
-            return res.sendStatus(200);
-        } catch (e) {
-            return res.sendStatus(500).json(new ErrorResponse(e.message));
-        }
-    }
-);
-
-router.get(
-    "/schedule",
-    (req: Request, res: Response): Response => {
-        const cron = schedule.getInterval();
-        return res.json(new SuccessResponse(cron));
-    }
-);
+router.get("/", controller.list);
+router.post("/", controller.run);
+router.post("/schedule", controller.setSchedule);
+router.get("/schedule", controller.getSchedule);
 
 export default router;

@@ -1,4 +1,4 @@
-export interface ResultDTO {
+export interface Result {
     timestamp: Date;
     ping: {
         jitter: number;
