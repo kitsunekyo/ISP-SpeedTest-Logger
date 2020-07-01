@@ -1,44 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
 import _ from 'lodash';
 import { Play as PlayIcon } from 'react-feather';
-import styled, { keyframes } from 'styled-components';
 
 import ToasterContext from 'shared/components/Toaster/Context';
 import { round, mbyte } from 'shared/utils/math';
 import useApi from 'shared/hooks/api';
 import Button from 'shared/components/Button';
 import ValueTile from './../ValueTile';
-import { size, color, mixin } from 'shared/utils/style';
+import { Status, ProgressBar, ProgressBarWrapper, Values } from './style';
 
 const roundedMbit = _.flow([mbyte, v => v * 8, round]);
-
-const Status = styled.div`
-	max-width: 600px;
-	margin: 1rem 0;
-	background: ${color.w0};
-	border-radius: ${size.radius};
-	display: ${props => (props.show ? 'block' : 'none')};
-`;
-
-const ProgressBarWrapper = styled.div`
-	background: ${color.w2};
-	width: 100%;
-`;
-
-const ProgressBar = styled.div`
-	height: 8px;
-	background: ${color.primary};
-`;
-
-const Values = styled.div`
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-	gap: 1rem;
-	padding: 1rem 2rem;
-	${mixin.shadow};
-`;
-
-const StyledValueTile = styled(ValueTile)``;
 
 const Speedtest = () => {
 	const { sendToast } = useContext(ToasterContext);
@@ -106,9 +77,9 @@ const Speedtest = () => {
 					<ProgressBar style={{ width: `${progress * 100}%` }} />
 				</ProgressBarWrapper>
 				<Values>
-					<StyledValueTile title="Ping" unit="ms" value={round(ping)} />
-					<StyledValueTile title="Download" unit="mbit" value={roundedMbit(download)} />
-					<StyledValueTile title="Upload" unit="mbit" value={roundedMbit(upload)} />
+					<ValueTile title="Ping" unit="ms" value={round(ping)} />
+					<ValueTile title="Download" unit="mbit" value={roundedMbit(download)} />
+					<ValueTile title="Upload" unit="mbit" value={roundedMbit(upload)} />
 				</Values>
 			</Status>
 		</div>
