@@ -2,33 +2,8 @@ import styled from 'styled-components';
 
 import { color } from 'shared/utils/style';
 
-export const DashboardPage = styled.div``;
-
 export const PageTitle = styled.h1`
 	margin-top: 0;
-`;
-
-export const Row = styled.div`
-	display: flex;
-	width: 100%;
-	flex-wrap: wrap;
-
-	&:not(:last-child) {
-		margin-bottom: 2rem;
-	}
-
-	> * {
-		flex-grow: 1;
-
-		&:not(:last-child) {
-			margin-bottom: 1rem;
-
-			@media (min-width: 900px) {
-				margin-bottom: auto;
-				margin-right: 1rem;
-			}
-		}
-	}
 `;
 
 export const SectionTitle = styled.h2`
@@ -37,7 +12,7 @@ export const SectionTitle = styled.h2`
 	color: ${color.textSecondary};
 `;
 
-export const Content = styled.div`
+export const StyledDashboard = styled.div`
 	padding: 2rem;
 	min-height: 100vh;
 	background-color: #fafafa;

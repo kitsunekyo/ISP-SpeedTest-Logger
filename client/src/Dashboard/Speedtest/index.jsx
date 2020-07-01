@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import _ from 'lodash';
 import { Play as PlayIcon } from 'react-feather';
 
-import ToasterContext from 'shared/components/Toaster/Context';
+import ToasterContext from './../../Toaster/Context';
 import { round, mbyte } from 'shared/utils/math';
 import useApi from 'shared/hooks/api';
 import Button from 'shared/components/Button';

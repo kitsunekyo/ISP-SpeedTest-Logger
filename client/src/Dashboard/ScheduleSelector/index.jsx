@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Selector, Option, Label } from './style';
 
 import useApi from 'shared/hooks/api';
-import ToasterContext from 'shared/components/Toaster/Context';
+import ToasterContext from './../../Toaster/Context';
 
 const options = ['off', '6h', '12h', '24h'];
 

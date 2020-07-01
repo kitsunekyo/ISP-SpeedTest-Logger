@@ -1,16 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import PageError from 'shared/components/PageError';
-import Dashboard from 'Dashboard';
+import Message from 'shared/components/Message';
+import DashboardView from 'Dashboard';
 
 const Routes = () => {
 	return (
 		<Router>
 			<Switch>
 				<Redirect exact from="/" to="/dashboard" />
-				<Route path="/dashboard" component={Dashboard} />
-				<Route component={PageError} />
+				<Route path="/dashboard" component={DashboardView} />
+				<Route>
+					<Message title="404 Page not found" />
+				</Route>
 			</Switch>
 		</Router>
 	);
