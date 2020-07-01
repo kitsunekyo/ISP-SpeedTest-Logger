@@ -27,7 +27,27 @@ import { schedule, Interval } from "./Schedule";
     app.use(helmet());
     app.use(bodyParser.json({ strict: false }));
     app.use("/speedtest", speedtestRouter);
-    app.use("/events", eventsRouter)
+    app.use("/events", eventsRouter);
+
+    app.use(
+        (
+            error: any,
+            req: express.Request,
+            res: express.Response,
+            next: any
+        ) => {
+            if (error.status) {
+                res.sendStatus(error.status);
+            } else {
+                res.sendStatus(500);
+            }
+            res.json({
+                message: error.message,
+                stack:
+                    process.env.NODE_ENV === "production" ? "📦" : error.stack,
+            });
+        }
+    );
 
     schedule
         .set(Interval.Every12h, () => {
