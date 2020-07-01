@@ -41,6 +41,6 @@ export const mixin = {
 		user-select: none;
 	`,
 	shadow: css`
-		/* box-shadow: 1px 1px 2px ${color.borderLight}; */
+		box-shadow: 1px 1px 2px ${color.borderLight};
 	`,
 };

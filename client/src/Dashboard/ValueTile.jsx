@@ -20,9 +20,9 @@ const Unit = styled.span`
 	color: ${color.textSecondary};
 `;
 
-const ValueTile = ({ title, icon, value, unit }) => {
+const ValueTile = ({ title, icon, value, unit, ...otherProps }) => {
 	return (
-		<StyledValueTile>
+		<StyledValueTile {...otherProps}>
 			<Title>
 				{title} <Icon>{icon}</Icon>
 			</Title>

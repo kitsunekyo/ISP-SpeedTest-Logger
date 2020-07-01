@@ -13,7 +13,10 @@
 	},
 	"extends": ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react"],
 	"plugins": ["react", "react-hooks"],
-	"rules": {},
+	"rules": {
+		"react/prop-types": "warn",
+		"no-unused-vars": "warn"
+	},
 	"settings": {
 		"import/resolver": {
 			"node": {
