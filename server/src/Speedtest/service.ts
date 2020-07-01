@@ -14,8 +14,16 @@ const OPTIONS = {
     progress: handleProgressEvent,
 };
 
-const run = (): Promise<Result> => {
-    return speedtestNet(OPTIONS);
+let isRunning = false;
+
+const run = async (): Promise<Result> => {
+    if (isRunning) {
+        throw new Error('Speedtest is already running');
+    }
+    isRunning = true;
+    const result = await speedtestNet(OPTIONS);
+    isRunning = false;
+    return result;
 };
 
 const save = async (speedtest: Result): Promise<Result> => {

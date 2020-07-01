@@ -18,9 +18,9 @@ const errorMiddleware = (
     next: any
 ) => {
     if (error.status) {
-        res.sendStatus(error.status);
+        res.status(error.status);
     } else {
-        res.sendStatus(500);
+        res.status(500);
     }
     res.json({
         message: error.message,
@@ -42,10 +42,10 @@ const errorMiddleware = (
     app.use(morgan("short"));
     app.use(helmet());
     app.use(bodyParser.json({ strict: false }));
-
+    
     app.use("/speedtest", speedtestRouter);
     app.use("/events", eventsRouter);
-
+    
     app.use(errorMiddleware);
 
     scheduleService.set(Interval.Every12h, async () => {

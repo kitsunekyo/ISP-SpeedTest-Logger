@@ -29,8 +29,10 @@ const run = async (
         const result = await service.run();
         if (result) {
             await service.save(result);
+            return res.json(new SuccessResponse(result));
+        } else {
+            throw new Error('Error running speedtest');
         }
-        return res.json(new SuccessResponse(result));
     } catch (error) {
         return next(error);
     }
