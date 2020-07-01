@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
     db:
         container_name: isp-db
@@ -7,12 +7,12 @@ services:
         ports:
             - "27017:27017"
         volumes:
-            - mongo-volume:/data/db
+            - /data/db
     api:
         container_name: isp-api
         build: ./server
         restart: always
-        depends_on: 
+        depends_on:
             - db
         ports:
             - "3000:3000"
@@ -20,9 +20,7 @@ services:
         container_name: isp-frontend
         build: ./client
         restart: always
-        depends_on: 
+        depends_on:
             - db
         ports:
             - "8080:80"
-volumes:
-    mongo-volume:
