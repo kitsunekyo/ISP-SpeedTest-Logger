@@ -64,11 +64,11 @@ const setSchedule = async (
         next(e);
     }
 
-    const result = await scheduleService.set(req.body, async () => {
+    await scheduleService.set(req.body, async () => {
         const res = await service.run();
         await service.save(res);
     });
-    return res.json(new SuccessResponse(result));
+    return res.sendStatus(200);
 };
 
 export default {
