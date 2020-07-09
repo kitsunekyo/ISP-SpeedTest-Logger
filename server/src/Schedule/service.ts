@@ -27,6 +27,7 @@ const set = async (
     destroy();
 
     if (interval === Interval.Off) {
+        _interval = interval;
         return _task;
     }
 
