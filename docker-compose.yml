@@ -16,6 +16,10 @@ services:
             - db
         ports:
             - "3000:3000"
+        environment: 
+            - API_PORT=3000
+            - MONGODB_CONNECTION_STRING=mongodb://localhost:27017/isp
+            - CORS=*
     frontend:
         container_name: isp-frontend
         build: ./client
