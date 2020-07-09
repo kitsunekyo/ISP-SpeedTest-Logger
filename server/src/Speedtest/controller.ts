@@ -13,8 +13,12 @@ const list = async (
     res: express.Response,
     next: any
 ): Promise<express.Response> => {
-    const results = await service.list();
-    return res.json(new SuccessResponse(results));
+    try {
+        const results = await service.list();
+        return res.json(new SuccessResponse(results));
+    } catch (error) {
+        return next(error);
+    }
 };
 
 /**
@@ -31,7 +35,7 @@ const run = async (
             await service.save(result);
             return res.json(new SuccessResponse(result));
         } else {
-            throw new Error('Error running speedtest');
+            throw new Error("Error running speedtest");
         }
     } catch (error) {
         return next(error);
