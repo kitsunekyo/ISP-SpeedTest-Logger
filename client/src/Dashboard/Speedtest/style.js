@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { size, color, mixin } from 'shared/utils/style';
 
 export const Status = styled.div`
@@ -7,6 +7,8 @@ export const Status = styled.div`
 	background: ${color.w0};
 	border-radius: ${size.radius};
 	display: ${props => (props.show ? 'block' : 'none')};
+	overflow: hidden;
+	${mixin.shadow};
 `;
 
 export const ProgressBarWrapper = styled.div`
