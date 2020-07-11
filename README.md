@@ -2,6 +2,8 @@
 If you're on a LTE, 4G, 5G, ... connection, and want to review how (💩) it holds up over time, this should do the trick for you. 
 This webapp allows you to periodically run speedtests (node.js), store the results (mongodb), and review your network quality in a web ui.
 
+> You can for example throw this container-set on a raspberry pi with docker-host, and leave it running.
+
 ## Features
 - Review Network performance over time in UI
 - Configure automated speedtests to run every 24/12/6 hours
@@ -15,8 +17,9 @@ This webapp allows you to periodically run speedtests (node.js), store the resul
 - host machine should have internet access
 
 ## Usage
-1. Create an `.env` file in `./server`, that holds your application config. (rename the example)
-2. Run `docker-compose up -d` to build and start all docker containers (db, frontend, api). It will also automatically build frontend and backend on the first startup.
+Run `docker-compose up -d` to build and start all docker containers (db, frontend, api). It will also automatically build frontend and backend on the first startup.
+
+> docker-compose.yml has defaults for environment variables. should you want to use it without docker, create an `.env` file in `./server`, that holds your application config. (rename the example)
 
 Frontend is available on `http://localhost:8080/speedtest`
 
