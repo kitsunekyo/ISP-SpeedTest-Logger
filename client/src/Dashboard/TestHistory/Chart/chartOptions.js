@@ -5,6 +5,11 @@ export const chartOptions = {
 	xaxis: {
 		type: 'datetime',
 	},
+	yaxis: {
+		labels: {
+			minWidth: '150px',
+		},
+	},
 	legend: {
 		show: true,
 	},
