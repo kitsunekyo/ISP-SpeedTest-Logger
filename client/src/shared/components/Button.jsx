@@ -19,10 +19,11 @@ const StyledButton = styled.button`
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	height: 35px;
+	height: 45px;
+	min-width: 45px;
 	vertical-align: middle;
 	line-height: 1;
-	padding: 0 12px;
+	padding: 0 1rem;
 	white-space: nowrap;
 	border-radius: ${size.radius};
 	transition: all 0.1s ease-in-out;

@@ -8,17 +8,20 @@ export const Selector = styled.div``;
 export const Option = styled.div`
 	display: inline-flex;
 	align-items: center;
-	padding: 0.25rem 0.5rem;
-	background: ${color.w2};
-	color: ${color.textPrimary};
+	height: 45px;
+	min-width: 130px;
+	padding: 0.25rem 1rem;
+	background: ${props => (props.selected ? color.primary : color.w2)};
+	color: ${props => (props.selected ? color.w0 : color.textPrimary)};
 	border-radius: ${size.radius};
+	cursor: pointer;
 
 	:not(:last-child) {
 		margin-right: 0.5rem;
 	}
 
 	:hover {
-		background: ${darken(0.05, color.w2)};
+		background: ${props => darken(0.05, props.selected ? color.primary : color.w2)};
 	}
 
 	&,

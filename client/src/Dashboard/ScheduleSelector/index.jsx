@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Selector, Option, Label } from './style';
+import { Selector, Option } from './style';
 
 import useApi from 'shared/hooks/api';
 import ToasterContext from './../../Toaster/Context';
@@ -29,16 +29,12 @@ const ScheduleSelector = ({ ...otherProps }) => {
 	return (
 		<Selector {...otherProps}>
 			{options.map((option, index) => (
-				<Option key={`schedule-option-${option}`}>
-					<input
-						type="radio"
-						value={index}
-						name="schedule"
-						id={option}
-						checked={scheduleState.data === index}
-						onChange={v => handleSetSchedule(v.target.value)}
-					/>
-					<Label htmlFor={option}>{option}</Label>
+				<Option
+					key={`schedule-option-${option}`}
+					onClick={() => handleSetSchedule(index)}
+					selected={scheduleState.data === index}
+				>
+					<span>{option}</span>
 				</Option>
 			))}
 		</Selector>

@@ -31,7 +31,7 @@ export const text = {
 
 export const size = {
 	base: '16px',
-	radius: '3px',
+	radius: '7px',
 	sidebar: '100px',
 };
 
@@ -41,6 +41,6 @@ export const mixin = {
 		user-select: none;
 	`,
 	shadow: css`
-		box-shadow: 1px 1px 2px ${color.borderLight};
+		box-shadow: 0 22px 45px 0 rgba(0, 0, 0, 0.11);
 	`,
 };

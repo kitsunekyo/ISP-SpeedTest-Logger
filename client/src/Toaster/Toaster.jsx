@@ -40,7 +40,7 @@ const Toasts = styled.div`
 
 const Toast = styled.article`
 	background: white;
-	box-shadow: 1px 1px 3px rgba(33, 33, 33, 0.3);
+	box-shadow: 0 22px 45px 0 rgba(0, 0, 0, 0.11);
 	pointer-events: all;
 	overflow: hidden;
 	border-radius: ${size.radius};
