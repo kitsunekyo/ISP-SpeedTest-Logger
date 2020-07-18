@@ -2,10 +2,10 @@ import speedtestNet from "speedtest-net";
 
 import { Result } from "./Result";
 import resultDb from "./resultDb";
-import { eventService } from "../Event";
+import socket from "./../socket";
 
 const handleProgressEvent = (event: any) => {
-    eventService.broadcast(event);
+    socket.io().emit("speedtest-progress-event", event);
 };
 
 const OPTIONS = {
@@ -18,7 +18,7 @@ let isRunning = false;
 
 const run = async (): Promise<Result> => {
     if (isRunning) {
-        throw new Error('Speedtest is already running');
+        throw new Error("Speedtest is already running");
     }
     isRunning = true;
     const result = await speedtestNet(OPTIONS);

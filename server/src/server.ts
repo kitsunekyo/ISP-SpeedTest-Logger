@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
@@ -10,6 +11,7 @@ dotenv.config();
 import { speedtestService, router as speedtestRouter } from "./Speedtest";
 import { router as eventsRouter } from "./Event";
 import { scheduleService, Interval } from "./Schedule";
+import socket from "./socket";
 
 const errorMiddleware = (
     error: any,
@@ -35,25 +37,36 @@ const errorMiddleware = (
     if (CORS) {
         app.use(
             cors({
-                origin: CORS,
+                origin: CORS
             })
         );
     }
+
     app.use(morgan("short"));
     app.use(helmet());
     app.use(bodyParser.json({ strict: false }));
-    
+
     app.use("/speedtest", speedtestRouter);
     app.use("/events", eventsRouter);
-    
+
     app.use(errorMiddleware);
+
+    const server = http.createServer(app);
+    const io = socket.setup(server);
+
+    io.on("connection", (s) => {
+        console.log("connected");
+        s.on("disconnect", () => {
+            console.log("disconnected");
+        });
+    });
 
     scheduleService.set(Interval.Every12h, async () => {
         const result = await speedtestService.run();
         await speedtestService.save(result);
     });
 
-    app.listen(API_PORT, () => {
+    server.listen(API_PORT, () => {
         console.log(
             bgGreen(`Server listening on http://localhost:${API_PORT}/`)
         );

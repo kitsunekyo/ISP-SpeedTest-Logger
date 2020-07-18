@@ -7,15 +7,18 @@ import './styles/font.css';
 import NormalizeStyles from './styles/NormalizeStyles';
 import BaseStyles from './styles/BaseStyles';
 import Toaster from './../Toaster';
+import { Socket } from 'shared/Socket';
 
 const App = () => {
 	return (
 		<>
 			<NormalizeStyles />
 			<BaseStyles />
-			<Toaster>
-				<Routes />
-			</Toaster>
+			<Socket>
+				<Toaster>
+					<Routes />
+				</Toaster>
+			</Socket>
 		</>
 	);
 };
