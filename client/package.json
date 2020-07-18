@@ -66,6 +66,7 @@
 		"react-feather": "^2.0.8",
 		"react-router-dom": "^5.2.0",
 		"regenerator-runtime": "^0.13.5",
+		"socket.io-client": "^2.3.0",
 		"speedtest-net": "^2.1.1",
 		"styled-components": "^5.1.1"
 	}
