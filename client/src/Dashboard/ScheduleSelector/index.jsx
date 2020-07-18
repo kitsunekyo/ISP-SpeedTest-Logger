@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Selector, Option } from './style';
 
 import useApi from 'shared/hooks/api';
@@ -9,8 +9,12 @@ const options = ['off', '6h', '12h', '24h'];
 const ScheduleSelector = ({ ...otherProps }) => {
 	const toaster = useContext(ToasterContext);
 
-	const [scheduleState, getSchedule, setLocalSchedule] = useApi('/speedtest/schedule', 'get');
-	const [, setSchedule] = useApi('/speedtest/schedule', 'post');
+	const { state: scheduleState, setData: setLocalSchedule } = useApi(
+		'/speedtest/schedule',
+		'get',
+		true
+	);
+	const { request: setSchedule } = useApi('/speedtest/schedule', 'post');
 
 	const handleSetSchedule = async value => {
 		try {
@@ -21,10 +25,6 @@ const ScheduleSelector = ({ ...otherProps }) => {
 			console.error('error trying to update speedtest schedule', e);
 		}
 	};
-
-	useEffect(() => {
-		getSchedule();
-	}, []);
 
 	return (
 		<Selector {...otherProps}>

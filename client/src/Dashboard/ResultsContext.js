@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import useApi from 'shared/hooks/api';
 
 export const ResultsContext = React.createContext({
@@ -12,11 +12,7 @@ export const ResultsContext = React.createContext({
 });
 
 export const ResultsProvider = ({ children }) => {
-	const [state, loadData, setData] = useApi('/speedtest', 'get');
-
-	useEffect(() => {
-		loadData();
-	}, []);
+	const { state, request: loadData, setData } = useApi('/speedtest', 'get', true);
 
 	return (
 		<ResultsContext.Provider value={{ state, loadResults: loadData, setResults: setData }}>

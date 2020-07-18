@@ -18,7 +18,7 @@ const Speedtest = () => {
 	const [download, setDownload] = useState(0);
 	const [upload, setUpload] = useState(0);
 	const [ping, setPing] = useState(0);
-	const [{ data, error, isLoading }, runSpeedtest] = useApi('/speedtest', 'post');
+	const { state, request: runSpeedtest } = useApi('/speedtest', 'post');
 
 	const handleEvent = event => {
 		try {
@@ -69,7 +69,11 @@ const Speedtest = () => {
 
 	return (
 		<div>
-			<Button onClick={handleRunSpeedtest} icon={<PlayIcon size={14} />} isWorking={isLoading}>
+			<Button
+				onClick={handleRunSpeedtest}
+				icon={<PlayIcon size={14} />}
+				isWorking={state.isLoading}
+			>
 				Run Speedtest Now
 			</Button>
 			<Status show={showStats}>
