@@ -1,7 +1,5 @@
 import monk from "monk";
-import dotenv from "dotenv";
 import { Result } from "./Result";
-dotenv.config();
 
 const db = monk(process.env.MONGODB_CONNECTION_STRING || "");
 
