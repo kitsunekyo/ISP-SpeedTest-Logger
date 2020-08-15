@@ -14,7 +14,10 @@ const list = async (
     next: any
 ): Promise<express.Response> => {
     try {
-        const results = await service.list();
+        const start = req.query.start?.toString();
+        const end = req.query.end?.toString();
+
+        const results = await service.list(start, end);
         return res.json(new SuccessResponse(results));
     } catch (error) {
         return next(error);

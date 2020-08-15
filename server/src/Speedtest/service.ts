@@ -30,8 +30,11 @@ const save = async (speedtest: Result): Promise<Result> => {
     return await resultDb.save(speedtest);
 };
 
-const list = async (): Promise<Result[]> => {
-    return await resultDb.list();
+const list = async (
+    start: Date | string | null = null,
+    end: Date | string | null = null
+): Promise<Result[]> => {
+    return await resultDb.list(start, end);
 };
 
 export default {
