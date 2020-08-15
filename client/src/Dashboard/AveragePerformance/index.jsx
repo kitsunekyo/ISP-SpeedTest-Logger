@@ -1,15 +1,15 @@
 import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
-import _ from 'lodash';
+import flow from 'lodash/flow';
 
 import { ResultsContext } from '../ResultsContext';
 import { avg, round, mbyte } from 'shared/utils/math';
 import Card from 'shared/components/Card';
 import ValueTile from '../ValueTile';
 
-const readableAvg = _.flow([avg, round]);
-const roundedMbit = _.flow([v => v * 8, mbyte, round]);
-const readableAvgMbit = _.flow([avg, roundedMbit]);
+const readableAvg = flow([avg, round]);
+const roundedMbit = flow([v => v * 8, mbyte, round]);
+const readableAvgMbit = flow([avg, roundedMbit]);
 
 const StyledAverage = styled.div`
 	display: grid;
