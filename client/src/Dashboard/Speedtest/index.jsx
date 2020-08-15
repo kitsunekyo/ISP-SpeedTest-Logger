@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import _ from 'lodash';
+import flow from 'lodash/flow';
 import { Play as PlayIcon } from 'react-feather';
 import socketIOClient from 'socket.io-client';
 
@@ -11,7 +11,7 @@ import Button from 'shared/components/Button';
 import ValueTile from './../ValueTile';
 import { Status, ProgressBar, ProgressBarWrapper, Values } from './style';
 
-const roundedMbit = _.flow([mbyte, v => v * 8, round]);
+const roundedMbit = flow([mbyte, v => v * 8, round]);
 
 const Speedtest = () => {
 	const { sendToast } = useContext(ToasterContext);

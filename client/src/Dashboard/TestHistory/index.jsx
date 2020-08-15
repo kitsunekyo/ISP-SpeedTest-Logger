@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
-import _ from 'lodash';
+import flow from 'lodash/flow';
 
 import Chart from './Chart';
 import { ResultsContext } from '../ResultsContext';
@@ -13,7 +13,7 @@ const Charts = styled.div`
 	}
 `;
 
-const roundedMbit = _.flow([v => v * 8, mbyte, round]);
+const roundedMbit = flow([v => v * 8, mbyte, round]);
 
 const TestHistory = () => {
 	const { state, loadResults, setResults } = useContext(ResultsContext);
