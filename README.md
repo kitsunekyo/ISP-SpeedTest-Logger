@@ -1,4 +1,8 @@
 # ISP SpeedTest Logger 
+
+> ⚠ due to an issue in speedtest-net, the **first** speedtest on a machine (eg docker container) will fail, due to the license info message of the speedtest binary breaking the promise. [https://github.com/ddsol/speedtest.net/issues/117](https://github.com/ddsol/speedtest.net/issues/117).    
+this will lock the server in an "speedtest running" state. so you have to manually restart the server. (fix is WIP)
+
 If you're on a LTE, 4G, 5G, ... connection, and want to review how (💩) it holds up over time, this should do the trick for you. 
 This webapp allows you to periodically run speedtests (node.js), store the results (mongodb), and review your network quality in a web ui.
 
