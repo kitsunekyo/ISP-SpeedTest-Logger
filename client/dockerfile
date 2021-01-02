@@ -1,5 +1,5 @@
 # stage:1 - build stage
-FROM node:12 as react-build
+FROM node:12-buster-slim as react-build
 WORKDIR /app
 
 COPY . .
