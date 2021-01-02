@@ -4,8 +4,6 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
-import { bgGreen } from "chalk";
-import monk from "monk";
 import dotenv from "dotenv";
 dotenv.config();
 
