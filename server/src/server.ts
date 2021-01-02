@@ -5,6 +5,7 @@ import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import { bgGreen } from "chalk";
+import monk from "monk";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -13,17 +14,15 @@ import { router as eventsRouter } from "./Event";
 import { scheduleService, Interval } from "./Schedule";
 import socket from "./socket";
 
-const errorMiddleware = (
-    error: any,
-    req: express.Request,
-    res: express.Response,
-    next: any
-) => {
+const errorMiddleware = (error: any, req: express.Request, res: express.Response, next: any) => {
+    process.env.NODE_ENV !== "production" && console.log(error.message);
+
     if (error.status) {
         res.status(error.status);
     } else {
         res.status(500);
     }
+
     res.json({
         message: error.message,
         stack: process.env.NODE_ENV === "production" ? "📦" : error.stack,
@@ -37,7 +36,7 @@ const errorMiddleware = (
     if (CORS) {
         app.use(
             cors({
-                origin: CORS
+                origin: CORS,
             })
         );
     }
@@ -67,8 +66,6 @@ const errorMiddleware = (
     });
 
     server.listen(API_PORT, () => {
-        console.log(
-            bgGreen(`Server listening on http://localhost:${API_PORT}/`)
-        );
+        console.log(`Server listening on http://localhost:${API_PORT}/`);
     });
 })();
