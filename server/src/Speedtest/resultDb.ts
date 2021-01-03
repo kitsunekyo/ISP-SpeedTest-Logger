@@ -1,7 +1,5 @@
-import monk from "monk";
+import db from './../db';
 import { Result } from "./Result";
-
-const db = monk(process.env.MONGODB_CONNECTION_STRING || "");
 
 const results = db.get("results");
 
