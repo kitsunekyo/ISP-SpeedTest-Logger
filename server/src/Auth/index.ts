@@ -1,8 +1,9 @@
 import { Response, Request, Router } from "express";
 import token from "jsonwebtoken";
+import jwt from "express-jwt";
 
 export const accessTokenSecret = process.env.OAUTH2_SECRET || "";
-export const jwtOptions = { secret: accessTokenSecret, algorithms: ["HS256"] };
+export const jwtOptions: jwt.Options = { secret: accessTokenSecret, algorithms: ["HS256"] };
 
 export const dummyUsers = [
     {
@@ -30,4 +31,5 @@ router.post("/token", (req: Request, res: Response) => {
     }
 });
 
+export const requireAuth = (): jwt.RequestHandler => jwt(jwtOptions);
 export { router };

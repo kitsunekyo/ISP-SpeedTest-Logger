@@ -11,7 +11,7 @@ import { speedtestService, router as speedtestRouter } from "./Speedtest";
 import { router as eventsRouter } from "./Event";
 import { scheduleService, Interval } from "./Schedule";
 import socket from "./socket";
-import { router as authRouter } from "./Auth";
+import { requireAuth, router as authRouter } from "./Auth";
 import { errorLogMiddleware, httpLogMiddleware } from "./logger";
 
 const errorMiddleware = (error: any, req: Request, res: Response, next: any) => {
@@ -51,8 +51,8 @@ const notFoundHandler = (req: Request, res: Response) => {
     app.use(bodyParser.json({ strict: false }));
 
     app.use(httpLogMiddleware);
-    app.use("/speedtest", speedtestRouter);
-    app.use("/events", eventsRouter);
+    app.use("/speedtest", requireAuth(), speedtestRouter);
+    app.use("/events", requireAuth(), eventsRouter);
     app.use("/oauth2", authRouter);
     app.use(notFoundHandler);
 
