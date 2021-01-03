@@ -3,7 +3,9 @@ import http from "http";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
-import morgan from "morgan";
+import winston from "winston";
+import expressWinston from "express-winston";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -39,14 +41,25 @@ const errorMiddleware = (error: any, req: express.Request, res: express.Response
         );
     }
 
-    app.use(morgan("short"));
     app.use(helmet());
     app.use(bodyParser.json({ strict: false }));
 
+    app.use(
+        expressWinston.logger({
+            transports: [new winston.transports.Console()],
+            format: winston.format.combine(winston.format.colorize(), winston.format.json()),
+        })
+    );
     app.use("/speedtest", speedtestRouter);
     app.use("/events", eventsRouter);
 
     app.use(errorMiddleware);
+    app.use(
+        expressWinston.errorLogger({
+            transports: [new winston.transports.Console()],
+            format: winston.format.combine(winston.format.colorize(), winston.format.json()),
+        })
+    );
 
     const server = http.createServer(app);
     const io = socket.setup(server);
