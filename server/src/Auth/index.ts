@@ -1,7 +1,7 @@
 import { Response, Request, Router } from "express";
 import token from "jsonwebtoken";
 
-export const accessTokenSecret = "O7RYB7irdTav8j8KXeY5bHQVr";
+export const accessTokenSecret = process.env.OAUTH2_SECRET || "";
 export const jwtOptions = { secret: accessTokenSecret, algorithms: ["HS256"] };
 
 export const dummyUsers = [
