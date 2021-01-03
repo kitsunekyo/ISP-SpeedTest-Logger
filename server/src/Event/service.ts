@@ -7,14 +7,14 @@ interface Client {
 
 let clients: Client[] = [];
 
-const broadcast = (data: any) => {
+const broadcast = (data: any): void => {
     const stringifiedData = JSON.stringify(data);
     clients.forEach((client) => {
         client.res.write(`data: ${stringifiedData}\n\n`);
     });
 };
 
-const connect = (id: string, res: express.Response) => {    
+const connect = (id: string, res: express.Response): void => {    
     const client: Client = {
         id,
         res,
@@ -22,7 +22,7 @@ const connect = (id: string, res: express.Response) => {
     clients.push(client);
 };
 
-const disconnect = (clientId: string) => {
+const disconnect = (clientId: string): void => {
     clients = clients.filter((client: Client) => client.id !== clientId);
 };
 
