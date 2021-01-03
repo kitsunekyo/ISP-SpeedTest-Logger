@@ -21,9 +21,18 @@ This webapp allows you to periodically run speedtests (node.js), store the resul
 - host machine should have internet access
 
 ## Usage
+
+### docker-compose
 Run `docker-compose up -d` to build and start all docker containers (db, frontend, api). It will also automatically build frontend and backend on the first startup.
 
 > docker-compose.yml has defaults for environment variables. should you want to use it without docker, create an `.env` file in `./server`, that holds your application config. (rename the example)
+
+### development
+During development you might want to run mongodb via docker, but run the api / frontend locally.
+
+Install dependencies first with `npm install`, both in server and client.
+
+You can then run `npm start`, to start the application in dev mode.
 
 Frontend is available on `http://localhost:8080/speedtest`
 
