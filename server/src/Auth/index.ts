@@ -1,11 +1,10 @@
-import { Request, Response } from "express";
-import { Router } from "express";
+import { Response, Request, Router } from "express";
 import token from "jsonwebtoken";
-import jwt from "express-jwt";
 
 export const accessTokenSecret = "O7RYB7irdTav8j8KXeY5bHQVr";
+export const jwtOptions = { secret: accessTokenSecret, algorithms: ["HS256"] };
 
-export const users = [
+export const dummyUsers = [
     {
         username: "admin",
         password: "admin",
@@ -15,23 +14,20 @@ export const users = [
 
 const router = Router();
 
-router.post("/login", (req: Request, res: Response) => {
+router.post("/token", (req: Request, res: Response) => {
     const { username, password } = req.body;
+    const tokenLifetimeInSeconds = 60 * 10;
 
-    const user = users.find((u) => u.username === username && u.password === password);
+    const user = dummyUsers.find((u) => u.username === username && u.password === password);
 
     if (user) {
-        const accessToken = token.sign({ username: user.username, role: user.role }, accessTokenSecret);
-
+        const accessToken = token.sign({ username: user.username, role: user.role }, accessTokenSecret, {
+            expiresIn: tokenLifetimeInSeconds,
+        });
         res.json({ accessToken });
     } else {
-        res.status(403).json({ message: "incorrect login details" });
+        res.status(401).json({ message: "incorrect login details" });
     }
-});
-
-router.get("/secret", jwt({ secret: accessTokenSecret, algorithms: ["HS256"] }), (req: any, res) => {
-    if (!req.user) return res.json({message: 'not authenticated 👎'});
-    res.json({message: 'authenticated 👍'})
 });
 
 export { router };
