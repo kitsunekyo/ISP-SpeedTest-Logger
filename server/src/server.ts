@@ -13,6 +13,7 @@ import { speedtestService, router as speedtestRouter } from "./Speedtest";
 import { router as eventsRouter } from "./Event";
 import { scheduleService, Interval } from "./Schedule";
 import socket from "./socket";
+import { loginController } from "./Auth";
 
 const errorMiddleware = (error: any, req: express.Request, res: express.Response, next: any) => {
     process.env.NODE_ENV !== "production" && console.log(error.message);
@@ -52,6 +53,7 @@ const errorMiddleware = (error: any, req: express.Request, res: express.Response
     );
     app.use("/speedtest", speedtestRouter);
     app.use("/events", eventsRouter);
+    app.post("/login", loginController);
 
     app.use(errorMiddleware);
     app.use(
