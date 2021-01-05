@@ -1,10 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-const defaults = {
+import { getStoredAuthToken } from 'shared/utils/authToken';
+
+const DEFAULTS = {
 	baseUrl: 'http://localhost:3000',
 	headers: () => ({
 		'Content-Type': 'application/json',
+		Authorization: getStoredAuthToken() ? `Bearer ${getStoredAuthToken()}` : undefined,
 	}),
 };
 
@@ -18,29 +21,27 @@ const useApi = (path, method = 'get', immediate = false) => {
 	const CancelToken = axios.CancelToken;
 	const source = CancelToken.source();
 
-	const api = useCallback(
-		async (method, path, payload) => {
-			const url = `${defaults.baseUrl}${path}`;
+	const api = useCallback(async (method, path, payload) => {
+		const url = `${DEFAULTS.baseUrl}${path}`;
 
-			const response = await axios({
-				cancelToken: source.token,
-				url,
-				method,
-				headers: defaults.headers(),
-				params: method === 'get' ? payload : undefined,
-				data: method !== 'get' ? payload : undefined,
-			});
+		const response = await axios({
+			cancelToken: source.token,
+			url,
+			method,
+			headers: DEFAULTS.headers(),
+			params: method === 'get' ? payload : undefined,
+			data: method !== 'get' ? payload : undefined,
+		});
 
-			return response;
-		},
-		[defaults]
-	);
+		return response;
+	});
 
-	const request = useCallback(async payload => {
+	const send = useCallback(async payload => {
 		setState({ ...state, isLoading: true });
 
 		try {
 			const res = await api(method, path, payload);
+
 			if (res.data.error) {
 				throw new Error(res.data.message);
 			}
@@ -48,8 +49,8 @@ const useApi = (path, method = 'get', immediate = false) => {
 			return res;
 		} catch (error) {
 			if (!axios.isCancel(error)) {
-				setState({ ...state, error: true, isLoading: false });
-				throw new Error(error);
+				setState({ ...state, error, isLoading: false });
+				throw error;
 			}
 		}
 	});
@@ -60,12 +61,12 @@ const useApi = (path, method = 'get', immediate = false) => {
 
 	useEffect(() => {
 		if (immediate) {
-			request();
+			send();
 		}
 		return () => source.cancel();
 	}, [immediate]);
 
-	return { state, request, setData };
+	return { state, request: send, setData };
 };
 
 export default useApi;
