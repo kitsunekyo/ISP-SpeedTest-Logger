@@ -22,6 +22,8 @@ This webapp allows you to periodically run speedtests (node.js), store the resul
 
 ## Usage
 
+Default login is admin:admin
+
 ### docker-compose
 Run `docker-compose up -d` to build and start all docker containers (db, frontend, api). It will also automatically build frontend and backend on the first startup.
 
