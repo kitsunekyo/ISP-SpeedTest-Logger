@@ -56,8 +56,8 @@ const useApi = (path, method = 'get', immediate = false) => {
 					history.push('/login');
 				} else {
 					setState({ ...state, error, isLoading: false });
-					throw error;
 				}
+				throw error;
 			}
 		}
 	});

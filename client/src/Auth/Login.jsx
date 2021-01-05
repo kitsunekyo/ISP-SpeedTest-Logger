@@ -34,9 +34,11 @@ const FormControl = styled.div`
 `;
 
 export function Login() {
-	const [formState, setFormState] = useState({ username: 'admin', password: 'admin' });
 	const { token, login } = useContext(AuthContext);
 	const history = useHistory();
+
+	const [formState, setFormState] = useState({ username: '', password: '' });
+	const [error, setError] = useState();
 
 	function handleFormFieldChange(e) {
 		setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -47,12 +49,11 @@ export function Login() {
 
 		login(formState)
 			.then(() => {
-				console.log('redirect');
 				history.push('/dashboard');
 			})
 			.catch(e => {
 				if (e.response.status === 401) {
-					console.log('login or password wrong');
+					setError('Username or Password wrong');
 				}
 			});
 	}
@@ -61,14 +62,16 @@ export function Login() {
 
 	return (
 		<StyledLogin>
-			<Card>
-				<form>
+			<Card style={{ minWidth: '400px' }}>
+				<h1>Network Dashboard</h1>
+				<form onSubmit={handleLogin}>
 					<FormGroup>
 						<FormControl
 							as="input"
 							type="text"
 							name="username"
-							placeholder="username"
+							placeholder="Username"
+							required
 							value={formState.username}
 							onChange={handleFormFieldChange}
 						/>
@@ -78,15 +81,15 @@ export function Login() {
 							as="input"
 							type="password"
 							name="password"
-							placeholder="password"
+							placeholder="Password"
+							required
 							value={formState.password}
 							onChange={handleFormFieldChange}
 						/>
 					</FormGroup>
-					<Button type="submit" onClick={handleLogin}>
-						Login
-					</Button>
+					<Button type="submit">Login</Button>
 				</form>
+				{error ? <p style={{ color: 'red' }}>{error}</p> : null}
 			</Card>
 		</StyledLogin>
 	);
