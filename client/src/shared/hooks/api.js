@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-import { getStoredAuthToken } from 'shared/utils/authToken';
+import { getStoredAuthToken, removeStoredAuthToken } from 'shared/utils/authToken';
 
 const DEFAULTS = {
 	baseUrl: 'http://localhost:3000',
@@ -17,6 +18,7 @@ const useApi = (path, method = 'get', immediate = false) => {
 		error: null,
 		isLoading: false,
 	});
+	const history = useHistory();
 
 	const CancelToken = axios.CancelToken;
 	const source = CancelToken.source();
@@ -49,8 +51,13 @@ const useApi = (path, method = 'get', immediate = false) => {
 			return res;
 		} catch (error) {
 			if (!axios.isCancel(error)) {
-				setState({ ...state, error, isLoading: false });
-				throw error;
+				if (error.response.status === 401) {
+					removeStoredAuthToken();
+					history.push('/login');
+				} else {
+					setState({ ...state, error, isLoading: false });
+					throw error;
+				}
 			}
 		}
 	});
@@ -63,7 +70,9 @@ const useApi = (path, method = 'get', immediate = false) => {
 		if (immediate) {
 			send();
 		}
-		return () => source.cancel();
+		return () => {
+			source.cancel();
+		};
 	}, [immediate]);
 
 	return { state, request: send, setData };
