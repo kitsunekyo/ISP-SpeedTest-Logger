@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
-import Routes from './Routes';
+import AppRoutes from './Routes';
 
 import './styles/font.css';
 import NormalizeStyles from './styles/NormalizeStyles';
@@ -20,7 +20,7 @@ const App = () => {
 				<AuthProvider>
 					<Socket>
 						<Toaster>
-							<Routes />
+							<AppRoutes />
 						</Toaster>
 					</Socket>
 				</AuthProvider>
