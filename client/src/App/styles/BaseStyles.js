@@ -15,7 +15,7 @@ const BaseStyles = createGlobalStyle`
 	}
     #app {
         overflow: hidden;
-        height: 100%;
+        min-height: 100%;
     }
 	html {
 		font-size: ${size.base};
