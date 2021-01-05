@@ -14,6 +14,7 @@ const Title = styled.h3`
 	font-size: 1rem;
 	font-weight: bold;
 	margin: 0;
+	margin-bottom: 0.5rem;
 `;
 
 const Body = styled.div``;
