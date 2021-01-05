@@ -1,24 +1,30 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
-import Routes from './Routes';
+import AppRoutes from './Routes';
 
 import './styles/font.css';
 import NormalizeStyles from './styles/NormalizeStyles';
 import BaseStyles from './styles/BaseStyles';
 import Toaster from './../Toaster';
 import { Socket } from 'shared/Socket';
+import { AuthProvider } from '../Auth/AuthProvider';
 
 const App = () => {
 	return (
 		<>
 			<NormalizeStyles />
 			<BaseStyles />
-			<Socket>
-				<Toaster>
-					<Routes />
-				</Toaster>
-			</Socket>
+			<Router>
+				<AuthProvider>
+					<Socket>
+						<Toaster>
+							<AppRoutes />
+						</Toaster>
+					</Socket>
+				</AuthProvider>
+			</Router>
 		</>
 	);
 };

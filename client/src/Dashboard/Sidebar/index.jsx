@@ -4,6 +4,7 @@ import { Grid as GridIcon, GitHub as GitHubIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 import { color, mixin } from 'shared/utils/style';
+import { useAuth } from '../../Auth/AuthProvider';
 
 const StyledSidebar = styled.nav`
 	display: flex;
@@ -29,24 +30,30 @@ const StyledSidebar = styled.nav`
 	}
 `;
 
-const Menu = styled.div`
+const List = styled.div`
 	display: flex;
 
 	@media (min-width: 900px) {
 		flex-flow: column;
 	}
 `;
-const MenuItem = styled(Link)`
+
+const ListItem = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
+	text-align: center;
 	margin: 0 1rem 0;
-	transition: all 0.1s ease-in-out;
-	cursor: pointer;
 
 	@media (min-width: 900px) {
 		margin-bottom: 2rem;
 	}
+`;
+
+const NavItem = styled(ListItem)`
+	transition: all 0.1s ease-in-out;
+	cursor: pointer;
 
 	&,
 	&:visited,
@@ -60,16 +67,27 @@ const MenuItem = styled(Link)`
 `;
 
 const Sidebar = () => {
+	const { getUser, logout } = useAuth();
+
+	function handleLogout() {
+		logout();
+	}
+	const user = getUser();
+
 	return (
 		<StyledSidebar>
-			<Menu>
-				<MenuItem to="/">
+			<List>
+				<NavItem as={Link} to="/dashboard">
 					<GridIcon />
-				</MenuItem>
-				<MenuItem as="a" href="https://github.com/kitsunekyo/ISP-SpeedTest-Logger" target="_blank">
+				</NavItem>
+				<NavItem as="a" href="https://github.com/kitsunekyo/ISP-SpeedTest-Logger" target="_blank">
 					<GitHubIcon />
-				</MenuItem>
-			</Menu>
+				</NavItem>
+			</List>
+			<List style={{ marginTop: 'auto' }}>
+				{user && <ListItem>hey, {user.username}</ListItem>}
+				<NavItem onClick={handleLogout}>Logout</NavItem>
+			</List>
 		</StyledSidebar>
 	);
 };

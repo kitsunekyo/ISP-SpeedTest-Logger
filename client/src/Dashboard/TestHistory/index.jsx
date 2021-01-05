@@ -8,9 +8,9 @@ import { round, mbyte } from 'shared/utils/math';
 import Card from 'shared/components/Card';
 
 const Charts = styled.div`
-	> *:not(:last-child) {
-		margin-bottom: 1rem;
-	}
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+	grid-gap: 1rem;
 `;
 
 const roundedMbit = flow([v => v * 8, mbyte, round]);

@@ -1,10 +1,8 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import http from "http";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
-import winston from "winston";
-import expressWinston from "express-winston";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -13,8 +11,10 @@ import { speedtestService, router as speedtestRouter } from "./Speedtest";
 import { router as eventsRouter } from "./Event";
 import { scheduleService, Interval } from "./Schedule";
 import socket from "./socket";
+import { requireAuth, router as authRouter } from "./Auth";
+import { errorLogMiddleware, httpLogMiddleware } from "./logger";
 
-const errorMiddleware = (error: any, req: express.Request, res: express.Response, next: any) => {
+const errorMiddleware = (error: any, req: Request, res: Response, next: any) => {
     process.env.NODE_ENV !== "production" && console.log(error.message);
 
     if (error.status) {
@@ -29,14 +29,20 @@ const errorMiddleware = (error: any, req: express.Request, res: express.Response
     });
 };
 
+const notFoundHandler = (req: Request, res: Response) => {
+    res.status(404);
+    res.json({
+        message: "requested resource not found",
+    });
+};
+
 (async () => {
-    const { API_PORT, CORS } = process.env;
     const app = express();
 
-    if (CORS) {
+    if (process.env.CORS) {
         app.use(
             cors({
-                origin: CORS,
+                origin: process.env.CORS,
             })
         );
     }
@@ -44,22 +50,14 @@ const errorMiddleware = (error: any, req: express.Request, res: express.Response
     app.use(helmet());
     app.use(bodyParser.json({ strict: false }));
 
-    app.use(
-        expressWinston.logger({
-            transports: [new winston.transports.Console()],
-            format: winston.format.combine(winston.format.colorize(), winston.format.json()),
-        })
-    );
-    app.use("/speedtest", speedtestRouter);
-    app.use("/events", eventsRouter);
+    app.use(httpLogMiddleware);
+    app.use("/speedtest", requireAuth(), speedtestRouter);
+    app.use("/events", requireAuth(), eventsRouter);
+    app.use("/oauth2", authRouter);
+    app.use(notFoundHandler);
 
+    app.use(errorLogMiddleware);
     app.use(errorMiddleware);
-    app.use(
-        expressWinston.errorLogger({
-            transports: [new winston.transports.Console()],
-            format: winston.format.combine(winston.format.colorize(), winston.format.json()),
-        })
-    );
 
     const server = http.createServer(app);
     const io = socket.setup(server);
@@ -76,7 +74,7 @@ const errorMiddleware = (error: any, req: express.Request, res: express.Response
         await speedtestService.save(result);
     });
 
-    server.listen(API_PORT, () => {
-        console.log(`Server listening on http://localhost:${API_PORT}/`);
+    server.listen(process.env.API_PORT, () => {
+        console.log(`[server] listening on http://localhost:${process.env.API_PORT}/`);
     });
 })();

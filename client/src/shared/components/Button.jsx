@@ -57,9 +57,11 @@ const StyledLoader = styled(Loader)`
 `;
 
 const Button = ({ onClick, icon, disabled, isWorking, children, ...otherProps }) => {
-	const handleClick = () => {
+	const handleClick = e => {
+		if (typeof onClick !== 'function') return;
+
 		if (!disabled && !isWorking) {
-			onClick();
+			onClick(e);
 		}
 	};
 
