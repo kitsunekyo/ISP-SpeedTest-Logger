@@ -9,18 +9,21 @@ export const Selector = styled.div`
 	gap: 0.5rem;
 `;
 
+type OptionProps = {
+	selected: boolean;
+};
 export const Option = styled.div`
 	display: inline-flex;
 	align-items: center;
 	height: 45px;
 	padding: 0.25rem 1rem;
-	background: ${props => (props.selected ? color.primary : color.w2)};
-	color: ${props => (props.selected ? color.w0 : color.textPrimary)};
+	background: ${(props: OptionProps) => (props.selected ? color.primary : color.w2)};
+	color: ${(props: OptionProps) => (props.selected ? color.w0 : color.textPrimary)};
 	border-radius: ${size.radius};
 	cursor: pointer;
 
 	:hover {
-		background: ${props => darken(0.05, props.selected ? color.primary : color.w2)};
+		background: ${(props) => darken(0.05, props.selected ? color.primary : color.w2)};
 	}
 
 	&,

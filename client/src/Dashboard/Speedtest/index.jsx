@@ -4,14 +4,14 @@ import { Play as PlayIcon } from 'react-feather';
 import socketIOClient from 'socket.io-client';
 
 import { SocketContext } from 'shared/Socket';
-import ToasterContext from './../../Toaster/Context';
+import { ToasterContext } from 'Toaster';
 import { round, mbyte } from 'shared/utils/math';
 import useApi from 'shared/hooks/api';
 import Button from 'shared/components/Button';
 import ValueTile from './../ValueTile';
 import { Status, ProgressBar, ProgressBarWrapper, Values } from './style';
 
-const roundedMbit = flow([mbyte, v => v * 8, round]);
+const roundedMbit = flow([mbyte, (v) => v * 8, round]);
 
 const Speedtest = () => {
 	const { sendToast } = useContext(ToasterContext);
@@ -23,7 +23,7 @@ const Speedtest = () => {
 	const [ping, setPing] = useState(0);
 	const { state, request: runSpeedtest } = useApi('/speedtest', 'post');
 
-	const handleEvent = eventData => {
+	const handleEvent = (eventData) => {
 		switch (eventData.type) {
 			case 'ping':
 				setPing(eventData.ping.latency);

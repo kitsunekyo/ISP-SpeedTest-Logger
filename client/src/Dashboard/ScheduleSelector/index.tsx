@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Selector, Option } from './style';
 
 import useApi from 'shared/hooks/api';
-import ToasterContext from './../../Toaster/Context';
+import { ToasterContext } from 'Toaster';
 
 const options = ['off', '6h', '12h', '24h'];
 
@@ -16,10 +16,10 @@ const ScheduleSelector = ({ ...otherProps }) => {
 	);
 	const { request: setSchedule } = useApi('/speedtest/schedule', 'post');
 
-	const handleSetSchedule = async value => {
+	const handleSetSchedule = async (value: number) => {
 		try {
 			await setSchedule(value);
-			setLocalSchedule(parseInt(value));
+			setLocalSchedule(value);
 			toaster.sendToast('Auto Speedtest updated');
 		} catch (e) {
 			console.error('error trying to update speedtest schedule', e);

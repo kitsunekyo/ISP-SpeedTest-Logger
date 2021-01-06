@@ -59,8 +59,8 @@ const StyledLoader = styled(Loader)`
 type ButtonProps = {
 	onClick?: () => any,
 	icon?: ReactNode,
-	disabled?: Boolean,
-	isWorking?: Boolean,
+	disabled?: boolean,
+	isWorking?: boolean,
 	children: ReactNode,
 };
 

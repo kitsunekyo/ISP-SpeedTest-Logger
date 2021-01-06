@@ -5,7 +5,7 @@ import { X as CloseIcon } from 'react-feather';
 import Button from 'shared/components/Button';
 import { color, size } from 'shared/utils/style';
 import { TOAST_DURATION } from './config';
-import ToasterContext from './Context';
+import { ToasterContext } from './index';
 
 const growAnimation = keyframes`
     from {
@@ -102,7 +102,7 @@ const Toaster = () => {
 	return (
 		<Overlay>
 			<Toasts>
-				{toasts.map(toast => (
+				{toasts.map((toast) => (
 					<Toast key={toast.id}>
 						<ProgressBarWrapper>
 							<ProgressBar />
