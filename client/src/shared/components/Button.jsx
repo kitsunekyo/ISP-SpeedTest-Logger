@@ -40,7 +40,7 @@ const StyledButton = styled.button`
 `;
 
 const Text = styled.div`
-	padding-left: ${props => (props.withPadding ? 5 : 0)}px;
+	padding-left: ${(props) => (props.withPadding ? 5 : 0)}px;
 `;
 
 const rotate = keyframes`
@@ -56,8 +56,23 @@ const StyledLoader = styled(Loader)`
 	animation: ${rotate} 2s linear infinite;
 `;
 
-const Button = ({ onClick, icon, disabled, isWorking, children, ...otherProps }) => {
-	const handleClick = e => {
+type ButtonProps = {
+	onClick?: () => any,
+	icon?: ReactNode,
+	disabled?: Boolean,
+	isWorking?: Boolean,
+	children: ReactNode,
+};
+
+const Button = ({
+	onClick,
+	icon,
+	disabled,
+	isWorking,
+	children,
+	...otherProps
+}: ButtonProps & React.ButtonHTMLAttributes) => {
+	const handleClick = (e) => {
 		if (typeof onClick !== 'function') return;
 
 		if (!disabled && !isWorking) {
@@ -67,9 +82,9 @@ const Button = ({ onClick, icon, disabled, isWorking, children, ...otherProps })
 
 	return (
 		<StyledButton onClick={handleClick} disabled={disabled || isWorking} {...otherProps}>
-			{isWorking && <StyledLoader size={14} />}
-			{!isWorking && icon}
-			{children && <Text withPadding={isWorking || icon}>{children}</Text>}
+			{isWorking ? <StyledLoader size={14} /> : null}
+			{!isWorking ? icon : null}
+			{children ? <Text withPadding={isWorking || icon}>{children}</Text> : null}
 		</StyledButton>
 	);
 };

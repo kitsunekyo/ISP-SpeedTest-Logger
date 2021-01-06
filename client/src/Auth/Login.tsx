@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { AuthContext } from './AuthProvider';
+import { useAuth } from './AuthProvider';
 import Button from 'shared/components/Button';
 import Card from 'shared/components/Card';
 
@@ -33,25 +33,27 @@ const FormControl = styled.div`
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 `;
 
+type LoginForm = { username: string; password: string };
+
 export function Login() {
-	const { token, login } = useContext(AuthContext);
+	const { token, login } = useAuth();
 	const history = useHistory();
 
-	const [formState, setFormState] = useState({ username: '', password: '' });
-	const [error, setError] = useState();
+	const [formState, setFormState] = useState<LoginForm>({ username: '', password: '' });
+	const [error, setError] = useState<string | null>(null);
 
-	function handleFormFieldChange(e) {
+	function handleFormFieldChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setFormState({ ...formState, [e.target.name]: e.target.value });
 	}
 
-	function handleLogin(e) {
+	function handleLogin(e: React.FormEvent) {
 		e.preventDefault();
 
 		login(formState)
 			.then(() => {
 				history.push('/dashboard');
 			})
-			.catch(e => {
+			.catch((e) => {
 				if (e.response.status === 401) {
 					setError('Username or Password wrong');
 				}

@@ -19,7 +19,7 @@ const Title = styled.h3`
 
 const Body = styled.div``;
 
-const Card = ({ title, children, ...otherProps }) => {
+const Card = ({ title = null, children, ...otherProps }) => {
 	return (
 		<StyledCard {...otherProps}>
 			{title && <Title>{title}</Title>}
