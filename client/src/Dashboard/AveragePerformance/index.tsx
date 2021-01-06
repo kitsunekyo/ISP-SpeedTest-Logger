@@ -8,7 +8,7 @@ import Card from 'shared/components/Card';
 import ValueTile from '../ValueTile';
 
 const readableAvg = flow([avg, round]);
-const roundedMbit = flow([v => v * 8, mbyte, round]);
+const roundedMbit = flow([(v) => v * 8, mbyte, round]);
 const readableAvgMbit = flow([avg, roundedMbit]);
 
 const StyledAverage = styled.div`
@@ -18,7 +18,7 @@ const StyledAverage = styled.div`
 `;
 
 const AveragePerformance = () => {
-	const { state, loadResults, setResults } = useContext(ResultsContext);
+	const { state } = useContext(ResultsContext);
 
 	const testResults = useMemo(() => {
 		return state?.data?.length ? state.data : [];
@@ -31,7 +31,7 @@ const AveragePerformance = () => {
 					title="Download"
 					icon={null}
 					unit={'mbit'}
-					value={readableAvgMbit(testResults.map(obj => obj.download.bandwidth))}
+					value={readableAvgMbit(testResults.map((obj: any) => obj.download.bandwidth))}
 				/>
 			</Card>
 			<Card>
@@ -39,7 +39,7 @@ const AveragePerformance = () => {
 					title="Upload"
 					icon={null}
 					unit={'mbit'}
-					value={readableAvgMbit(testResults.map(obj => obj.upload.bandwidth))}
+					value={readableAvgMbit(testResults.map((obj: any) => obj.upload.bandwidth))}
 				/>
 			</Card>
 			<Card>
@@ -47,7 +47,7 @@ const AveragePerformance = () => {
 					title="Ping"
 					icon={null}
 					unit={'ms'}
-					value={readableAvg(testResults.map(obj => obj.ping.latency))}
+					value={readableAvg(testResults.map((obj: any) => obj.ping.latency))}
 				/>
 			</Card>
 			<Card>
@@ -55,7 +55,7 @@ const AveragePerformance = () => {
 					title="Lost Packets"
 					icon={null}
 					unit={''}
-					value={readableAvg(testResults.map(obj => obj.packetLoss))}
+					value={readableAvg(testResults.map((obj: any) => obj.packetLoss))}
 				/>
 			</Card>
 		</StyledAverage>
