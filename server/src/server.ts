@@ -12,7 +12,7 @@ import { router as eventsRouter } from "./Event";
 import { scheduleService, Interval } from "./Schedule";
 import socket from "./socket";
 import { requireAuth, router as authRouter } from "./Auth";
-import { errorLogMiddleware, httpLogMiddleware } from "./logger";
+import { errorLogMiddleware, httpLogMiddleware, logger } from "./logger";
 
 const errorMiddleware = (error: any, req: Request, res: Response, next: any) => {
     process.env.NODE_ENV !== "production" && console.log(error.message);
@@ -52,7 +52,7 @@ const notFoundHandler = (req: Request, res: Response) => {
 
     app.use(httpLogMiddleware);
     app.use("/speedtest", requireAuth(), speedtestRouter);
-    app.use("/events", requireAuth(), eventsRouter);
+    // app.use("/events", requireAuth(), eventsRouter);
     app.use("/oauth2", authRouter);
     app.use(notFoundHandler);
 
@@ -63,9 +63,9 @@ const notFoundHandler = (req: Request, res: Response) => {
     const io = socket.setup(server);
 
     io.on("connection", (s) => {
-        console.log("connected");
+        logger.log('info', `connected ${JSON.stringify(s.client.id)}`)
         s.on("disconnect", () => {
-            console.log("disconnected");
+            logger.log('info', `disconnected`)
         });
     });
 

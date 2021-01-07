@@ -10,3 +10,12 @@ export const errorLogMiddleware = expressWinston.errorLogger({
     transports: [new winston.transports.Console()],
     format: winston.format.combine(winston.format.colorize(), winston.format.json()),
 });
+
+export const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    defaultMeta: { service: 'server' },
+    transports: [
+        new winston.transports.Console(),
+    ],
+  });

@@ -3,7 +3,6 @@ import * as yup from "yup";
 
 import service from "./service";
 import scheduleService from "./../Schedule/service";
-import { SuccessResponse } from "./../models/Response";
 
 /**
  * returns a list of all speedtest results
@@ -15,7 +14,7 @@ const list = async (
 ): Promise<express.Response> => {
     try {
         const results = await service.list();
-        return res.json(new SuccessResponse(results));
+        return res.json(results);
     } catch (error) {
         return next(error);
     }
@@ -33,7 +32,7 @@ const run = async (
         const result = await service.run();
         if (result) {
             await service.save(result);
-            return res.json(new SuccessResponse(result));
+            return res.json(result);
         } else {
             throw new Error("Error running speedtest");
         }
@@ -50,7 +49,7 @@ const getSchedule = (
     res: express.Response
 ): express.Response => {
     const interval = scheduleService.getInterval();
-    return res.json(new SuccessResponse(interval));
+    return res.json(interval);
 };
 
 /**
