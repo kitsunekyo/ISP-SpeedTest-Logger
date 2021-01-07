@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { useHistory } from 'react-router-dom';
 
-import { getStoredAuthToken, removeStoredAuthToken } from 'shared/utils/authToken';
+import { getStoredAuthToken } from 'shared/utils/authToken';
+import { useAuth } from 'Auth/AuthProvider';
 
 export interface ApiState<T = any> {
 	data: T | null;
@@ -26,7 +26,7 @@ const useApi = <T = any>(path: string, method: HttpMethod = 'get', immediate = f
 		error: null,
 		isLoading: immediate ? true : false,
 	});
-	const history = useHistory();
+	const { logout } = useAuth();
 
 	const api = useCallback(async (method: HttpMethod, path: string, payload: any) => {
 		const url = `${DEFAULTS.baseUrl}${path}`;
@@ -52,16 +52,15 @@ const useApi = <T = any>(path: string, method: HttpMethod = 'get', immediate = f
 				return res;
 			} catch (error) {
 				if (error.response.status === 401) {
-					removeStoredAuthToken();
 					setState((s) => ({ ...s, error, isLoading: false }));
-					history.push('/login');
+					logout();
 				} else {
 					setState((s) => ({ ...s, error, isLoading: false }));
 				}
 				throw error;
 			}
 		},
-		[api, history, method, path]
+		[api, method, path, logout]
 	);
 
 	const setData = (data: T) => {

@@ -17,13 +17,13 @@ const router = Router();
 
 router.post("/token", (req: Request, res: Response) => {
     const { username, password } = req.body;
-    const tokenLifetimeInSeconds = 60 * 10;
+    const tokenLifetimeInMinutes = 0.1;
 
     const user = dummyUsers.find((u) => u.username === username && u.password === password);
 
     if (user) {
         const accessToken = token.sign({ username: user.username, role: user.role }, accessTokenSecret, {
-            expiresIn: tokenLifetimeInSeconds,
+            expiresIn: 60 * tokenLifetimeInMinutes,
         });
         res.json({ accessToken });
     } else {
