@@ -1,14 +1,14 @@
 import React from 'react';
 
-import useApi, { IApiState } from 'shared/hooks/api';
+import useApi, { ApiState } from 'shared/hooks/useApi';
 
-interface IResultsContext {
-	state: IApiState;
+interface ResultsContext {
+	state: ApiState;
 	loadResults: () => any;
 	setResults: (data: any) => any;
 }
 
-export const ResultsContext = React.createContext({} as IResultsContext);
+export const resultsContext = React.createContext({} as ResultsContext);
 
 type ResultsProviderProps = {
 	children: React.ReactNode;
@@ -18,8 +18,8 @@ export const ResultsProvider = ({ children }: ResultsProviderProps) => {
 	const { state, request: loadData, setData } = useApi('/speedtest', 'get', true);
 
 	return (
-		<ResultsContext.Provider value={{ state, loadResults: loadData, setResults: setData }}>
+		<resultsContext.Provider value={{ state, loadResults: loadData, setResults: setData }}>
 			{children}
-		</ResultsContext.Provider>
+		</resultsContext.Provider>
 	);
 };

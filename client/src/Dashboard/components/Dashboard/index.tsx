@@ -2,16 +2,16 @@ import React, { useContext } from 'react';
 import { Loader, AlertOctagon, RefreshCcw } from 'react-feather';
 
 import { StyledDashboard, SectionTitle, PageTitle } from './style';
+import { resultsContext } from 'Dashboard/ResultsContext';
 import Message from 'shared/components/Message';
 import Button from 'shared/components/Button';
-import Speedtest from './Speedtest';
-import ScheduleSelector from './ScheduleSelector';
-import { ResultsContext } from './ResultsContext';
-import AveragePerformance from './AveragePerformance';
-import TestHistory from './TestHistory';
+import Speedtest from 'Dashboard/components/Speedtest';
+import ScheduleSelector from 'Dashboard/components/ScheduleSelector';
+import AveragePerformance from 'Dashboard/components/AveragePerformance';
+import TestHistory from 'Dashboard/components/TestHistory';
 
 const Dashboard = () => {
-	const { state, loadResults } = useContext(ResultsContext);
+	const { state, loadResults } = useContext(resultsContext);
 
 	const handleReload = () => {
 		loadResults();
@@ -31,14 +31,14 @@ const Dashboard = () => {
 			/>
 			<Speedtest />
 
-			<SectionTitle>Automated Speedtest</SectionTitle>
+			{/*<SectionTitle>Automated Speedtest</SectionTitle>
 			<ScheduleSelector />
 
 			<SectionTitle>Average Performance</SectionTitle>
 			<AveragePerformance />
 
 			<SectionTitle>Test History</SectionTitle>
-			<TestHistory />
+			<TestHistory /> */}
 		</StyledDashboard>
 	);
 };

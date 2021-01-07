@@ -21,9 +21,14 @@ const run = async (): Promise<Result> => {
         throw new Error("Speedtest is already running");
     }
     isRunning = true;
-    const result = await speedtestNet(OPTIONS);
-    isRunning = false;
-    return result;
+    try {
+        const result = await speedtestNet(OPTIONS);
+        isRunning = false;
+        return result;
+    } catch (e) {
+        isRunning = false;
+        throw e;
+    }
 };
 
 const save = async (speedtest: Result): Promise<Result> => {

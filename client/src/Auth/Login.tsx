@@ -39,7 +39,7 @@ export function Login() {
 	const { token, login } = useAuth();
 	const history = useHistory();
 
-	const [formState, setFormState] = useState<LoginForm>({ username: '', password: '' });
+	const [formState, setFormState] = useState<LoginForm>({ username: 'admin', password: 'admin' });
 	const [error, setError] = useState<string | null>(null);
 
 	function handleFormFieldChange(e: React.ChangeEvent<HTMLInputElement>) {

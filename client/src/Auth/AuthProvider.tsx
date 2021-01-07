@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
-import useApi from '../shared/hooks/api';
+import useApi from '../shared/hooks/useApi';
 import {
 	getStoredAuthToken,
 	removeStoredAuthToken,
@@ -23,7 +23,7 @@ type TokenData = {
 interface IAuthContext {
 	token: string | null;
 	getUser: () => TokenData | null;
-	login: (payload: { username: string; password: string }) => Promise<string>;
+	login: (payload: { username: string; password: string }) => Promise<string | void>;
 	logout: () => void;
 }
 
@@ -54,14 +54,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		}
 	}
 
-	async function login(payload: { username: string; password: string }): Promise<string> {
+	async function login(payload: { username: string; password: string }): Promise<void> {
 		const response = await loginApi.request(payload);
 		const token = response.data.accessToken;
 
 		setToken(token);
 		storeAuthToken(token);
-
-		return token;
 	}
 
 	function logout(): void {

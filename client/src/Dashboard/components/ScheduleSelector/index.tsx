@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Selector, Option } from './style';
 
-import useApi from 'shared/hooks/api';
+import useApi from 'shared/hooks/useApi';
 import { ToasterContext } from 'Toaster';
 
 const options = ['off', '6h', '12h', '24h'];

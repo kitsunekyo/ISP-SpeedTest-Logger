@@ -4,7 +4,7 @@ import { Grid as GridIcon, GitHub as GitHubIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 import { color, mixin } from 'shared/utils/style';
-import { useAuth } from '../../Auth/AuthProvider';
+import { useAuth } from 'Auth/AuthProvider';
 
 const StyledSidebar = styled.nav`
 	display: flex;

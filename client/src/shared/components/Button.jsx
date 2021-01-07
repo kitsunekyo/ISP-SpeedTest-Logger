@@ -61,7 +61,7 @@ type ButtonProps = {
 	icon?: ReactNode,
 	disabled?: boolean,
 	isWorking?: boolean,
-	children: ReactNode,
+	children?: ReactNode,
 };
 
 const Button = ({
