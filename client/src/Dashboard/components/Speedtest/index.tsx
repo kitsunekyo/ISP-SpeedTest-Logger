@@ -9,6 +9,8 @@ import useApi from 'shared/hooks/useApi';
 import Button from 'shared/components/Button';
 import ValueTile from 'Dashboard/components/ValueTile';
 import { Status, ProgressBar, ProgressBarWrapper, Values } from './style';
+import { SpeedtestResult } from 'models/speedtest';
+import { resultsContext } from 'Dashboard/ResultsContext';
 
 const roundedMbit = flow([mbyte, (v) => v * 8, round]);
 
@@ -20,7 +22,8 @@ const Speedtest = () => {
 	const [download, setDownload] = useState(0);
 	const [upload, setUpload] = useState(0);
 	const [ping, setPing] = useState(0);
-	const { state, request: runSpeedtest } = useApi('/speedtest', 'post');
+	const { state, request: runSpeedtest } = useApi<SpeedtestResult>('/speedtest', 'post');
+	const { setResults } = useContext(resultsContext);
 
 	const handleEvent = useCallback(
 		(eventData) => {
@@ -52,6 +55,7 @@ const Speedtest = () => {
 		try {
 			setShowStats(true);
 			await runSpeedtest();
+			// todo: add new result to results
 			sendToast('Speedtest completed');
 		} catch (e) {
 			sendToast('Error running speedtest');

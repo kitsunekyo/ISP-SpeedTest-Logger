@@ -6,7 +6,7 @@ import useApi, { ApiState } from 'shared/hooks/useApi';
 interface ResultsContext {
 	state: ApiState<SpeedtestResult[]>;
 	loadResults: () => any;
-	setResults: (data: any) => any;
+	setResults: (data: SpeedtestResult[]) => void;
 }
 
 export const resultsContext = React.createContext({} as ResultsContext);

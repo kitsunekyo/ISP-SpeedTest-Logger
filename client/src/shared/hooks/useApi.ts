@@ -43,7 +43,7 @@ const useApi = <T = any>(path: string, method: HttpMethod = 'get', immediate = f
 	}, []);
 
 	const send = useCallback(
-		async (payload?: any): Promise<AxiosResponse<any>> => {
+		async (payload?: any): Promise<AxiosResponse<T>> => {
 			setState((s) => ({ ...s, isLoading: true }));
 
 			try {
@@ -64,8 +64,8 @@ const useApi = <T = any>(path: string, method: HttpMethod = 'get', immediate = f
 		[api, history, method, path]
 	);
 
-	const setData = (data: any) => {
-		setState({ ...state, data });
+	const setData = (data: T) => {
+		setState((s) => ({ ...s, data }));
 	};
 
 	useEffect(() => {
