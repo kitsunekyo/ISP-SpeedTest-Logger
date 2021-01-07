@@ -2,10 +2,10 @@ import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import flow from 'lodash/flow';
 
-import { ResultsContext } from '../ResultsContext';
 import { avg, round, mbyte } from 'shared/utils/math';
 import Card from 'shared/components/Card';
-import ValueTile from '../ValueTile';
+import { resultsContext } from 'Dashboard/ResultsContext';
+import ValueTile from 'Dashboard/components/ValueTile';
 
 const readableAvg = flow([avg, round]);
 const roundedMbit = flow([(v) => v * 8, mbyte, round]);
@@ -18,10 +18,10 @@ const StyledAverage = styled.div`
 `;
 
 const AveragePerformance = () => {
-	const { state } = useContext(ResultsContext);
+	const { state } = useContext(resultsContext);
 
 	const testResults = useMemo(() => {
-		return state?.data?.length ? state.data : [];
+		return state.data?.length ? state.data : [];
 	}, [state]);
 
 	return (

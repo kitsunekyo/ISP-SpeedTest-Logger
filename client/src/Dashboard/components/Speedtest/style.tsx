@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import { size, color, mixin } from 'shared/utils/style';
 
+type StatusProps = {
+	show?: boolean;
+};
 export const Status = styled.div`
 	max-width: 600px;
 	margin: 1rem 0;
 	background: ${color.w0};
 	border-radius: ${size.radius};
-	display: ${props => (props.show ? 'block' : 'none')};
+	display: ${(props: StatusProps) => (props.show ? 'block' : 'none')};
 	overflow: hidden;
 	${mixin.shadow};
 `;

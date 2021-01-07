@@ -9,12 +9,12 @@ const options = ['off', '6h', '12h', '24h'];
 const ScheduleSelector = ({ ...otherProps }) => {
 	const toaster = useContext(ToasterContext);
 
-	const { state: scheduleState, setData: setLocalSchedule } = useApi(
+	const { state: scheduleState, setData: setLocalSchedule } = useApi<number>(
 		'/speedtest/schedule',
 		'get',
 		true
 	);
-	const { request: setSchedule } = useApi('/speedtest/schedule', 'post');
+	const { request: setSchedule } = useApi<void>('/speedtest/schedule', 'post');
 
 	const handleSetSchedule = async (value: number) => {
 		try {

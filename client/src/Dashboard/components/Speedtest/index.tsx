@@ -7,7 +7,7 @@ import { ToasterContext } from 'Toaster';
 import { round, mbyte } from 'shared/utils/math';
 import useApi from 'shared/hooks/useApi';
 import Button from 'shared/components/Button';
-import ValueTile from './../ValueTile';
+import ValueTile from 'Dashboard/components/ValueTile';
 import { Status, ProgressBar, ProgressBarWrapper, Values } from './style';
 
 const roundedMbit = flow([mbyte, (v) => v * 8, round]);

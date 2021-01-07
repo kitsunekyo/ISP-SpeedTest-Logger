@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	function logout(): void {
 		setToken(null);
+		loginApi.setData(null);
 		removeStoredAuthToken();
 		history.push('/login');
 	}

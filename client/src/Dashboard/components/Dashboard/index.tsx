@@ -31,14 +31,14 @@ const Dashboard = () => {
 			/>
 			<Speedtest />
 
-			{/*<SectionTitle>Automated Speedtest</SectionTitle>
+			<SectionTitle>Automated Speedtest</SectionTitle>
 			<ScheduleSelector />
 
 			<SectionTitle>Average Performance</SectionTitle>
 			<AveragePerformance />
 
 			<SectionTitle>Test History</SectionTitle>
-			<TestHistory /> */}
+			<TestHistory />
 		</StyledDashboard>
 	);
 };

@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import { getStoredAuthToken, removeStoredAuthToken } from 'shared/utils/authToken';
 
-export interface ApiState {
-	data: any | null;
+export interface ApiState<T = any> {
+	data: T | null;
 	error: Error | null;
 	isLoading: boolean;
 }
@@ -20,11 +20,11 @@ const DEFAULTS = {
 	}),
 };
 
-const useApi = (path: string, method: HttpMethod = 'get', immediate = false) => {
-	const [state, setState] = useState<ApiState>({
+const useApi = <T = any>(path: string, method: HttpMethod = 'get', immediate = false) => {
+	const [state, setState] = useState<ApiState<T>>({
 		data: null,
 		error: null,
-		isLoading: false,
+		isLoading: immediate ? true : false,
 	});
 	const history = useHistory();
 
