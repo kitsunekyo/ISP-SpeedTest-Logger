@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { Interval } from "./Interval";
+import { Interval } from "./../models/Interval";
 
 let _task: cron.ScheduledTask;
 let _interval: Interval;
@@ -20,10 +20,7 @@ const destroy = (): void => {
     if (_task) _task.destroy();
 };
 
-const set = async (
-    interval: Interval,
-    fn: () => void
-): Promise<cron.ScheduledTask> => {
+const set = async (interval: Interval, fn: () => void): Promise<cron.ScheduledTask> => {
     destroy();
 
     if (interval === Interval.Off) {

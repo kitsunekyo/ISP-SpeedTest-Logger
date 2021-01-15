@@ -1,7 +1,7 @@
 import speedtestNet from "speedtest-net";
 
-import { Result } from "./Result";
-import resultDb from "./resultDb";
+import { SpeedtestResult } from "../models/SpeedtestResult";
+import resultsDb from "../db/results";
 import socket from "./../socket";
 
 const handleProgressEvent = (event: any) => {
@@ -16,7 +16,7 @@ const OPTIONS = {
 
 let isRunning = false;
 
-const run = async (): Promise<Result> => {
+const run = async (): Promise<SpeedtestResult> => {
     if (isRunning) {
         throw new Error("Speedtest is already running");
     }
@@ -31,12 +31,12 @@ const run = async (): Promise<Result> => {
     }
 };
 
-const save = async (speedtest: Result): Promise<Result> => {
-    return await resultDb.save(speedtest);
+const save = async (speedtest: SpeedtestResult): Promise<SpeedtestResult> => {
+    return await resultsDb.save(speedtest);
 };
 
-const list = async (): Promise<Result[]> => {
-    return await resultDb.list();
+const list = async (): Promise<SpeedtestResult[]> => {
+    return await resultsDb.list();
 };
 
 export default {

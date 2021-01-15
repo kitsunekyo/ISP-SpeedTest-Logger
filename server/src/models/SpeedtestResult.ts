@@ -1,4 +1,4 @@
-export interface Result {
+export interface SpeedtestResult {
     timestamp: Date;
     ping: {
         jitter: number;
