@@ -9,7 +9,7 @@ import Button from 'shared/components/Button';
 import ValueTile from 'Dashboard/components/ValueTile';
 import { Status, ProgressBar, ProgressBarWrapper, Values } from './style';
 import { resultsContext } from 'Dashboard/ResultsContext';
-import { api } from 'shared/utils/api';
+import { authFetchContext } from 'Auth/AuthFetchContext';
 
 const roundedMbit = flow([mbyte, (v) => v * 8, round]);
 
@@ -23,6 +23,7 @@ const Speedtest = () => {
     const [ping, setPing] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const { results, setResults } = useContext(resultsContext);
+    const { authApi } = useContext(authFetchContext);
 
     const handleEvent = useCallback(
         (eventData) => {
@@ -54,7 +55,7 @@ const Speedtest = () => {
         try {
             setIsLoading(true);
             setShowStats(true);
-            const { data } = await api.post('/speedtest');
+            const { data } = await authApi.post('/speedtest');
             setResults([...results, data]);
             sendToast('Speedtest completed');
         } catch (e) {
