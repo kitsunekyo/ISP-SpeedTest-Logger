@@ -8,28 +8,20 @@ const router = Router();
 
 router.get(
     "/",
-    async (req: express.Request, res: express.Response, next: any): Promise<express.Response> => {
-        try {
-            const results = await speedtestService.list();
-            return res.json(results);
-        } catch (error) {
-            return next(error);
-        }
+    async (req: express.Request, res: express.Response): Promise<express.Response> => {
+        const results = await speedtestService.list();
+        return res.json(results);
     }
 );
 router.post(
     "/",
-    async (req: express.Request, res: express.Response, next: any): Promise<express.Response> => {
-        try {
-            const result = await speedtestService.run();
-            if (result) {
-                await speedtestService.save(result);
-                return res.json(result);
-            } else {
-                throw new Error("Error running speedtest");
-            }
-        } catch (error) {
-            return next(error);
+    async (req: express.Request, res: express.Response): Promise<express.Response> => {
+        const result = await speedtestService.run();
+        if (result) {
+            await speedtestService.save(result);
+            return res.json(result);
+        } else {
+            throw new Error("Error running speedtest");
         }
     }
 );
