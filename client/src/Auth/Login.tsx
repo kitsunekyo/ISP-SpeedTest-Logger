@@ -54,15 +54,12 @@ export function Login() {
         e.preventDefault();
         try {
             const { data } = await api.post('/auth/token', formState);
-            console.log(data);
-
             setAuthState(data);
-
             setTimeout(() => {
                 history.push('/dashboard');
             }, 700);
         } catch (error) {
-            debugger;
+            if (!error.response) throw new Error(error);
             switch (error.response.status) {
                 case 403:
                     setError('Incorrect login details');

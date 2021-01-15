@@ -42,19 +42,19 @@ router.get(
 );
 router.post(
     "/schedule",
-    async (req: express.Request, res: express.Response, next: any): Promise<express.Response> => {
+    async (req: express.Request, res: express.Response): Promise<express.Response> => {
         try {
             const schema = yup.number().required();
-            await schema.validate(req.body);
-        } catch (e) {
-            next(e);
-        }
+            await schema.validate(req.body.value);
+            await scheduleService.set(req.body, async () => {
+                const res = await speedtestService.run();
+                await speedtestService.save(res);
+            });
 
-        await scheduleService.set(req.body, async () => {
-            const res = await speedtestService.run();
-            await speedtestService.save(res);
-        });
-        return res.sendStatus(200);
+            return res.sendStatus(200);
+        } catch (e) {
+            return res.sendStatus(400);
+        }
     }
 );
 

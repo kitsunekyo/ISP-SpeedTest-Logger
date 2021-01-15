@@ -16,10 +16,10 @@ type ResultsProviderProps = {
 
 export const ResultsProvider = ({ children }: ResultsProviderProps) => {
     const [results, setResults] = useState<SpeedtestResult[]>([]);
-    const { authAxios } = useContext(authFetchContext);
+    const { authApi } = useContext(authFetchContext);
 
     const loadResults = async (): Promise<SpeedtestResult[]> => {
-        const { data } = await authAxios.get('/speedtest');
+        const { data } = await authApi.get('/speedtest');
         setResults(data);
         return data;
     };

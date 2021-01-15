@@ -1,21 +1,22 @@
 import axios, { AxiosInstance } from 'axios';
 import React from 'react';
+
 import { API_BASE_URL } from 'shared/utils/api';
 import { useAuth } from './AuthProvider';
 
 type AuthFetchContext = {
-    authAxios: AxiosInstance;
+    authApi: AxiosInstance;
 };
 
 export const authFetchContext = React.createContext<AuthFetchContext>({} as AuthFetchContext);
 
 export const AuthFetchProvider: React.FC = ({ children }) => {
     const authContext = useAuth();
-    const authAxios = axios.create({
+    const authApi = axios.create({
         baseURL: API_BASE_URL,
     });
 
-    authAxios.interceptors.request.use(
+    authApi.interceptors.request.use(
         (config) => {
             config.headers.Authorization = `Bearer ${authContext.authState.token}`;
             return config;
@@ -25,5 +26,5 @@ export const AuthFetchProvider: React.FC = ({ children }) => {
         }
     );
 
-    return <authFetchContext.Provider value={{ authAxios }}>{children}</authFetchContext.Provider>;
+    return <authFetchContext.Provider value={{ authApi }}>{children}</authFetchContext.Provider>;
 };
