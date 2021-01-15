@@ -7,12 +7,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { speedtestService, router as speedtestRouter } from "./Speedtest";
-import { router as eventsRouter } from "./Event";
-import { scheduleService, Interval } from "./Schedule";
+import speedtestService from "./services/speedtest.service";
+import speedtestRouter from "./routes/speedtest.routes";
+
+import scheduleService from "./services/schedule.service";
+import { Interval } from "./models/Interval";
+
 import socket from "./socket";
-import { requireAuth, router as authRouter } from "./Auth";
-import { errorLogMiddleware, httpLogMiddleware } from "./logger";
+import { requireAuth, default as authRouter } from "./routes/auth.routes";
+import { errorLogMiddleware, httpLogMiddleware, logger } from "./logger";
 
 const errorMiddleware = (error: any, req: Request, res: Response, next: any) => {
     process.env.NODE_ENV !== "production" && console.log(error.message);
@@ -52,8 +55,7 @@ const notFoundHandler = (req: Request, res: Response) => {
 
     app.use(httpLogMiddleware);
     app.use("/speedtest", requireAuth(), speedtestRouter);
-    app.use("/events", requireAuth(), eventsRouter);
-    app.use("/oauth2", authRouter);
+    app.use("/auth", authRouter);
     app.use(notFoundHandler);
 
     app.use(errorLogMiddleware);
@@ -63,9 +65,9 @@ const notFoundHandler = (req: Request, res: Response) => {
     const io = socket.setup(server);
 
     io.on("connection", (s) => {
-        console.log("connected");
+        logger.log("info", `connected ${JSON.stringify(s.client.id)}`);
         s.on("disconnect", () => {
-            console.log("disconnected");
+            logger.log("info", `disconnected`);
         });
     });
 
