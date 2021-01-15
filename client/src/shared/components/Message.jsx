@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { color } from "shared/utils/style";
+import { color } from 'shared/utils/style';
 
 const Wrapper = styled.div`
     display: flex;

@@ -33,14 +33,14 @@ router.post(
         }
     }
 );
-router.post(
+router.get(
     "/schedule",
     (req: express.Request, res: express.Response): express.Response => {
         const interval = scheduleService.getInterval();
         return res.json(interval);
     }
 );
-router.get(
+router.post(
     "/schedule",
     async (req: express.Request, res: express.Response, next: any): Promise<express.Response> => {
         try {

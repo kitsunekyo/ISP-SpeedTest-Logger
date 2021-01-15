@@ -1,91 +1,82 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
 
-import useApi from '../shared/hooks/useApi';
-import {
-	getStoredAuthToken,
-	removeStoredAuthToken,
-	storeAuthToken,
-} from '../shared/utils/authToken';
-
-type AuthProviderProps = {
-	children: React.ReactNode;
+type AuthState = {
+    token: string | null;
+    expiresAt: number | null;
+    userInfo: any;
 };
 
-type TokenData = {
-	username: string;
-	role?: string;
-	exp: number;
-	iat: number;
+type AuthContext = {
+    authState: AuthState;
+    setAuthState: (authInfo: { token: string; userInfo: any; expiresAt: number }) => void;
+    isAuthenticated: () => boolean;
+    isAdmin: () => boolean;
+    logout: () => void;
 };
 
-interface IAuthContext {
-	token: string | null;
-	getUser: () => TokenData | null;
-	login: (payload: { username: string; password: string }) => Promise<string | void>;
-	logout: () => void;
-}
+const authContext = React.createContext({} as AuthContext);
 
-export const AuthContext = React.createContext({} as IAuthContext);
+export const AuthProvider: React.FC = ({ children }) => {
+    const history = useHistory();
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-	const [token, setToken] = useState<string | null>(null);
-	const loginApi = useApi('/oauth2/token', 'post');
-	const history = useHistory();
+    const token = localStorage.getItem('token');
+    const userInfo = localStorage.getItem('userInfo');
+    const expiresAt = localStorage.getItem('expiresAt');
 
-	useEffect(() => {
-		loadTokenFromLocalStorage();
-	});
+    const [authState, setAuthState] = useState<AuthState>({
+        token,
+        expiresAt: expiresAt ? parseInt(expiresAt) : null,
+        userInfo: userInfo ? JSON.parse(userInfo) : {},
+    });
 
-	function loadTokenFromLocalStorage(): void {
-		const accessToken = getStoredAuthToken();
+    const setAuthInfo = ({
+        token,
+        userInfo,
+        expiresAt,
+    }: {
+        token: string;
+        userInfo: any;
+        expiresAt: number;
+    }): void => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('expiresAt', expiresAt.toString());
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        setAuthState({ token, userInfo, expiresAt });
+    };
 
-		if (accessToken) {
-			const tokenData: TokenData = jwt_decode(accessToken);
-			const now = new Date();
-			const expires = new Date(tokenData.exp * 1000);
+    const isAuthenticated = (): boolean => {
+        if (!authState.token || !authState.expiresAt) return false;
+        const isExpired = new Date().getTime() / 1000 >= authState.expiresAt;
 
-			if (expires <= now) {
-				logout();
-			}
+        return !isExpired;
+    };
 
-			setToken(accessToken);
-		}
-	}
+    const isAdmin = (): boolean => {
+        return authState.userInfo?.role === 'admin';
+    };
 
-	async function login(payload: { username: string; password: string }): Promise<void> {
-		const response = await loginApi.request(payload);
-		const token = response.data.accessToken;
+    const logout = (): void => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('expiresAt');
+        localStorage.removeItem('userInfo');
+        setAuthState({ token: null, expiresAt: null, userInfo: {} });
+        history.push('/login');
+    };
 
-		setToken(token);
-		storeAuthToken(token);
-	}
-
-	function logout(): void {
-		setToken(null);
-		loginApi.setData(null);
-		removeStoredAuthToken();
-		history.push('/login');
-	}
-
-	/**
-	 * using a function instead of another user state,
-	 * because i'd have to keep token and user state synced
-	 * -> could lead to inconsistent data
-	 */
-	function getUser(): TokenData | null {
-		if (!token) return null;
-
-		const decoded: TokenData = jwt_decode(token);
-		const user = decoded;
-
-		return user;
-	}
-
-	const authContext: IAuthContext = { token, getUser, login, logout };
-
-	return <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>;
+    return (
+        <authContext.Provider
+            value={{
+                authState,
+                setAuthState: (authInfo) => setAuthInfo(authInfo),
+                isAuthenticated,
+                isAdmin,
+                logout,
+            }}
+        >
+            {children}
+        </authContext.Provider>
+    );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(authContext);

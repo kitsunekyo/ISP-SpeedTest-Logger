@@ -2,7 +2,7 @@ export interface Token {
     role: string;
     iss: string;
     aud: string;
-    sub: string;
+    email: string;
     iat: number;
     exp: number;
 }

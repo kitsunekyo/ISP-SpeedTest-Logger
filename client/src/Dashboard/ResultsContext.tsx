@@ -1,30 +1,37 @@
+import { authFetchContext } from 'Auth/AuthFetchContext';
 import { SpeedtestResult } from 'models/speedtest';
-import React from 'react';
-
-import useApi, { ApiState } from 'shared/hooks/useApi';
+import React, { useContext, useEffect, useState } from 'react';
 
 interface ResultsContext {
-	state: ApiState<SpeedtestResult[]>;
-	loadResults: () => any;
-	setResults: (data: SpeedtestResult[]) => void;
+    results: SpeedtestResult[];
+    loadResults: () => Promise<SpeedtestResult[]>;
+    setResults: (results: SpeedtestResult[]) => void;
 }
 
 export const resultsContext = React.createContext({} as ResultsContext);
 
 type ResultsProviderProps = {
-	children: React.ReactNode;
+    children: React.ReactNode;
 };
 
 export const ResultsProvider = ({ children }: ResultsProviderProps) => {
-	const { state, request: loadData, setData } = useApi<SpeedtestResult[]>(
-		'/speedtest',
-		'get',
-		true
-	);
+    const [results, setResults] = useState<SpeedtestResult[]>([]);
+    const { authAxios } = useContext(authFetchContext);
 
-	return (
-		<resultsContext.Provider value={{ state, loadResults: loadData, setResults: setData }}>
-			{children}
-		</resultsContext.Provider>
-	);
+    const loadResults = async (): Promise<SpeedtestResult[]> => {
+        const { data } = await authAxios.get('/speedtest');
+        setResults(data);
+        return data;
+    };
+
+    useEffect(() => {
+        loadResults();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+        <resultsContext.Provider value={{ results, loadResults, setResults }}>
+            {children}
+        </resultsContext.Provider>
+    );
 };

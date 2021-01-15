@@ -31,7 +31,7 @@ router.post("/token", (req: Request, res: Response) => {
     res.json({
         token,
         userInfo: {
-            sub: decodedToken.sub,
+            email: decodedToken.email,
             role: decodedToken.role,
         },
         expiresAt: decodedToken.exp,

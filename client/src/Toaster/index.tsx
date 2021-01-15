@@ -2,53 +2,51 @@ import React, { useState, useCallback } from 'react';
 import { nanoid } from 'nanoid';
 
 import { TOAST_DURATION } from './config';
-import Toaster from './Toaster';
 
 type Toast = {
-	id?: string;
-	title: string;
-	message?: string;
+    id?: string;
+    title: string;
+    message?: string;
 };
 
 interface IToasterContext {
-	toasts: Toast[];
-	sendToast: (title: string, message?: string) => void;
-	removeToast: (id: string) => void;
+    toasts: Toast[];
+    sendToast: (title: string, message?: string) => void;
+    removeToast: (id: string) => void;
 }
 
 type ToasterProviderProps = {
-	children: React.ReactNode;
+    children: React.ReactNode;
 };
 
 export const ToasterContext = React.createContext<IToasterContext>({} as IToasterContext);
 
 export const ToasterProvider = ({ children }: ToasterProviderProps) => {
-	const [toasts, setToasts] = useState<Toast[]>([]);
+    const [toasts, setToasts] = useState<Toast[]>([]);
 
-	const removeToast = useCallback(
-		(id: string) => {
-			setToasts((toasts) => toasts.filter((t) => t.id !== id));
-		},
-		[setToasts]
-	);
+    const removeToast = useCallback(
+        (id: string) => {
+            setToasts((toasts) => toasts.filter((t) => t.id !== id));
+        },
+        [setToasts]
+    );
 
-	const sendToast = useCallback(
-		(title: string, message?: string) => {
-			const id = nanoid();
-			setToasts((toasts) => [...toasts, { id, title, message }]);
+    const sendToast = useCallback(
+        (title: string, message?: string) => {
+            const id = nanoid();
+            setToasts((toasts) => [...toasts, { id, title, message }]);
 
-			// autoremove
-			setTimeout(() => {
-				removeToast(id);
-			}, TOAST_DURATION);
-		},
-		[setToasts, removeToast]
-	);
+            // autoremove
+            setTimeout(() => {
+                removeToast(id);
+            }, TOAST_DURATION);
+        },
+        [setToasts, removeToast]
+    );
 
-	return (
-		<ToasterContext.Provider value={{ toasts, sendToast, removeToast }}>
-			<Toaster />
-			{children}
-		</ToasterContext.Provider>
-	);
+    return (
+        <ToasterContext.Provider value={{ toasts, sendToast, removeToast }}>
+            {children}
+        </ToasterContext.Provider>
+    );
 };

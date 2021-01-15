@@ -10,7 +10,7 @@ export const createToken = (user: User): string => {
 
     return jwt.sign(
         {
-            sub: user.email,
+            email: user.email,
             role: user.role,
             iss: "isp-api",
             aud: "isp-api",
