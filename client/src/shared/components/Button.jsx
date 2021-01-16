@@ -19,7 +19,7 @@ const StyledButton = styled.button`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 45px;
+    height: 40px;
     min-width: 45px;
     vertical-align: middle;
     line-height: 1;

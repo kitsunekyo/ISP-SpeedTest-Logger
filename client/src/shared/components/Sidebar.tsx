@@ -4,7 +4,6 @@ import { Grid as GridIcon, GitHub as GitHubIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 import { color, mixin } from 'shared/utils/style';
-import { useAuth } from 'Auth/AuthProvider';
 
 const StyledSidebar = styled.nav`
     display: flex;
@@ -67,12 +66,6 @@ const NavItem = styled(ListItem)`
 `;
 
 const Sidebar = () => {
-    const { authState, logout } = useAuth();
-
-    function handleLogout() {
-        logout();
-    }
-
     return (
         <StyledSidebar>
             <List>
@@ -86,10 +79,6 @@ const Sidebar = () => {
                 >
                     <GitHubIcon />
                 </NavItem>
-            </List>
-            <List style={{ marginTop: 'auto' }}>
-                {authState.userInfo && <ListItem>hey, {authState.userInfo.email}</ListItem>}
-                <NavItem onClick={handleLogout}>Logout</NavItem>
             </List>
         </StyledSidebar>
     );

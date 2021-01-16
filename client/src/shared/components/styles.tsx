@@ -11,14 +11,3 @@ export const SectionTitle = styled.h2`
     font-size: 1rem;
     color: ${color.textSecondary};
 `;
-
-export const StyledDashboard = styled.div`
-    padding: 2rem;
-    min-height: 100vh;
-    background-color: #fafafa;
-    margin: 0 0 80px 0;
-    @media (min-width: 900px) {
-        padding: 50px;
-        margin: 0 0 0 100px;
-    }
-`;

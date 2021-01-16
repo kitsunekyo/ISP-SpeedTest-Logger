@@ -13,8 +13,7 @@ const BaseStyles = createGlobalStyle`
         min-height: 100%;
         margin: 0;
     }
-    #app {
-        overflow: hidden;
+    #root {
         min-height: 100%;
     }
     html {

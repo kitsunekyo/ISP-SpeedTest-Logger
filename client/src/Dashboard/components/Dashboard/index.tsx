@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Loader, AlertOctagon, RefreshCcw } from 'react-feather';
 
-import { StyledDashboard, SectionTitle, PageTitle } from './style';
 import { resultsContext } from 'Dashboard/ResultsContext';
 import Message from 'shared/components/Message';
 import Button from 'shared/components/Button';
@@ -9,6 +8,7 @@ import Speedtest from 'Dashboard/components/Speedtest';
 import ScheduleSelector from 'Dashboard/components/ScheduleSelector';
 import AveragePerformance from 'Dashboard/components/AveragePerformance';
 import TestHistory from 'Dashboard/components/TestHistory';
+import { PageTitle, SectionTitle } from 'shared/components/styles';
 
 const Dashboard = () => {
     const { loadResults } = useContext(resultsContext);
@@ -22,7 +22,7 @@ const Dashboard = () => {
     //     return <Message title="Error loading speedtest results" icon={<AlertOctagon />} />;
 
     return (
-        <StyledDashboard>
+        <>
             <PageTitle>Network Quality Dashboard</PageTitle>
             <Button
                 onClick={handleReload}
@@ -39,7 +39,7 @@ const Dashboard = () => {
 
             <SectionTitle>Test History</SectionTitle>
             <TestHistory />
-        </StyledDashboard>
+        </>
     );
 };
 
