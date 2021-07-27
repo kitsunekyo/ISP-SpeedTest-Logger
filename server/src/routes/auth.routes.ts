@@ -9,7 +9,7 @@ import { createToken, tokenSecret } from "./../util/token";
 export const DUMMY_USERS: User[] = [
     {
         email: "admin@test.com",
-        password: "admin",
+        password: process.env.ADMIN_PW,
         role: "admin",
     },
 ];
