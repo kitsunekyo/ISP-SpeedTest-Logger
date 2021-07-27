@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import http from "http";
-import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
 
@@ -51,7 +50,7 @@ const notFoundHandler = (req: Request, res: Response) => {
     }
 
     app.use(helmet());
-    app.use(bodyParser.json({ strict: false }));
+    app.use(express.json({ strict: false }));
 
     app.use(httpLogMiddleware);
     app.use("/speedtest", requireAuth(), speedtestRouter);
