@@ -1,7 +1,10 @@
 # ISP SpeedTest Logger
 
-> ⚠ due to an issue in speedtest-net, the **first** speedtest on a machine (eg docker container) will fail, due to the license info message of the speedtest binary breaking the promise. [https://github.com/ddsol/speedtest.net/issues/117](https://github.com/ddsol/speedtest.net/issues/117).  
-> this will lock the server in an "speedtest running" state. so you have to manually restart the server. (fix is WIP)
+![NodeJS v12](https://img.shields.io/badge/node-v12-green?style=flat)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=flat&logo=express&logoColor=%2361DAFB)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat&logo=mongodb&logoColor=white)
 
 If you're on a LTE, 4G, 5G, ... connection, and want to review how (💩) it holds up over time, this should do the trick for you.
 This webapp allows you to periodically run speedtests (node.js), store the results (mongodb), and review your network quality in a web ui.
