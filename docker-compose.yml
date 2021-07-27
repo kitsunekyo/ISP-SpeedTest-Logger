@@ -14,11 +14,12 @@ services:
             - db
         ports:
             - "3000:3000"
-        environment: 
+        environment:
             - API_PORT=3000
             - MONGODB_CONNECTION_STRING=mongodb://db:27017/isp
             - CORS=*
             - OAUTH2_SECRET=supersecretsecret
+            - ADMIN_PW=admin
     frontend:
         build: ./client
         restart: always
@@ -27,4 +28,4 @@ services:
         ports:
             - "8080:80"
 volumes:
-  db_data:
+    db_data:
