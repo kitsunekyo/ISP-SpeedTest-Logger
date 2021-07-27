@@ -23,7 +23,7 @@
         "express-winston": "^4.0.5",
         "helmet": "^3.23.3",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.9.18",
+        "mongoose": "^5.13.3",
         "monk": "^7.3.0",
         "nanoid": "^3.1.10",
         "node-cron": "^2.0.3",
