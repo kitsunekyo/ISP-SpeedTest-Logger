@@ -7,7 +7,8 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "start": "nodemon",
-    "start:prod": "npm run build && node dist/server.js"
+    "start:prod": "npm run build && node dist/server.js",
+    "swagger-autogen": "node ./swagger.js"
   },
   "engines": {
     "node": ">=8.10.0"
@@ -15,6 +16,8 @@
   "author": "alexander.spieslechner@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.3",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
     "dotenv": "^16.0.0",
@@ -31,6 +34,9 @@
     "passport-jwt": "^4.0.0",
     "socket.io": "^4.4.1",
     "speedtest-net": "^2.2.0",
+    "swagger-autogen": "^2.18.8",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
     "winston": "^3.5.1",
     "yup": "^0.32.11"
   },

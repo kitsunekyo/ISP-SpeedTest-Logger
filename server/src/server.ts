@@ -2,6 +2,22 @@ import express, { Request, Response } from "express";
 import http from "http";
 import helmet from "helmet";
 import cors from "cors";
+import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
+import swaggerDocument from "../swagger-output.json";
+
+const swaggerUiOptions: SwaggerUiOptions = {
+  explorer: true,
+  swaggerOptions: {
+    BearerAuth: {
+      name: "Authorization",
+      schema: {
+        type: "basic",
+        in: "header",
+      },
+      value: "Basic <user:password>",
+    },
+  },
+};
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -60,6 +76,11 @@ const notFoundHandler = (req: Request, res: Response) => {
   app.use(httpLogMiddleware);
   app.use("/speedtest", requireAuth(), speedtestRouter);
   app.use("/auth", authRouter);
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, swaggerUiOptions)
+  );
   app.use(notFoundHandler);
 
   app.use(errorLogMiddleware);
