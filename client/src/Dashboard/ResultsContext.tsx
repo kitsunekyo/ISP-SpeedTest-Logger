@@ -1,6 +1,6 @@
 import { authFetchContext } from 'Auth/AuthFetchContext';
 import { SpeedtestResult } from 'models/speedtest';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 interface ResultsContext {
     results: SpeedtestResult[];
@@ -18,16 +18,15 @@ export const ResultsProvider = ({ children }: ResultsProviderProps) => {
     const [results, setResults] = useState<SpeedtestResult[]>([]);
     const { authApi } = useContext(authFetchContext);
 
-    const loadResults = async (): Promise<SpeedtestResult[]> => {
+    const loadResults = useCallback(async (): Promise<SpeedtestResult[]> => {
         const { data } = await authApi.get('/speedtest');
         setResults(data);
         return data;
-    };
+    }, [authApi]);
 
     useEffect(() => {
         loadResults();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loadResults]);
 
     return (
         <resultsContext.Provider value={{ results, loadResults, setResults }}>

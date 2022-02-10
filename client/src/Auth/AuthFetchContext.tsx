@@ -18,8 +18,13 @@ export const AuthFetchProvider: React.FC = ({ children }) => {
 
     authApi.interceptors.request.use(
         (config) => {
-            config.headers.Authorization = `Bearer ${authContext.authState.token}`;
-            return config;
+            return {
+                ...config,
+                headers: {
+                    ...config.headers,
+                    Authorization: `Bearer ${authContext.authState.token}`,
+                },
+            };
         },
         (error) => {
             return Promise.reject(error);
