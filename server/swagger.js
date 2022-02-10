@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const swaggerAutogen = require("swagger-autogen")();
+const swaggerAutogen = require("swagger-autogen")({ openapi: "3.0.0" });
 
 const doc = {
   info: {
@@ -10,12 +10,19 @@ const doc = {
   schemes: ["http"],
   components: {
     securitySchemes: {
-      basicAuth: {
+      jwt: {
         type: "http",
-        scheme: "basic",
+        scheme: "bearer",
+        in: "header",
+        bearerFormat: "JWT",
       },
     },
   },
+  security: [
+    {
+      jwt: [],
+    },
+  ],
 };
 
 const outputFile = "./swagger-output.json";

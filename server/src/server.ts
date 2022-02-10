@@ -7,16 +7,6 @@ import swaggerDocument from "../swagger-output.json";
 
 const swaggerUiOptions: SwaggerUiOptions = {
   explorer: true,
-  swaggerOptions: {
-    BearerAuth: {
-      name: "Authorization",
-      schema: {
-        type: "basic",
-        in: "header",
-      },
-      value: "Basic <user:password>",
-    },
-  },
 };
 
 import dotenv from "dotenv";
