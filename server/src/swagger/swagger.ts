@@ -9,11 +9,11 @@ export const swaggerDoc: swaggerJsdoc.Options = {
       version: "1.0.0",
       description: "Run speedtests and log them in a database",
     },
-    host: "localhost:3000",
+    host: "localhost:3001",
     schemes: ["http"],
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "http://localhost:3001",
       },
     ],
     components: {

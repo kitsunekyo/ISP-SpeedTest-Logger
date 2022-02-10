@@ -7,8 +7,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "start": "nodemon",
-    "start:prod": "npm run build && node dist/server.js",
-    "swagger-autogen": "node ./swagger.js"
+    "start:prod": "npm run build && node dist/server.js"
   },
   "engines": {
     "node": ">=8.10.0"

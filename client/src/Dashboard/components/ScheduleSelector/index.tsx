@@ -14,7 +14,7 @@ const ScheduleSelector = ({ ...otherProps }) => {
     useEffect(() => {
         (async () => {
             const { data } = await authApi.get('/speedtest/schedule');
-            setSchedule(data.value);
+            setSchedule(data);
         })();
     }, [authApi]);
 

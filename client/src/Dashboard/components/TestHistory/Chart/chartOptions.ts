@@ -1,14 +1,9 @@
-export const chartOptions = {
+export const chartOptions: ApexCharts.ApexOptions = {
     stroke: {
         curve: 'smooth',
     },
     xaxis: {
         type: 'datetime',
-    },
-    yaxis: {
-        labels: {
-            minWidth: '150px',
-        },
     },
     legend: {
         show: true,

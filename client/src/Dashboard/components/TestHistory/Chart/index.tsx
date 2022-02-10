@@ -12,7 +12,7 @@ type Props = {
 };
 
 const Chart = ({ id, group, series, width = '100%', height = 200 }: Props) => {
-    const [chartData, setChartData] = useState({
+    const [chartData] = useState({
         options: {
             ...chartOptions,
             chart: {

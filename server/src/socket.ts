@@ -6,7 +6,9 @@ let socket: SocketIoServer;
 const setup = (server: Server): SocketIoServer => {
   if (socket) return socket;
 
-  socket = new SocketIoServer(server);
+  socket = new SocketIoServer(server, {
+    cors: { origin: ["http://localhost:3001"] },
+  });
   return socket;
 };
 
