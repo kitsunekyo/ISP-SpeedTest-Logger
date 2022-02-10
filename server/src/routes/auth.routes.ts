@@ -16,6 +16,32 @@ export const DUMMY_USERS: User[] = [
 
 const router = Router();
 
+/**
+ * @swagger
+ * /auth/token:
+ *    post:
+ *      description: Get a token
+ *      tags:
+ *        - auth
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *                - password
+ *              properties:
+ *                email:
+ *                  type: string
+ *                  example: admin@test.com
+ *                password:
+ *                  type: string
+ *                  example: admin
+ *      responses:
+ *        200:
+ *          description: Returns a jwt token
+ */
 router.post("/token", (req: Request, res: Response) => {
   const { email, password } = req.body;
 

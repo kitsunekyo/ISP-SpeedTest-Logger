@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import http from "http";
 import helmet from "helmet";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -15,26 +16,8 @@ import { Interval } from "./models/Interval";
 import socket from "./socket";
 import { requireAuth, default as authRouter } from "./routes/auth.routes";
 import { errorLogMiddleware, httpLogMiddleware, logger } from "./logger";
-
-const errorMiddleware = (
-  error: any,
-  req: Request,
-  res: Response,
-  next: any
-) => {
-  process.env.NODE_ENV !== "production" && console.log(error.message);
-
-  if (error.status) {
-    res.status(error.status);
-  } else {
-    res.status(500);
-  }
-
-  res.json({
-    message: error.message,
-    stack: process.env.NODE_ENV === "production" ? "📦" : error.stack,
-  });
-};
+import { swaggerSpecification, swaggerUiOptions } from "./swagger/swagger";
+import { errorMiddleware } from "./middleware/error";
 
 const notFoundHandler = (req: Request, res: Response) => {
   res.status(404);
@@ -60,8 +43,12 @@ const notFoundHandler = (req: Request, res: Response) => {
   app.use(httpLogMiddleware);
   app.use("/speedtest", requireAuth(), speedtestRouter);
   app.use("/auth", authRouter);
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpecification, swaggerUiOptions)
+  );
   app.use(notFoundHandler);
-
   app.use(errorLogMiddleware);
   app.use(errorMiddleware);
 
