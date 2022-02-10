@@ -1,31 +1,31 @@
 version: "3"
 services:
-    db:
-        image: mongo
-        restart: always
-        ports:
-            - "27017:27017"
-        volumes:
-            - db_data:/data/db
-    api:
-        build: ./server
-        restart: always
-        depends_on:
-            - db
-        ports:
-            - "3000:3000"
-        environment:
-            - API_PORT=3000
-            - MONGODB_CONNECTION_STRING=mongodb://db:27017/isp
-            - CORS=*
-            - OAUTH2_SECRET=supersecretsecret
-            - ADMIN_PW=admin
-    frontend:
-        build: ./client
-        restart: always
-        depends_on:
-            - db
-        ports:
-            - "8080:80"
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - db_data:/data/db
+  api:
+    build: ./server
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+    environment:
+      - API_PORT=3001
+      - MONGODB_CONNECTION_STRING=mongodb://db:27017/isp
+      - CORS=*
+      - OAUTH2_SECRET=supersecretsecret
+      - ADMIN_PW=admin
+  frontend:
+    build: ./client
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "3000:80"
 volumes:
-    db_data:
+  db_data:

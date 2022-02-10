@@ -13,21 +13,17 @@ This webapp allows you to periodically run speedtests (node.js), store the resul
 
 ## Features
 
--   Review Network performance over time in UI
--   Configure automated speedtests to run every 24/12/6 hours
--   Easily deploy and run through docker
+- Review Network performance over time in UI
+- Configure automated speedtests to run every 24/12/6 hours
+- Easily deploy and run through docker
 
 ![screenshot](screenshot.png)
 
 ## Requirements 📦
 
--   docker + docker-compose installed
--   shared drive in docker
--   host machine should have internet access
-
-## Usage
-
-Admin pw can be set in `.env` -> `ADMIN_PW`
+- node v12
+- docker + docker-compose installed
+- host machine should have internet access
 
 ### docker-compose
 
@@ -35,17 +31,29 @@ Run `docker-compose up -d` to build and start all docker containers (db, fronten
 
 > docker-compose.yml has defaults for environment variables. should you want to use it without docker, create an `.env` file in `./server`, that holds your application config. (rename the example)
 
-### development
+### 💻 Development
+
+> Make sure you run node v12, as i havent updated the repo to run on newer node versions. PR welcome
+
+> Admin pw can be set in `.env` -> `ADMIN_PW`
 
 During development you might want to run mongodb via docker, but run the api / frontend locally.
 
+```bash
+docker run -d \
+  --name isp-mongodb \
+  --publish 27017:27017 \
+  mongo
+```
+
 Install dependencies first with `npm install`, both in server and client.
 
-You can then run `npm start`, to start the application in dev mode.
+Setup `./server/.env` by copying the `./server/example.env` file.
 
-Frontend is available on `http://localhost:8080/speedtest`
+You can then run `npm start`, in both server and client to start the application in dev mode.
 
-API can be accessed directly via curl on port 3000 (default).
-Use POST `localhost:3000/speedtest` to start a speedtest and log it to mongodb.
+**Client** is available on http://localhost:3000
+
+**Server** is available on http://localhost:3001 and you can checkout the **swagger docs** on http://localhost:3001/api-docs
 
 <a href="https://www.buymeacoffee.com/aspieslechner" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
