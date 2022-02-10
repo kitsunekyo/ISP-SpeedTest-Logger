@@ -37,6 +37,4 @@ export const swaggerDoc: swaggerJsdoc.Options = {
 
 export const swaggerSpecification = swaggerJsdoc(swaggerDoc);
 
-export const swaggerUiOptions: SwaggerUiOptions = {
-  explorer: true,
-};
+export const swaggerUiOptions: SwaggerUiOptions = {};
