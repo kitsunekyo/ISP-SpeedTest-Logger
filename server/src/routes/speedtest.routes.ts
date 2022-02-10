@@ -6,6 +6,30 @@ import scheduleService from "./../services/schedule.service";
 
 const router = Router();
 
+/**
+ * @swagger
+ * tags:
+ *  name: speedtest
+ *  description: API to manage speedtest results
+ * components:
+ *  schemas:
+ *    SpeedtestResult:
+ *      type: object
+ */
+
+/**
+ * @swagger
+ * /speedtest/:
+ *  get:
+ *    description: Get all speedtest results
+ *    tags: [speedtest]
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/SpeedtestResult'
+ */
 router.get(
   "/",
   async (
@@ -16,6 +40,20 @@ router.get(
     return res.json(results);
   }
 );
+
+/**
+ * @swagger
+ * /speedtest/:
+ *  post:
+ *    description: start a new speedtest
+ *    tags: [speedtest]
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/SpeedtestResult'
+ */
 router.post(
   "/",
   async (
@@ -31,6 +69,20 @@ router.post(
     }
   }
 );
+
+/**
+ * @swagger
+ * /speedtest/schedule:
+ *  get:
+ *    description: get the current speedtest schedule
+ *    tags: [speedtest]
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: number
+ */
 router.get(
   "/schedule",
   (req: express.Request, res: express.Response): express.Response => {
@@ -38,6 +90,22 @@ router.get(
     return res.json(interval);
   }
 );
+
+/**
+ * @swagger
+ * /speedtest/schedule:
+ *  post:
+ *    description: set the speedtest schedule
+ *    tags: [speedtest]
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: number
+ *    responses:
+ *      200:
+ *        description: Success
+ */
 router.post(
   "/schedule",
   async (

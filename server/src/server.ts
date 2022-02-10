@@ -4,6 +4,42 @@ import helmet from "helmet";
 import cors from "cors";
 import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
 import swaggerDocument from "../swagger-output.json";
+import swaggerJsdoc from "swagger-jsdoc";
+
+const swaggerDoc: swaggerJsdoc.Options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Speedtest Api",
+      version: "1.0.0",
+      description: "Run speedtests and log them in a database",
+    },
+    host: "localhost:3000",
+    schemes: ["http"],
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+    components: {
+      securitySchemes: {
+        jwt: {
+          type: "http",
+          scheme: "bearer",
+          in: "header",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        jwt: [],
+      },
+    ],
+  },
+  apis: ["./src/server.ts", "./src/routes/*.ts"],
+};
+const swaggerSpecification = swaggerJsdoc(swaggerDoc);
 
 const swaggerUiOptions: SwaggerUiOptions = {
   explorer: true,
@@ -69,7 +105,7 @@ const notFoundHandler = (req: Request, res: Response) => {
   app.use(
     "/api-docs",
     swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument, swaggerUiOptions)
+    swaggerUi.setup(swaggerSpecification, swaggerUiOptions)
   );
   app.use(notFoundHandler);
 
