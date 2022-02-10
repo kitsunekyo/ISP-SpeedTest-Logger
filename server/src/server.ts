@@ -2,47 +2,7 @@ import express, { Request, Response } from "express";
 import http from "http";
 import helmet from "helmet";
 import cors from "cors";
-import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
-import swaggerJsdoc from "swagger-jsdoc";
-
-const swaggerDoc: swaggerJsdoc.Options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Speedtest Api",
-      version: "1.0.0",
-      description: "Run speedtests and log them in a database",
-    },
-    host: "localhost:3000",
-    schemes: ["http"],
-    servers: [
-      {
-        url: "http://localhost:3000",
-      },
-    ],
-    components: {
-      securitySchemes: {
-        jwt: {
-          type: "http",
-          scheme: "bearer",
-          in: "header",
-          bearerFormat: "JWT",
-        },
-      },
-    },
-    security: [
-      {
-        jwt: [],
-      },
-    ],
-  },
-  apis: ["./src/server.ts", "./src/routes/*.ts"],
-};
-const swaggerSpecification = swaggerJsdoc(swaggerDoc);
-
-const swaggerUiOptions: SwaggerUiOptions = {
-  explorer: true,
-};
+import swaggerUi from "swagger-ui-express";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -56,26 +16,8 @@ import { Interval } from "./models/Interval";
 import socket from "./socket";
 import { requireAuth, default as authRouter } from "./routes/auth.routes";
 import { errorLogMiddleware, httpLogMiddleware, logger } from "./logger";
-
-const errorMiddleware = (
-  error: any,
-  req: Request,
-  res: Response,
-  next: any
-) => {
-  process.env.NODE_ENV !== "production" && console.log(error.message);
-
-  if (error.status) {
-    res.status(error.status);
-  } else {
-    res.status(500);
-  }
-
-  res.json({
-    message: error.message,
-    stack: process.env.NODE_ENV === "production" ? "📦" : error.stack,
-  });
-};
+import { swaggerSpecification, swaggerUiOptions } from "./swagger/swagger";
+import { errorMiddleware } from "./middleware/error";
 
 const notFoundHandler = (req: Request, res: Response) => {
   res.status(404);
@@ -107,7 +49,6 @@ const notFoundHandler = (req: Request, res: Response) => {
     swaggerUi.setup(swaggerSpecification, swaggerUiOptions)
   );
   app.use(notFoundHandler);
-
   app.use(errorLogMiddleware);
   app.use(errorMiddleware);
 
