@@ -1,18 +1,18 @@
-import socketIo from "socket.io";
+import { Server as SocketIoServer } from "socket.io";
 import { Server } from "http";
 
-let socket: socketIo.Server;
+let socket: SocketIoServer;
 
-const setup = (server: Server): socketIo.Server => {
-    if (socket) return socket;
+const setup = (server: Server): SocketIoServer => {
+  if (socket) return socket;
 
-    socket = socketIo(server);
-    return socket;
+  socket = new SocketIoServer(server);
+  return socket;
 };
 
-const io = (): socketIo.Server => socket;
+const io = (): SocketIoServer => socket;
 
 export default {
-    setup,
-    io,
+  setup,
+  io,
 };
