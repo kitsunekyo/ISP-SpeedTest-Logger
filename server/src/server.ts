@@ -3,7 +3,6 @@ import http from "http";
 import helmet from "helmet";
 import cors from "cors";
 import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
-import swaggerDocument from "../swagger-output.json";
 import swaggerJsdoc from "swagger-jsdoc";
 
 const swaggerDoc: swaggerJsdoc.Options = {
