@@ -7,7 +7,7 @@ services:
       - "27017:27017"
     volumes:
       - db_data:/data/db
-  api:
+  server:
     build: ./server
     restart: always
     depends_on:
@@ -20,12 +20,14 @@ services:
       - CORS=*
       - OAUTH2_SECRET=supersecretsecret
       - ADMIN_PW=admin
-  frontend:
+  client:
     build: ./client
     restart: always
     depends_on:
       - db
     ports:
       - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001
 volumes:
   db_data:

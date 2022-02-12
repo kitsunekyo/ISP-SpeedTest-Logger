@@ -10,7 +10,7 @@
     "start:prod": "npm run build && node dist/server.js"
   },
   "engines": {
-    "node": ">=8.10.0"
+    "node": "12"
   },
   "author": "alexander.spieslechner@gmail.com",
   "license": "MIT",

@@ -1,12 +1,10 @@
-# stage:1 - build stage
-FROM node:12-buster-slim as react-build
+FROM node:12-alpine as react-build
 WORKDIR /app
 
 COPY . .
 RUN npm install --silent
 RUN npm run build
 
-# stage:2 - prd
 FROM nginx
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=react-build /app/build /usr/share/nginx/html/

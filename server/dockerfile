@@ -1,5 +1,5 @@
-FROM node:12
-WORKDIR /usr/src/app
+FROM node:12-alpine
+WORKDIR /app
 
 COPY . .
 RUN npm install --silent

@@ -5,7 +5,7 @@ type SocketContext = {
     socket: any;
 };
 
-const HOST = 'http://localhost:3000';
+const HOST = process.env.REACT_APP_API_URL || '';
 
 export const socketContext = React.createContext({} as SocketContext);
 
