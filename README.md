@@ -27,9 +27,11 @@ This webapp allows you to periodically run speedtests (node.js), store the resul
 
 ### docker-compose
 
-Run `docker-compose up -d` to build and start all docker containers (db, frontend, api). It will also automatically build frontend and backend on the first startup.
+Run `docker-compose up -d` to build and start all docker containers (db, client, server). It will also automatically build client and server on the first startup.
 
-> docker-compose.yml has defaults for environment variables. should you want to use it without docker, create an `.env` file in `./server`, that holds your application config. (rename the example)
+**Client** is available on http://localhost:3000
+
+**Server** is available on http://localhost:3001 and you can checkout the **swagger docs** on http://localhost:3001/api-docs
 
 ### 💻 Development
 
