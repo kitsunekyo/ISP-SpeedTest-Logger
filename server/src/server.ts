@@ -3,21 +3,17 @@ import http from "http";
 import helmet from "helmet";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-
 import dotenv from "dotenv";
 dotenv.config();
 
-import speedtestService from "./services/speedtest.service";
 import speedtestRouter from "./routes/speedtest.routes";
-
 import scheduleService from "./services/schedule.service";
-import { Interval } from "./models/Interval";
-
 import socket from "./socket";
 import { requireAuth, default as authRouter } from "./routes/auth.routes";
 import { errorLogMiddleware, httpLogMiddleware, logger } from "./logger";
 import { swaggerSpecification, swaggerUiOptions } from "./swagger/swagger";
 import { errorMiddleware } from "./middleware/error";
+import userService, { ADMIN_USER } from "./services/user.service";
 
 const notFoundHandler = (req: Request, res: Response) => {
   res.status(404);
@@ -37,10 +33,12 @@ const notFoundHandler = (req: Request, res: Response) => {
     );
   }
 
+  userService.seedAdminUser();
+
   app.use(helmet());
   app.use(express.json({ strict: false }));
-
   app.use(httpLogMiddleware);
+
   app.use("/speedtest", requireAuth(), speedtestRouter);
   app.use("/auth", authRouter);
   app.use(
@@ -62,10 +60,10 @@ const notFoundHandler = (req: Request, res: Response) => {
     });
   });
 
-  scheduleService.set(Interval.Every12h, async () => {
-    const result = await speedtestService.run();
-    await speedtestService.save(result);
-  });
+  const user = await userService.findByEmail(ADMIN_USER.email);
+  if (user) {
+    scheduleService.setFromUserSettings(user);
+  }
 
   server.listen(process.env.API_PORT, () => {
     console.log(

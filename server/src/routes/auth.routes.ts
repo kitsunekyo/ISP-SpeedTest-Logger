@@ -2,17 +2,9 @@ import { Response, Request, Router } from "express";
 import expressJwt from "express-jwt";
 import jwt from "jsonwebtoken";
 
-import { Token } from "./../models/Token";
-import { User } from "./../models/User";
-import { createToken, tokenSecret } from "./../util/token";
-
-export const DUMMY_USERS: User[] = [
-  {
-    email: "admin@test.com",
-    password: process.env.ADMIN_PW,
-    role: "admin",
-  },
-];
+import userService from "../services/user.service";
+import { Token } from "../models/Token";
+import { createToken, tokenSecret } from "../util/token";
 
 const router = Router();
 
@@ -42,12 +34,10 @@ const router = Router();
  *        200:
  *          description: Returns a jwt token
  */
-router.post("/token", (req: Request, res: Response) => {
+router.post("/token", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const user = DUMMY_USERS.find(
-    (u) => u.email === email && u.password === password
-  );
+  const user = await userService.checkCredentials({ email, password });
 
   if (!user) {
     return res.status(403).json({ message: "Incorrect login credentials" });

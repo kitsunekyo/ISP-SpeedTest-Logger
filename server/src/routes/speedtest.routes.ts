@@ -1,8 +1,10 @@
 import express, { Router } from "express";
 import * as yup from "yup";
 
-import speedtestService from "./../services/speedtest.service";
-import scheduleService from "./../services/schedule.service";
+import speedtestService from "../services/speedtest.service";
+import scheduleService from "../services/schedule.service";
+import userService from "../services/user.service";
+import { Interval } from "../models/Interval";
 
 const router = Router();
 
@@ -81,13 +83,21 @@ router.post(
  *        content:
  *          application/json:
  *            schema:
- *              type: number
+ *            type: object
+ *            properties:
+ *              value:
+ *                type: number
+ *                example: 2
  */
 router.get(
   "/schedule",
-  (req: express.Request, res: express.Response): express.Response => {
-    const interval = scheduleService.getInterval();
-    return res.json(interval);
+  async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<express.Response> => {
+    const email = req.user.email || "";
+    const interval = await scheduleService.getInterval(email);
+    return res.json({ value: interval });
   }
 );
 
@@ -101,7 +111,12 @@ router.get(
  *      content:
  *        application/json:
  *          schema:
- *            type: number
+ *            type: object
+ *            required: [value]
+ *            properties:
+ *              value:
+ *                type: number
+ *                example: 2
  *    responses:
  *      200:
  *        description: Success
@@ -113,16 +128,26 @@ router.post(
     res: express.Response
   ): Promise<express.Response> => {
     try {
+      const newInterval = req.body.value;
       const schema = yup.number().required();
-      await schema.validate(req.body.value);
-      await scheduleService.set(req.body, async () => {
-        const res = await speedtestService.run();
-        await speedtestService.save(res);
+      await schema.validate(newInterval);
+
+      if (!Object.values(Interval)?.includes(newInterval)) {
+        return res.sendStatus(400);
+      }
+
+      const user = await userService.findByEmail(req.user.email);
+      if (!user) {
+        return res.sendStatus(400);
+      }
+      await userService.updateSettings(user, {
+        speedtestSchedule: newInterval,
       });
+      await scheduleService.setFromUserSettings(user);
 
       return res.sendStatus(200);
     } catch (e) {
-      return res.sendStatus(400);
+      return res.sendStatus(500);
     }
   }
 );
