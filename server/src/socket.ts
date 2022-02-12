@@ -7,7 +7,7 @@ const setup = (server: Server): SocketIoServer => {
   if (socket) return socket;
 
   socket = new SocketIoServer(server, {
-    cors: { origin: ["http://localhost:3001"] },
+    cors: { origin: ["http://localhost:3000"] },
   });
   return socket;
 };
